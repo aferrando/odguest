@@ -1,0 +1,62 @@
+//
+//  CustomViewController.h
+//  opendestination
+//
+//  Created by David Hoyos on 04/07/11.
+//  Copyright 2011 None. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "RootViewController.h"
+#import "CustomBadge.h"
+#import "DAReloadActivityButton.h"
+#import "AwesomeMenu.h"
+#import "MGTileMenuController.h"
+
+@class CategoryModel;
+
+@interface CustomContentViewController : UIViewController <UIScrollViewDelegate, MGTileMenuDelegate, AwesomeMenuDelegate> {
+IBOutlet   UILabel * titleLabel;
+  UIImageView * headerBackgroundImage;
+  UIScrollView * customView;
+IBOutlet UIBarButtonItem   * backButton;
+IBOutlet UIButton *notificationsButton;
+    IBOutlet UIPageControl *pageControl;
+  ContentPageTransitionType transition;
+    CategoryModel * _category;
+    DAReloadActivityButton *viewButton;
+  NSMutableArray * _categoriesButtons;
+  NSMutableArray * _categoriesBadgets;
+  NSMutableArray * _categoriesLabels;
+    CustomBadge *customBadge;
+    BOOL pageControlUsed;
+    AwesomeMenu *_menu;
+    UserModel * _userModel;
+    UIProgressView *progressView;
+    UIButton * menuButton;
+
+    __unsafe_unretained IBOutlet UIToolbar *topToolBar;
+    __unsafe_unretained IBOutlet UIButton *registerGuest;
+}
+@property ( nonatomic ) IBOutlet UILabel * titleLabel;
+@property ( nonatomic ) IBOutlet UIView * headerBackgroundImage;
+@property ( nonatomic ) IBOutlet UIBarButtonItem * backButton;
+@property ( nonatomic ) IBOutlet UIButton * notificationsButton;
+@property ( nonatomic ) IBOutlet DAReloadActivityButton * viewButton;
+@property ( nonatomic ) UIPageControl *pageControl;
+@property ( nonatomic ) UIScrollView * customView;
+@property ( nonatomic, assign ) ContentPageTransitionType transition;
+@property ( nonatomic ) CategoryModel * category;
+@property ( nonatomic ) CustomBadge *customBadge;
+@property ( nonatomic ) UserModel * userModel; 
+@property ( nonatomic ) UIProgressView * progressView; 
+@property (strong, nonatomic) MGTileMenuController *tileController;
+@property (strong, nonatomic) UIButton *menuButton;
+
+- (void) setTitleLabelForHeader;
+- (IBAction) goBack;
+- (IBAction) buttonPressed:(id)sender;
+- (IBAction)notificationButtonPressed:(id)sender;
+- (void) reload;
+- (void) showCategories;
+@end
