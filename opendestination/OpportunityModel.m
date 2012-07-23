@@ -21,13 +21,14 @@
 
 @implementation OpportunityModel;
 
-@synthesize opportunityID, categoryID, longitude, latitude, numOpportunities, numComments, numInterests, numNotInterests, numWalkin, numWatchs, numConsume;
+@synthesize opportunityID, categoryID, longitude, latitude, numOpportunities, numComments, numInterests, numNotInterests, numWalkin, numWatchs, numConsume, price;
 @synthesize points, interestedPeople, consumers, visible, status;
 @synthesize language = _language;
 @synthesize userInfo = _userInfo;
 @synthesize owner = _owner;
 @synthesize name = _name;
 @synthesize description = _description;
+@synthesize currency = _currency;
 @synthesize type = _type;
 @synthesize imageURL = _imageURL;
 @synthesize thumbURL = _thumbURL;
@@ -61,8 +62,8 @@
 - (void) reload
 {
     
-    NSString * url = [NSString stringWithFormat:@"%@/opportunity/get?destination_id=%d&user_id=%d&uuid=%@&opportunity_id=%d",
-                      [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] userID], [[UserModel sharedUser] udid], opportunityID];
+    NSString * url = [NSString stringWithFormat:@"%@/opportunity/get?destination_id=%d&user_id=%d&uuid=%@&opportunity_id=%d&language_id=%d",
+                      [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] userID], [[UserModel sharedUser] udid], opportunityID, [[UserModel sharedUser] localeID]];
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
      getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:YES withString:nil];
 }
@@ -155,6 +156,8 @@
         self.latitude = [(NSNumber *)[_userInfo valueForKey:@"latitude"] doubleValue];
     if ( [[_userInfo objectForKey:@"longitude"] isKindOfClass:[NSNumber class]]) 
         self.longitude = [(NSNumber *)[_userInfo valueForKey:@"longitude"] doubleValue];
+    if ( [[_userInfo objectForKey:@"price"] isKindOfClass:[NSNumber class]]) 
+        self.price = [(NSNumber *)[_userInfo valueForKey:@"price"] doubleValue];
     if ( [[_userInfo objectForKey:@"numOpportunities"] isKindOfClass:[NSNumber class]] )
         numOpportunities = [(NSNumber *)[_userInfo valueForKey:@"numOpportunities"] integerValue];
     if ( [[_userInfo objectForKey:@"num_consume"] isKindOfClass:[NSNumber class]] )
@@ -175,6 +178,8 @@
         self.name = [_userInfo objectForKey:@"name"];
     if ( [[_userInfo objectForKey:@"opp_description"] isKindOfClass:[NSString class]] )
         self.description = [_userInfo  objectForKey:@"opp_description"];
+    if ( [[_userInfo objectForKey:@"currency"] isKindOfClass:[NSString class]] )
+        self.currency = [_userInfo  objectForKey:@"currency"];
     if ( [[_userInfo objectForKey:@"image"] isKindOfClass:[NSString class]] ) 
         self.imageURL = [NSString stringWithFormat:@"%@", [[_userInfo valueForKey:@"image"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if ( [[_userInfo objectForKey:@"thumb"] isKindOfClass:[NSString class]] ) 
@@ -213,6 +218,8 @@
         self.latitude = [(NSNumber *)[_userInfo valueForKey:@"latitude"] doubleValue];
     if ( [[_userInfo objectForKey:@"longitude"] isKindOfClass:[NSNumber class]]) 
         self.longitude = [(NSNumber *)[_userInfo valueForKey:@"longitude"] doubleValue];
+    if ( [[_userInfo objectForKey:@"price"] isKindOfClass:[NSNumber class]]) 
+        self.price = [(NSNumber *)[_userInfo valueForKey:@"price"] doubleValue];
     if ( [[_userInfo objectForKey:@"numOpportunities"] isKindOfClass:[NSNumber class]] )
         numOpportunities = [(NSNumber *)[_userInfo valueForKey:@"numOpportunities"] integerValue];
     if ( [[_userInfo objectForKey:@"num_consume"] isKindOfClass:[NSNumber class]] )
@@ -233,6 +240,8 @@
         self.name = [_userInfo objectForKey:@"name"];
     if ( [[_userInfo objectForKey:@"opp_description"] isKindOfClass:[NSString class]] )
         self.description = [_userInfo  objectForKey:@"opp_description"];
+    if ( [[_userInfo objectForKey:@"currency"] isKindOfClass:[NSString class]] )
+        self.currency = [_userInfo  objectForKey:@"currency"];
     if ( [[_userInfo objectForKey:@"image"] isKindOfClass:[NSString class]] ) 
         self.imageURL = [NSString stringWithFormat:@"%@", [[_userInfo valueForKey:@"image"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if ( [[_userInfo objectForKey:@"thumb"] isKindOfClass:[NSString class]] ) 
@@ -291,7 +300,13 @@
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
      getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:NO withString:nil];
 }
-
+- (void) setAddedTODO {
+    NSString * url = [NSString stringWithFormat:@"%@/opportunity/setStatus?destination_id=%d&user_id=%d&uuid=%@&opportunity_id=%d&status=%d",
+                      [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] userID], [[UserModel sharedUser] udid], opportunityID, OpportunityStatusTODO];
+    [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
+     getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:NO withString:nil];
+   
+}
 - (int) getScore{
     return 2*self.numInterests+(-2)*self.numNotInterests+self.numWatchs+3*self.numWalkin+4*self.numConsume;
 }

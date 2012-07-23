@@ -17,7 +17,8 @@ typedef enum {
   OpportunityStatusWalkin,
   OpportunityStatusConsumed,
   OpportunityStatusNotInterested,
-  OpportunityStatusWatched
+    OpportunityStatusWatched,
+    OpportunityStatusTODO
 } OpportunityStatus;
   
 @interface OpportunityModel : NSObject <MKAnnotation>
@@ -39,7 +40,8 @@ typedef enum {
     NSInteger interestedPeople;
   NSInteger conumers;
   double latitude;
-  double longitude;
+    double longitude;
+    double price;
   NSString * _name;
   NSDictionary * _owner;
   NSString * _description;
@@ -75,10 +77,12 @@ typedef enum {
 @property ( nonatomic, assign ) NSInteger consumers;
 @property ( nonatomic, assign ) double latitude;
 @property ( nonatomic, assign ) double longitude;
+@property ( nonatomic, assign ) double price;
 @property ( nonatomic, assign ) BOOL visible;
 @property ( nonatomic ) NSString * name;
 @property ( nonatomic ) NSDictionary * owner;
 @property ( nonatomic ) NSString * description;
+@property ( nonatomic ) NSString * currency;
 @property ( nonatomic, assign ) OpportunityStatus status;
 @property ( nonatomic ) NSString * ownerImageURL;
 @property ( nonatomic ) NSString * imageURL;
@@ -97,6 +101,7 @@ typedef enum {
 - (void) setInterested;
 - (void) setNotInterested;
 - (void) setWatched;
+- (void) setAddedTODO;
 - (void) syncEvent;
 - (void) setWalkin;
 - (void) parseDataDict:(NSDictionary *)dict;

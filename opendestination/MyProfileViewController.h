@@ -13,7 +13,7 @@
 
 @class UserModel;
 
-@interface MyProfileViewController : CustomContentViewController
+@interface MyProfileViewController : UIViewController 
 <UITextFieldDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate, UITableViewDataSource,LoginViewControllerDelegate>
 {
   UserModel * userModel;
@@ -29,6 +29,7 @@
     IBOutlet UILabel *myWishesLbl;
     IBOutlet UILabel *myProposalsLbl;
     IBOutlet UILabel *notificationsLabel;
+    IBOutlet UILabel *titleLabel;
     IBOutlet UIImageView *statusImageView;
     IBOutlet UILabel *tapToCustomizeLbl;
   IBOutlet UITextField * realNameTextField;
@@ -44,7 +45,7 @@
     IBOutlet UILabel *myNotificationsCounterLbl;
     IBOutlet UILabel *myWishesCounterLbl;
     __unsafe_unretained IBOutlet UILabel *levelLabel;
-    __unsafe_unretained IBOutlet UIProgressView *pointsBar;
+     IBOutlet UIProgressView *pointsBar;
     __unsafe_unretained IBOutlet UILabel *myPointsLbl;
     __unsafe_unretained IBOutlet UIButton *mySharesButton;
     __unsafe_unretained IBOutlet UIButton *myNotificationsButton;
@@ -56,6 +57,7 @@
 }
 @property ( nonatomic ) UITableView * menuTableView;
 @property ( nonatomic ) UIImage * avatar;
+@property ( nonatomic ) IBOutlet UIProgressView *pointsBar;
 - (IBAction) changeImageButtonWasPressed;
 - (IBAction) birthdateButtonWasPressed;
 - (IBAction) languageButtonWasPressed;

@@ -44,7 +44,7 @@
         noItemLabel.backgroundColor=[UIColor clearColor];
         noItemLabel.textColor=[UIColor darkGrayColor];
 
-        [self addSegmentedControl];
+            //      [self addSegmentedControl];
  //       self.transition =  ContentPageTransitionTypeFlip;
     }
     return self;
@@ -168,7 +168,7 @@
     }*/
     return headerView;
 }
-- (void) onSegmentedControlChanged:(UISegmentedControl *) sender {
+- (void) onSegmentedControlChanged:(UISegmentedControl *) sender forEvent:(UIEvent *)event {
 
  //   typeSegmentedCtrl.selectedSegmentIndex=[(UISegmentedControl *)sender selectedSegmentIndex];
     [self.tableView reloadData];
@@ -260,13 +260,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OportunityDetailViewController * detail = [[OportunityDetailViewController alloc] init];
-    OpportunityModel *opp = nil;
-    if (typeSegmentedCtrl.selectedSegmentIndex==0) opp = [hotdeals objectAtIndex:indexPath.row];
-    else opp = [deals objectAtIndex:indexPath.row];
+    OpportunityModel *opp =  [deals objectAtIndex:indexPath.row];
     if (opp.status==OpportunityStatusPendant) {
         [opp setWatched];
     }
     [detail setOpportunity:opp];
+    detail.hidesBottomBarWhenPushed = YES;  
+
     [self.navigationController pushViewController:detail animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -370,7 +370,7 @@
                       [deals addObject:opp];
                   }
                   else  {
-                     // [deals addObject:opp];
+                      [deals addObject:opp];
                   }
                   
               }

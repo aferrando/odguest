@@ -12,6 +12,7 @@
 @interface SettingsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate> {
     UIToolbar *keyboardToolbar_;
     UIPickerView *genderPickerView_;
+    UIPickerView *languagePickerView_;
     UIDatePicker *birthdayDatePicker_;
     
     NSDate *birthday_;
@@ -34,9 +35,13 @@
 @property (strong, nonatomic) IBOutlet UILabel *pointsLabel;
 @property (strong, nonatomic) IBOutlet UILabel *levelLabel;
 @property (strong, nonatomic) IBOutlet UIProgressView *progressView;
+@property (strong, nonatomic) IBOutlet UITextField *phonteTextField;
+@property (strong, nonatomic) IBOutlet UIImageView *backgroundView;
+@property (strong, nonatomic) IBOutlet UILabel *minLabel;
 
 @property(nonatomic,strong) UIToolbar *keyboardToolbar;
 @property(nonatomic,strong) UIPickerView *genderPickerView;
+@property(nonatomic,strong) UIPickerView *languagePickerView;
 @property(nonatomic,strong) UIDatePicker *birthdayDatePicker;
 
 @property(nonatomic) NSDate *birthday;

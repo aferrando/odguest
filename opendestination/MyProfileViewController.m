@@ -1,10 +1,10 @@
-//
-//  MyProfileViewController.m
-//  opendestination
-//
-//  Created by David Hoyos on 05/08/11.
-//  Copyright 2011 None. All rights reserved.
-//
+    //
+    //  MyProfileViewController.m
+    //  opendestination
+    //
+    //  Created by David Hoyos on 05/08/11.
+    //  Copyright 2011 None. All rights reserved.
+    //
 
 #import "MyProfileViewController.h"
 #import "LoginViewController.h"
@@ -23,19 +23,20 @@
 #import "GlobalConstants.h"
 #import "Destination.h"
 #import "SettingsViewController.h"
+#import "UIColor-Expanded.h"
 
 CGRect originalFrame;
 
 
 @implementation MyProfileViewController
 
-@synthesize avatar, menuTableView;
+@synthesize avatar, menuTableView, pointsBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+        //   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        //       self.transition = ContentPageTranistionTypeSide;
+            //       self.transition = ContentPageTranistionTypeSide;
     }
     return self;
 }
@@ -50,7 +51,7 @@ CGRect originalFrame;
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
+        //   [super didReceiveMemoryWarning];
 }
 
 
@@ -58,11 +59,11 @@ CGRect originalFrame;
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    self.title = NSLocalizedString(@"profileKey", @"My Notifications");
+        //  [super viewDidLoad];
+        //   self.title = NSLocalizedString(@"profileKey", @"My Notifications");
     UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeWindow)];      
     [sendButton setTintColor:[UIColor redColor]];
-    self.navigationItem.leftBarButtonItem = sendButton;
+        //self.navigationItem.leftBarButtonItem = sendButton;
     
     detailImageButton.layer.masksToBounds = YES;
     detailImageButton.layer.cornerRadius = 5.0;
@@ -80,8 +81,6 @@ CGRect originalFrame;
     myProposalsLbl.text= NSLocalizedString(@"myProposalsKey",@"My Proposals");
     notificationsLabel.text= NSLocalizedString(@"notificationsKey",@"Notifications");
     [tapToCustomizeLbl setText:NSLocalizedString(@"tapToCustomizeKey",@"TAP TO CUSTOMIZE")];
-    [titleLabel setText:[userModel userName]];
-    if ([userModel isGuest]) [titleLabel setText:NSLocalizedString(@"guestKey", @"Guest")];
     self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]];
 #warning If Points are not active
     if (![[Destination sharedInstance] usersPoints]) {
@@ -89,17 +88,17 @@ CGRect originalFrame;
         [myPointsLbl setHidden:TRUE];
         [levelLabel setHidden:TRUE];
         [pointsBar setHidden:TRUE];
-         
+        
     }
 }
 
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+        //   [super viewWillAppear:animated];
     [self refresh];
-    if ([userModel isGuest]) [titleLabel setText:NSLocalizedString(@"guestKey", @"Guest")];
-  // originalFrame = self.view.frame;
+        //  if ([userModel isGuest]) [titleLabel setText:NSLocalizedString(@"guestKey", @"Guest")];
+        // originalFrame = self.view.frame;
 }
 
 
@@ -133,7 +132,7 @@ CGRect originalFrame;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
+        // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
@@ -144,10 +143,10 @@ CGRect originalFrame;
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     if ( self.view.frame.origin.y == originalFrame.origin.y )
-    {
+        {
         [UIView animateWithDuration:0.3
                          animations:^{[self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y-128, self.view.frame.size.width, self.view.frame.size.height)];}];
-    }
+        }
     return YES;
 }
 
@@ -169,10 +168,10 @@ CGRect originalFrame;
 
 - (void) showSignIn {
     [[UserModel sharedUser] signOut];
-  //  if ( [delegate conformsToProtocol:@protocol(CollapseViewControllerDelegate)] )
-   // opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
-
-    //    [appDelegate mustShowSignIn];
+        //  if ( [delegate conformsToProtocol:@protocol(CollapseViewControllerDelegate)] )
+        // opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
+    
+        //    [appDelegate mustShowSignIn];
     
 }
 
@@ -180,15 +179,15 @@ CGRect originalFrame;
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     if ( (textField == realNameTextField) && ( [textField.text length] > 0 ) && !([textField.text isEqualToString:userModel.realName]) )
-    {
+        {
         [userModel setRealName:realNameTextField.text];
         [userModel setParam:userModel.realName];
-    }
+        }
     else if ( (textField == passwordTextField) && ( [textField.text length] > 0 ) && !([textField.text isEqualToString:userModel.realName]) )
-    {
+        {
         [userModel setPassword:passwordTextField.text];
         [userModel setParam:userModel.password];
-    }
+        }
     if ( [textField isFirstResponder])
         [textField resignFirstResponder];
 }
@@ -204,17 +203,17 @@ CGRect originalFrame;
         case 0:
         {
             //sign out confirmed
-            [[UserModel sharedUser] signOut];
-            
-            LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-          //  loginVC.delegate = self;
-           // LoginViewController * vc = [[LoginViewController alloc] init];
-           // [vc addCloseWindow];
-            UINavigationController *navigationController = [[UINavigationController alloc]
-                                                            initWithRootViewController:loginVC];
-            [navigationController.navigationBar setTintColor:[UIColor clearColor]];
-            opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
-                     [(RootViewController *)[appDelegate.window rootViewController] presentModalViewController:navigationController animated:YES];
+        [[UserModel sharedUser] signOut];
+        
+        LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+            //  loginVC.delegate = self;
+            // LoginViewController * vc = [[LoginViewController alloc] init];
+            // [vc addCloseWindow];
+        UINavigationController *navigationController = [[UINavigationController alloc]
+                                                        initWithRootViewController:loginVC];
+        [navigationController.navigationBar setTintColor:[UIColor clearColor]];
+        opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
+        [(RootViewController *)[appDelegate.window rootViewController] presentModalViewController:navigationController animated:YES];
         }
             break;
         case 1:
@@ -289,17 +288,17 @@ CGRect originalFrame;
 - (IBAction) changeImageButtonWasPressed
 {
     if (![userModel isGuest]){
-    opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
-    RootViewController *root=(RootViewController *)[appDelegate.window rootViewController];
-    
-    DDMenuController *menuController = (DDMenuController*) root.myRootViewController;
-
-    SettingsViewController *vc = [[SettingsViewController alloc] init];
-    vc.title = NSLocalizedString(@"SettingsKey", @"Social Networks");;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
-    [navController.navigationBar setTintColor:kMainColor];
-    
-    [menuController setRootController:navController animated:YES];
+        opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
+        RootViewController *root=(RootViewController *)[appDelegate.window rootViewController];
+        
+        DDMenuController *menuController = (DDMenuController*) root.myRootViewController;
+        
+        SettingsViewController *vc = [[SettingsViewController alloc] init];
+        vc.title = NSLocalizedString(@"SettingsKey", @"Social Networks");
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
+        [navController.navigationBar setTintColor:kMainColor];
+        
+        [menuController setRootController:navController animated:YES];
     }
 }
 
@@ -350,7 +349,7 @@ CGRect originalFrame;
 {
     NSString * gender = nil;
     if ([index integerValue] == 0)
-        gender = NSLocalizedString(@"maleKey",@"male");
+        gender = NSLocalizedString(@    "maleKey",@"male");
     else
         gender = NSLocalizedString(@"femaleKey",@"Female");
     genderTextField.text = [gender capitalizedString];
@@ -368,20 +367,20 @@ CGRect originalFrame;
 - (void) refresh
 {
     if (!userModel)
-    {
+        {
         userModel = [UserModel sharedUser];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:kUserUpdatedNotification object:userModel];
-    }
+        }
     if (userModel.image)
-    {
+        {
         [detailImageButton setImageWithURL:[NSURL URLWithString:userModel.image] 
                           placeholderImage:[UIImage imageNamed:@"photo_default.png"]];
-   //     [detailImageButton setImage:[UIImage imageNamed:@"taptocustom.png"]
-    //                       forState:UIControlStateNormal];
-    }
+            //     [detailImageButton setImage:[UIImage imageNamed:@"taptocustom.png"]
+            //                       forState:UIControlStateNormal];
+        }
     if ( [userModel.userName length] > 0 ) 
-        //  titleLabel.text = userModel.userName;
+            //  titleLabel.text = userModel.userName;
         if ( [userModel points] )
             detailLabel.text = [NSString stringWithFormat:@"%d %@", userModel.points, NSLocalizedString(@"pointsKey",@"points to date")];
     /*
@@ -393,7 +392,7 @@ CGRect originalFrame;
         [titleLabel setText:[userModel userName]];
         [self setTitle:[userModel userName]];
     }
-  if ( [userModel birthDate] )
+    if ( [userModel birthDate] )
         birthdateTextField.text = [userModel stringFromBirthdate];
     if ( ( [userModel.gender length] == 4 ) ) 
         genderTextField.text = userModel.gender;
@@ -401,9 +400,9 @@ CGRect originalFrame;
         genderTextField.text = NSLocalizedString(@"maleKey",@"male");
     
     if ([userModel deviceRegistered]) 
-    {
+        {
         [statusImageView setImage:[UIImage imageNamed:@"greenStatus.png"]];
-    } 
+        } 
     else {
         [statusImageView setImage:[UIImage imageNamed:@"redStatus.png"]];
         
@@ -417,17 +416,42 @@ CGRect originalFrame;
     [myNotificationsCounterLbl setText:[NSString stringWithFormat:@"%d", [userModel notifications]]];
     if ([userModel notifications]==0) myNotificationsButton.enabled=FALSE;
     [myPointsLbl setText:[NSString stringWithFormat:NSLocalizedString(@"%d points",@""), [userModel points]]];
+    [levelLabel setText:[[Destination sharedInstance] getLevelFrom:[userModel points]]];
+    [self reloadPointsProgress];
     CLGeocoder*  geocoder = [[CLGeocoder alloc] init];
     [userModel locate];
     [geocoder reverseGeocodeLocation:[userModel myLocation] completionHandler:
      ^(NSArray* placemarks, NSError* error){
          if ([placemarks count] > 0)
-         {
-             //        CLPlacemark *placemark=[placemarks objectAtIndex:0];
+             {
+                 //        CLPlacemark *placemark=[placemarks objectAtIndex:0];
              locationLbl.text=[[placemarks objectAtIndex:0] thoroughfare];
-         }
+             }
      }];
+    [titleLabel setText:[userModel userName]];
+    if ([userModel isGuest]) [titleLabel setText:NSLocalizedString(@"guestKey", @"Guest")];
+    
     [self.menuTableView reloadData];
+}
+
+- (void) reloadPointsProgress {
+    UserModel *user=[UserModel sharedUser];
+    NSDictionary *level=[user level];
+    int range_min,range_max=0;
+    double ratio=0.0;
+    if ( [[level objectForKey:@"range_min"]  isKindOfClass:[NSNumber class]] ) {
+        range_min = [[level objectForKey:@"range_min"] integerValue];
+        range_max = [[level objectForKey:@"range_max"] integerValue];
+        
+        if (range_max!=0)
+            ratio=(double) ( userModel.points- range_min)/(range_max-range_min);
+        NSLog(@"Frame size:  %d %d value:%0.2f", ( userModel.points- range_min),(range_max-range_min), ratio);
+            //  [UIView animateWithDuration:1.0 animations:^{   
+        [self.pointsBar setProgressTintColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [levelLabel setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+    }
+    [self.pointsBar setProgress:ratio animated:TRUE];
+        //   }];
 }
 
 
@@ -435,13 +459,13 @@ CGRect originalFrame;
 {
     camRoll = NO;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
+        {
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.allowsEditing = YES;
         [self.navigationController presentModalViewController:imagePicker animated:YES];
-    }
+        }
 }
 
 
@@ -449,19 +473,19 @@ CGRect originalFrame;
 {
     camRoll = YES;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
-    {
+        {
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePicker.allowsEditing = YES;
         [self.navigationController presentModalViewController:imagePicker animated:YES];
-    }
+        }
 }
 
 - (IBAction)MySharesButtonPressed:(id)sender {
     MySharesTableViewController * vc = [[MySharesTableViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES]; 
-
+    
 }
 
 -(IBAction) myDealsButtonWasPressed
@@ -493,21 +517,21 @@ CGRect originalFrame;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #warning Potentially incomplete method implementation.
-    // Return the number of sections.
+        // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
-    // Return the number of rows in the section.
+        // Return the number of rows in the section.
     return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     for (UIView *view in [cell.contentView subviews]) {
         [view removeFromSuperview];
@@ -515,7 +539,7 @@ CGRect originalFrame;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-   // cell.contentView.backgroundColor=[UIColor clearColor];
+        // cell.contentView.backgroundColor=[UIColor clearColor];
     cell.textLabel.backgroundColor=[UIColor clearColor];
     cell.detailTextLabel.backgroundColor=[UIColor clearColor];
     UILabel *counterLbl=[[UILabel alloc] initWithFrame:CGRectMake(220, 15   , 30, 20)];
@@ -528,92 +552,92 @@ CGRect originalFrame;
     cell.textLabel.textColor=[UIColor whiteColor];
     [counterLbl setFont:[UIFont boldSystemFontOfSize:22]];
     cell.userInteractionEnabled=TRUE;
-
+    
     switch (indexPath.row) {
         case 0: cell.textLabel.text=NSLocalizedString(@"Livekey", @"Live");
             cell.textLabel.textColor=[UIColor whiteColor];
-        
+            
             cell.userInteractionEnabled = YES;
-          //  cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+                //  cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             break;
         case 1: cell.textLabel.text=NSLocalizedString(@"MyOpportunitieskey", @"Social Networks");         //   cell.detailTextLabel.text=@"Opportunities you showed interest in";
-          //  cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-             [counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel opportunities]]];
-             if ([userModel opportunities]==0)
-             {
-                 cell.textLabel.textColor=[UIColor darkGrayColor];
-                 cell.userInteractionEnabled=FALSE;
- 
-             }
+                                                                                                          //  cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            [counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel opportunities]]];
+            if ([userModel opportunities]==0)
+                {
+                cell.textLabel.textColor=[UIColor darkGrayColor];
+                cell.userInteractionEnabled=FALSE;
+                
+                }
             
-            // Add Badges to View
-
+                // Add Badges to View
+            
             break;
             
         case 2: cell.textLabel.text=NSLocalizedString(@"MyNotificationskey", @"Social Networks");         //   cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-         //   cell.detailTextLabel.text=@"Opportunities received by push"    ;
-           [counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel notifications]]];
+                                                                                                          //   cell.detailTextLabel.text=@"Opportunities received by push"    ;
+            [counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel notifications]]];
             if ([userModel notifications]==0)
-            {
+                {
                 cell.textLabel.textColor=[UIColor darkGrayColor];
                 cell.userInteractionEnabled=FALSE;
                 
-            }
-           
+                }
+            
             break;
             
         case 3: cell.textLabel.text=NSLocalizedString(@"MySharesKey", @"Social Networks");
-          //  cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        //    cell.detailTextLabel.text=@"Opportunities shared by you";
-           [counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel shares]]];
+                //  cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+                //    cell.detailTextLabel.text=@"Opportunities shared by you";
+            [counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel shares]]];
             if ([userModel shares]==0)
-            {
+                {
                 cell.textLabel.textColor=[UIColor darkGrayColor];
                 cell.userInteractionEnabled=FALSE;
                 
-            }
-
+                }
+            
             break;
             
         case 4: cell.textLabel.text=NSLocalizedString(@"MyWishesKey", @"Social Networks");;
-        //    cell.detailTextLabel.text=@"Opportunities requested by you";
-          //  cell.textLabel.textColor=[UIColor lightGrayColor];
-           //[counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel wish]]];
-           
+                //    cell.detailTextLabel.text=@"Opportunities requested by you";
+                //  cell.textLabel.textColor=[UIColor lightGrayColor];
+                //[counterLbl setText:[[NSString alloc]initWithFormat:@"%d", [userModel wish]]];
+            
             cell.userInteractionEnabled = YES;
             cell.accessoryType=UITableViewCellAccessoryNone;
-          //  if ([userModel opportunities]==0)
-           // {
-                cell.textLabel.textColor=[UIColor darkGrayColor];
-                cell.userInteractionEnabled=FALSE;
-                
-           // }
-
+                //  if ([userModel opportunities]==0)
+                // {
+            cell.textLabel.textColor=[UIColor darkGrayColor];
+            cell.userInteractionEnabled=FALSE;
+            
+                // }
+            
             break;
         case 5: cell.textLabel.text=NSLocalizedString(@"SocialNetworkskey", @"Social Networks");
-          //  cell.textLabel.textColor=[UIColor whiteColor];
+                //  cell.textLabel.textColor=[UIColor whiteColor];
             cell.userInteractionEnabled = YES;
             cell.accessoryType=UITableViewCellAccessoryNone;
             cell.textLabel.textColor=[UIColor darkGrayColor];
             cell.userInteractionEnabled=FALSE;
             break;
             
-       case 6: cell.textLabel.text=NSLocalizedString(@"SettingsKey", @"Configurations");
-        //   cell.textLabel.textColor=[UIColor lightGrayColor];
-           cell.userInteractionEnabled = YES;
-           cell.accessoryType=UITableViewCellAccessoryNone;
+        case 6: cell.textLabel.text=NSLocalizedString(@"SettingsKey", @"Configurations");
+                //   cell.textLabel.textColor=[UIColor lightGrayColor];
+            cell.userInteractionEnabled = YES;
+            cell.accessoryType=UITableViewCellAccessoryNone;
             if ( ([userModel isGuest])) {
                 cell.textLabel.textColor=[UIColor darkGrayColor];
                 cell.userInteractionEnabled=NO;
-               
+                
             } else {
                 cell.textLabel.textColor=[UIColor whiteColor];
                 cell.userInteractionEnabled=YES;
-               
+                
             }
-           break;
-           
-           
+            break;
+            
+            
         case 7: {
             if (userModel.guest) {
                 cell.textLabel.text=NSLocalizedString(@"SignInKey", @"Sign In") ;
@@ -622,15 +646,15 @@ CGRect originalFrame;
                 cell.textLabel.text=NSLocalizedString(@"SignOutKey", @"Sign Out") ;
                 
             }
-           cell.textLabel.textColor=[UIColor whiteColor];
-           cell.userInteractionEnabled = YES;
-           cell.accessoryType=UITableViewCellAccessoryNone;
-           break;
+            cell.textLabel.textColor=[UIColor whiteColor];
+            cell.userInteractionEnabled = YES;
+            cell.accessoryType=UITableViewCellAccessoryNone;
+            break;
         }   
         default:
             break;
     }
-    // Configure the cell...
+        // Configure the cell...
     
     return cell;
 }
@@ -644,19 +668,19 @@ CGRect originalFrame;
     DDMenuController *menuController = (DDMenuController*) root.myRootViewController;
     UIViewController *vc=nil;
     switch (indexPath.row) {
-        
+            
         case 0: {
-            // Live
+                // Live
             NSLog(@"");
             CustomContentViewController * vc = [[CustomContentViewController alloc] init];
             [vc setCategory:[[CategoryModel alloc] initWithId:0]];
-
+            
             vc.title =NSLocalizedString(@"LiveKey",@"Live");
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
             [navController.navigationBar setTintColor:kMainColor];
-
+            
             [menuController setRootController:navController animated:YES];
-    
+            
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
             break;}
         case 1: {             
@@ -714,30 +738,30 @@ CGRect originalFrame;
             
         }       
         case 7:{
-            // set the root controller
+                // set the root controller
             NSLog(@"");
             if (userModel.guest) {
                 LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
                 loginVC.delegate = self;
-                // LoginViewController * vc = [[LoginViewController alloc] init];
-                // [vc addCloseWindow];
+                    // LoginViewController * vc = [[LoginViewController alloc] init];
+                    // [vc addCloseWindow];
                 UINavigationController *navigationController = [[UINavigationController alloc]
                                                                 initWithRootViewController:loginVC];
                 [navigationController.navigationBar setTintColor:[UIColor clearColor]];
                 [navigationController.navigationItem setTitle:NSLocalizedString(@"signInKey",@"Sign in")];
                 [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-
-//                [menuController setRootController:navigationController animated:YES];
-       
+                
+                    //                [menuController setRootController:navigationController animated:YES];
+                
             } else {
-             [[[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"SignOutTitleKey",@"Are you sure you'd like to sign out?") delegate:self cancelButtonTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"signOutKey",@"Sign Out"), nil] showFromTabBar:menuController.view];
+                [[[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"SignOutTitleKey",@"Are you sure you'd like to sign out?") delegate:self cancelButtonTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"signOutKey",@"Sign Out"), nil] showFromTabBar:menuController.view];
             }
-         
+            
             break;
             
         }       
-     }
-   
+    }
+    
 }
 
 

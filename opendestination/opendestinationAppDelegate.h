@@ -10,6 +10,7 @@
 #import "FBConnect.h"
 #import "DataSet.h"
 #import "RootViewController.h"
+#import "CustomContentViewController.h"
 
 @interface opendestinationAppDelegate : NSObject <UIApplicationDelegate> {
     Facebook *facebook;
@@ -19,6 +20,7 @@
 @property ( nonatomic ) IBOutlet UIWindow * window;
 @property (nonatomic, retain) Facebook *facebook;
 @property (strong, nonatomic) RootViewController *rootController;
+@property (strong, nonatomic) CustomContentViewController *custom;
 @property (nonatomic, retain) DataSet *apiData;
 
 @property (nonatomic, retain) NSMutableDictionary *userPermissions;

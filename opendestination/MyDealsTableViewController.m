@@ -16,6 +16,9 @@
 #import "JSON.h"
 #import "UIImageView+WebCache.h"
 #import "OportunityDetailViewController.h"
+#import "HeaderViewController.h"
+#import "GlobalConstants.h"
+#import "SVSegmentedControl.h"
 
 @interface MyDealsTableViewController ()
 @property ( nonatomic ) NSMutableArray * deals;
@@ -29,17 +32,18 @@
 @implementation MyDealsTableViewController
 @synthesize transition, deals,hotdeals,waitingdeals,
 userModel, dataDict, typeSegmentedCtrl, noItemLabel,
-badgeNext, badgeRedeeming  ;
+badgeNext, badgeRedeeming , map ;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
+        selectedControl=0;
         self.userModel = [UserModel sharedUser];
-        _opportunities = [[NSMutableArray alloc] initWithCapacity:0];
+    /*    _opportunities = [[NSMutableArray alloc] initWithCapacity:0];
         _opportunities4 = [[NSMutableArray alloc] initWithCapacity:0];
         _opportunities24 = [[NSMutableArray alloc] initWithCapacity:0];
-        _opportunitiesLater = [[NSMutableArray alloc] initWithCapacity:0];
+        _opportunitiesLater = [[NSMutableArray alloc] initWithCapacity:0];*/
         deals = [[NSMutableArray alloc] initWithCapacity:0];
         self.waitingdeals = [[NSMutableArray alloc] initWithCapacity:0];
         self.transition =    ContentPageTranistionTypeSide;
@@ -51,8 +55,14 @@ badgeNext, badgeRedeeming  ;
         noItemLabel.textColor=[UIColor whiteColor];
         //There is no need to add the TimeScroller as a subview.
         //  _timeScroller = [[TimeScroller alloc] initWithDelegate:self];
-        
-        [self addSegmentedControl];
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"mapKey", @"Mapa")
+                                                                      style:UIBarButtonItemStyleBordered
+                                                                     target:self
+                                                                     action:@selector(showMapLocation)];
+        self.navigationItem.rightBarButtonItem = barButton;
+/*        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,320, 40)];
+        self.tableView.tableHeaderView = headerView;*/
+            //      [self addSegmentedControl];
     }
     return self;
 }
@@ -65,6 +75,25 @@ badgeNext, badgeRedeeming  ;
     
     // Release any cached data, images, etc that aren't in use.
 }
+- (IBAction) showMapLocation
+{
+    if ( map == nil ) {
+        map = [[ClusterMapViewController alloc] init];
+    }
+        // map.title = self.title;
+    [map setCategoryName:NSLocalizedString(@"myDealsKey", @"")];
+    
+    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[_opportunities count] + [_opportunities24 count]+ [_opportunities4 count]+ [_opportunitiesLater count]];
+    [ret addObjectsFromArray:_opportunities];
+    [ret addObjectsFromArray:_opportunities4];
+    [ret addObjectsFromArray:_opportunities24];
+    [ret addObjectsFromArray:_opportunitiesLater];
+
+    [map setOpportunities:ret];
+    [map.mapView setClusteringEnabled:FALSE];
+    map.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:map animated:YES];
+}
 
 #pragma mark - View lifecycle
 
@@ -74,18 +103,36 @@ badgeNext, badgeRedeeming  ;
     [self setTitle:NSLocalizedString(@"MyDealsKey",@"MyDeals")];
     //  [self.tableView setSeparatorColor:[UIColor orangeColor]];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]]];
+    [self.tableView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:background ]]];
     self.clearsSelectionOnViewWillAppear = YES;
     [noItemLabel setTextColor:[UIColor whiteColor]];
     [self.tableView setContentInset:UIEdgeInsetsMake(0.0, 0.0,110.0, 0.0)];
     [self reload];
 }
 - (void) addSegmentedControl {
+        // 2nd CONTROL
+	
+	SVSegmentedControl *redSC = [[SVSegmentedControl alloc] initWithSectionTitles:[NSArray arrayWithObjects:NSLocalizedString(@"todoNextKey",@"TO DO NEXT"),   NSLocalizedString(@"interestedKey",@"Interested"),  NSLocalizedString(@"usedKey",@"Used"), nil]];
+    [redSC addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+	
+	redSC.crossFadeLabelsOnDrag = YES;
+	redSC.thumb.tintColor =  [UIColor colorWithRed:0 green:0.5 blue:0.1 alpha:1];
+	redSC.selectedIndex = 0;
+    redSC.font = [UIFont boldSystemFontOfSize:17];
+        //redSC.titleEdgeInsets = UIEdgeInsetsMake(0, 14, 0, 14);
+        //redSC.height = 36;
+;
+	
+	[self.tableView.tableHeaderView addSubview:redSC];
+	
+	redSC.center = CGPointMake(160, 20);
+
+/*    
     NSArray * segmentItems = [NSArray arrayWithObjects:NSLocalizedString(@"todoNextKey",@"TO DO NEXT"),   NSLocalizedString(@"interestedKey",@"Interested"), nil];
     typeSegmentedCtrl = [[UISegmentedControl alloc] initWithItems: segmentItems];
     typeSegmentedCtrl.segmentedControlStyle = UISegmentedControlStyleBar;
-    typeSegmentedCtrl.tintColor = [UIColor darkGrayColor];
-    
+    typeSegmentedCtrl.tintColor = kMainColor;
+    [typeSegmentedCtrl setFrame:CGRectMake(0, 5,320, 30)];
     typeSegmentedCtrl.selectedSegmentIndex = 0;
     [typeSegmentedCtrl addTarget: self action: @selector(onSegmentedControlChanged:) forControlEvents: UIControlEventValueChanged];
     badgeNext=[CustomBadge customBadgeWithString:@"012" 
@@ -96,9 +143,18 @@ badgeNext, badgeRedeeming  ;
                                        withScale:1.25 
                                      withShining:YES];
     // Set Position of Badge 1
-	[badgeNext setFrame:CGRectMake(100, 10,30, 20)];
-    //    [self.view addSubview:badgeNext];
+	[badgeNext setFrame:CGRectMake(100, 10,30, 40)];
+    [self.tableView.tableHeaderView addSubview:typeSegmentedCtrl];*/
     
+}
+#pragma mark -
+#pragma mark SPSegmentedControl
+
+- (void)segmentedControlChangedValue:(SVSegmentedControl*)segmentedControl {
+	NSLog(@"segmentedControl %i did select index %i (via UIControl method)", segmentedControl.tag, segmentedControl.selectedIndex);
+    selectedControl=segmentedControl.selectedIndex;
+    [self.tableView reloadData];
+
 }
 
 
@@ -122,81 +178,6 @@ badgeNext, badgeRedeeming  ;
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-#pragma mark TimeScrollerDelegate Methods
-
-//You should return your UITableView here
-- (UITableView *)tableViewForTimeScroller:(TimeScroller *)timeScroller {
-    
-    return self.tableView;
-    
-}
-
-//You should return an NSDate related to the UITableViewCell given. This will be
-//the date displayed when the TimeScroller is above that cell.
-- (NSDate *)dateForCell:(UITableViewCell *)cell {
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    OpportunityModel * opp = nil;
-    switch (indexPath.section) {
-        case 0:
-            opp=[deals objectAtIndex:indexPath.row];
-            break;
-            
-        case 1:
-            opp=[_opportunities objectAtIndex:indexPath.row];
-            break;
-            
-        case 2:
-            opp=[_opportunities4 objectAtIndex:indexPath.row];
-            break;
-            
-        case 3:
-            opp=[_opportunities24 objectAtIndex:indexPath.row];
-            break;
-        case 4:
-            opp=[_opportunitiesLater objectAtIndex:indexPath.row];
-            break;
-            
-            
-        default:
-            break;
-    }
-    
-    return [opp startDate];
-    
-}
-
-#pragma mark UIScrollViewDelegateMethods
-
-
-//The TimeScroller needs to know what's happening with the UITableView (UIScrollView)
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    [_timeScroller scrollViewDidScroll];
-    
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
-    [_timeScroller scrollViewDidEndDecelerating];
-    
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    
-    [_timeScroller scrollViewWillBeginDragging];
-    
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-    if (!decelerate) {
-        
-        [_timeScroller scrollViewDidEndDecelerating];
-        
-    }
-    
-}
 
 #pragma mark - Table view data source
 
@@ -207,15 +188,17 @@ badgeNext, badgeRedeeming  ;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+  
+    return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 30.0;
 }
-
+/*
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section 
 {
+    return nil;
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
     
     UIImageView * imageView2 = nil;
@@ -227,7 +210,7 @@ badgeNext, badgeRedeeming  ;
      UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(220, 8.0, 30, 30)];
      [imageView setImageWithURL:[NSURL URLWithString:category.imageURL] placeholderImage:[UIImage imageNamed:@"mistery_icon.png"]];//  [self subviewsDict] setObject:imageView forKey:@"imageView"];
      [barView addSubview:[imageView autorelease]];*/
-    UILabel * action = [[UILabel alloc] initWithFrame:CGRectMake(19,3, 80, 25)];
+ /*   UILabel * action = [[UILabel alloc] initWithFrame:CGRectMake(19,3, 80, 25)];
     [action setBackgroundColor:[UIColor clearColor]];
     [action setTextColor:[UIColor whiteColor]];
     [action setShadowColor:[UIColor blackColor]];
@@ -256,7 +239,7 @@ badgeNext, badgeRedeeming  ;
              [action setText:[NSString stringWithFormat:@"ASK FOR %@",category.name]];
              [headerView addSubview:action];
              break;*/
-        case 0:
+     /*   case 0:
             [action setText:NSLocalizedString(@"DoneKey",@"Now")];
             [coverView setBackgroundColor:[UIColor darkGrayColor]];
             [coverView setAlpha:0.8];
@@ -267,8 +250,8 @@ badgeNext, badgeRedeeming  ;
             [imageView2 setCenter:CGPointMake(44, 15)];
             [headerView addSubview:imageView2];
             
-            break;
-        case 1:
+            break;*/
+/*        case 0:
             [action setText:NSLocalizedString(@"NowKey",@"Now")];
             [coverView setBackgroundColor:[UIColor greenColor]];
             [coverView setAlpha:0.8];
@@ -281,7 +264,7 @@ badgeNext, badgeRedeeming  ;
             
             break;
             
-        case 2:
+        case 1:
             [action setText:NSLocalizedString(@"In 2hKey",@"Now")];
             [coverView setBackgroundColor:[UIColor orangeColor]];
             [coverView setAlpha:0.8];
@@ -293,7 +276,7 @@ badgeNext, badgeRedeeming  ;
             [headerView addSubview:imageView2];
             break;
             
-        case 3:
+        case 2:
             [action setText:NSLocalizedString(@"In 4hKey",@"Now")];
             [coverView setBackgroundColor:[UIColor redColor]];
             [coverView setAlpha:0.8];
@@ -304,7 +287,7 @@ badgeNext, badgeRedeeming  ;
             [headerView addSubview:imageView2];
             break;
             
-        case 4:
+        case 3:
             [action setText:NSLocalizedString(@"LaterKey",@"Now")];
             [coverView setBackgroundColor:[UIColor darkGrayColor]];
             [coverView setAlpha:0.8];
@@ -340,11 +323,11 @@ badgeNext, badgeRedeeming  ;
      
      [barView addSubview:[action autorelease]];*/
     
-    [headerView addSubview:action];
+ /*   [headerView addSubview:action];
     
     return headerView;
-}
-
+}*/
+/*
 - (void) scrollToToday:(BOOL)animate {
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] atScrollPosition:UITableViewScrollPositionMiddle animated:animate];
     //if (animate == NO) [self.tableView showFirstHeaderLine:NO];
@@ -352,10 +335,10 @@ badgeNext, badgeRedeeming  ;
 
 - (void) onSegmentedControlChanged:(UISegmentedControl *) sender {
     
-    //   typeSegmentedCtrl.selectedSegmentIndex=[(UISegmentedControl *)sender selectedSegmentIndex];
+    typeSegmentedCtrl.selectedSegmentIndex=[(UISegmentedControl *)sender selectedSegmentIndex];
     [self.tableView reloadData];
     
-}
+}*/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     /*   noItemLabel.hidden=TRUE;
@@ -383,27 +366,26 @@ badgeNext, badgeRedeeming  ;
      return [deals count];
      break;
      }   */
+/*    if (selectedControl==0){
     switch (section) {
-        case 0:
-            return [deals count];
-            break;
             
-        case 1: if ([_opportunities count]==0) return 1;
+        case 0: if ([_opportunities count]==0) return 1;
             return [_opportunities count];
             break;
             
-        case 2: if ([_opportunities4 count]==0) return 1;
+        case 1: if ([_opportunities4 count]==0) return 1;
             return [_opportunities4 count];
             break;
             
-        case 3:if ([_opportunities24 count]==0) return 1;
+        case 2:if ([_opportunities24 count]==0) return 1;
             return [_opportunities24 count];
             break;
-        case 4:if ([_opportunitiesLater count]==0) return 1;
+        case 3:if ([_opportunitiesLater count]==0) return 1;
             return [_opportunitiesLater count];
             break;
     }
-    return 0;
+    }*/
+    return [deals count];
 }
 
 - (UITableViewCell *) noPlansCell {
@@ -445,13 +427,14 @@ badgeNext, badgeRedeeming  ;
 {
 	static NSString *CellIdentifier = @"Cell";	
 	CustomTableViewCell *cell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    OpportunityModel * opp = nil;
+    OpportunityModel * opp = [deals objectAtIndex:indexPath.row];
+ /*   else {
     switch (indexPath.section) {
         case 0:{
             opp=[deals objectAtIndex:indexPath.row];
             break;
         }
-        case 1:
+        case 0:
             if ([_opportunities count]==0){
                 return [self noPlansCell];
             }
@@ -461,20 +444,20 @@ badgeNext, badgeRedeeming  ;
             
             break;
             
-        case 2:
+        case 1:
             if ([_opportunities4 count]==0) {
                 return [self noPlansCell];
            }
             else opp=[_opportunities4 objectAtIndex:indexPath.row];
             break;
             
-        case 3:
+        case 2:
             if ([_opportunities24 count]==0) {
                 return [self noPlansCell];
             }
             else opp=[_opportunities24 objectAtIndex:indexPath.row];
             break;
-        case 4:
+        case 3:
             if ([_opportunitiesLater count]==0) {
                 return [self noPlansCell];
             }
@@ -485,6 +468,7 @@ badgeNext, badgeRedeeming  ;
         default:
             break;
     }
+    }*/
     if (cell == nil) {		
 		cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
         [cell setMyDeals:true];
@@ -541,32 +525,37 @@ badgeNext, badgeRedeeming  ;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OportunityDetailViewController * detail = [[OportunityDetailViewController alloc] init];
-    OpportunityModel * opp = nil;
-    switch (indexPath.section) {
-        case 0:
-            opp=[deals objectAtIndex:indexPath.row];
-            break;
-            
-        case 1:
-            opp=[_opportunities objectAtIndex:indexPath.row];
-            break;
-            
-        case 2:
-            opp=[_opportunities4 objectAtIndex:indexPath.row];
-            break;
-            
-        case 3:
-            opp=[_opportunities24 objectAtIndex:indexPath.row];
-            break;
-        case 4:
-            opp=[_opportunitiesLater objectAtIndex:indexPath.row];
-            break;
-            
-            
-        default:
-            break;
-    }
+    OpportunityModel * opp =[deals objectAtIndex:indexPath.row];
+   /* else {
+        switch (indexPath.section) {
+           case 0:
+                opp=[deals objectAtIndex:indexPath.row];
+                break;
+                
+            case 0:
+                opp=[_opportunities objectAtIndex:indexPath.row];
+                break;
+                
+            case 1:
+                opp=[_opportunities4 objectAtIndex:indexPath.row];
+                break;
+                
+            case 2:
+                opp=[_opportunities24 objectAtIndex:indexPath.row];
+                break;
+            case 3:
+                opp=[_opportunitiesLater objectAtIndex:indexPath.row];
+                break;
+                
+                
+            default:
+                break;
+        }
+    }*/
+   
     [detail setOpportunity:opp];
+    detail.hidesBottomBarWhenPushed = YES;  
+
     //    [(RootViewController *)[self.view.window rootViewController] tabBarHidden:YES];
     [self.navigationController pushViewController:detail animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -627,7 +616,7 @@ badgeNext, badgeRedeeming  ;
 {
     //Adding the type of opportunities status to be shown
     NSString * url = [NSString stringWithFormat:@"%@/user/listHistory?destination_id=%d&uuid=%@&user_id=%d&status=%@",
-                      [[Destination sharedInstance] destinationService], [userModel destinationID], [userModel udid], [userModel userID],@"1,2,3"];
+                      [[Destination sharedInstance] destinationService], [userModel destinationID], [userModel udid], [userModel userID],@"1"];
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
      getDataFromURLString:url forTarget:self action:@selector(setResponse:) hudActivied:YES withString:@"Loading"];
     [self stopLoading];
@@ -711,7 +700,7 @@ badgeNext, badgeRedeeming  ;
             }
         }
         [self.tableView reloadData];
-        [self scrollToToday:YES];
+        //   [self scrollToToday:YES];
 
     } else {
         NSLog(@"%@: Error: Code %d:  %@", [self description], [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue], [dict objectForKey:@"description"]);

@@ -70,7 +70,7 @@
           NSLog(@"%@: errorCode: %d: %@",[self description], errorCode, desc);
         } else {
           [self parseDataDict:dict];
-          [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kTagsUpdatedNotification object:self];
+          [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kDestinationDidUpdateNotification object:self];
         }
       }
     } else {
@@ -111,7 +111,7 @@
           NSString * desc = (NSString *)[dict objectForKey:@"description"];
           NSLog(@"%@: errorCode: %d: %@",[self description], errorCode, desc);
         } else {
-          [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kTagsCreatedNotification object:self];
+          [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kDestinationDidUpdateNotification object:self];
         }
       }
     } else {

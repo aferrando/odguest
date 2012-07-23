@@ -1,4 +1,4 @@
-//
+  //
 //  SettingsViewController.m
 //  opendestination
 //
@@ -17,6 +17,7 @@
 #import "UIButton+WebCache.h"
 #import "YRDropdownView.h"
 #import "RootViewController.h"
+#import "Destination.h"
 
 @interface SettingsViewController ()
 
@@ -40,8 +41,12 @@
 @synthesize pointsLabel;
 @synthesize levelLabel;
 @synthesize progressView;
+@synthesize phonteTextField;
+@synthesize backgroundView;
+@synthesize minLabel;
 @synthesize keyboardToolbar = keyboardToolbar_;
 @synthesize genderPickerView = genderPickerView_;
+@synthesize languagePickerView = languagePickerView_;
 @synthesize birthdayDatePicker = birthdayDatePicker_;
 
 @synthesize birthday = birthday_;
@@ -82,6 +87,14 @@
         self.genderPickerView = [[UIPickerView alloc] init];
         self.genderPickerView.delegate = self;
         self.genderPickerView.showsSelectionIndicator = YES;
+        self.languagePickerView.tag=1;
+    }
+        // Language picker
+    if (self.languagePickerView == nil) {
+        self.languagePickerView = [[UIPickerView alloc] init];
+        self.languagePickerView.delegate = self;
+        self.languagePickerView.showsSelectionIndicator = YES;
+        self.languagePickerView.tag=2;
     }
     
         // Keyboard toolbar
@@ -118,6 +131,8 @@
         self.birthdayTextField.inputView = self.birthdayDatePicker;
         self.genderTextField.inputAccessoryView = self.keyboardToolbar;
         self.genderTextField.inputView = self.genderPickerView;
+        self.phonteTextField.inputAccessoryView = self.keyboardToolbar;
+        self.phonteTextField.inputView = self.languagePickerView;
             //  self.phoneTextField.inputAccessoryView = self.keyboardToolbar;
         
     }
@@ -129,7 +144,7 @@
     self.passwordLabel.text = [NSLocalizedString(@"passwordKey", @"") uppercaseString];
     self.birthdayLabel.text = [NSLocalizedString(@"birthdateKey", @"") uppercaseString]; 
     self.genderLabel.text = [NSLocalizedString(@"genderKey", @"") uppercaseString]; 
-    self.phoneLabel.text = [NSLocalizedString(@"phoneKey", @"") uppercaseString];
+    self.phoneLabel.text = [NSLocalizedString(@"languageKey", @"") uppercaseString];
         // self.phoneTextField.placeholder = NSLocalizedString(@"optionalKey", @"");
         // self.termsTextView.text = NSLocalizedString(@"termsKey", @"");
     
@@ -148,6 +163,18 @@
     }
 
     passwordTextField.text=user.password;
+    NSArray *values = [[[Destination sharedInstance] languages] allKeys];
+        // Configure the cell...
+    
+    for (int i = 0; i < [values count]; i++) {
+        NSDictionary *currentObject= [[[Destination sharedInstance] languages] objectForKey:[values objectAtIndex:i]];
+        if ([(NSNumber *)[currentObject valueForKey:@"id"] intValue]  == [user.localeID intValue] ){
+            NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[currentObject  objectForKey:@"code"] ] ;
+                //    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[[values objectAtIndex:indexPath.row]  objectForKey:@"code"] ] ;
+            phonteTextField.text=currentLocale.localeIdentifier; 
+        }
+    }
+
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setLocale:[NSLocale currentLocale]];
@@ -161,8 +188,21 @@
     imageButton.layer.borderWidth = 1.0;
     imageButton.layer.borderColor = [[UIColor whiteColor] CGColor];
      [pointsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%d points",@""), [user points]]];
+     NSDictionary *level=[user level];
+    if (( [[level objectForKey:@"range_min"]  isKindOfClass:[NSNumber class]] ) &&( [[level objectForKey:@"range_max"] isKindOfClass:[NSNumber class]] )
+        ) {
+    int range_min = [[level objectForKey:@"range_min"] integerValue];
+        //  if ( [[level objectForKey:@"range_max"] isKindOfClass:[NSNumber class]] )
+    int range_max = [[level objectForKey:@"range_max"] integerValue];
     
-    // Do any additional setup after loading the view from its nib.
+    double ratio=(double) ( user.points- range_min)/(range_max-range_min);
+    [levelLabel setText:[NSString stringWithFormat:@"%d", range_max]];
+     
+    [self.progressView setProgress:ratio animated:TRUE];
+    [self.minLabel setText:[NSString stringWithFormat:@"%d", range_min]];
+    }
+    backgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+        // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
@@ -182,6 +222,8 @@
     [self setPointsLabel:nil];
     [self setLevelLabel:nil];
     [self setProgressView:nil];
+    [self setPhonteTextField:nil];
+    [self setBackgroundView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -209,6 +251,7 @@
     [user setParam:user.birthDate];
     [user setRealName:nameTextField.text]; 
     [user setParam:user.realName];
+    [user setParam:user.localeID];
 
   
     
@@ -381,6 +424,19 @@
         self.gender = @"1";
     }
 }
+- (void)setLocaleData
+{
+ /*   NSUInteger selectedRow = [myPickerView selectedRowInComponent:0];
+    self.phonteTextField.text = self.languagePickerView 
+    
+    if ([self.genderPickerView selectedRowInComponent:0] == 0) {
+        self.genderTextField.text = NSLocalizedString(@"maleKey", @"");
+        self.gender = @"0";
+    } else {
+        self.genderTextField.text = NSLocalizedString(@"femaleKey", @"");
+        self.gender = @"1";
+    }*/
+}
 
 - (void)birthdayDatePickerChanged:(id)sender
 {
@@ -440,34 +496,109 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return 2;
+    switch (pickerView.tag) {
+    case 1:
+            return 2;
+        case 2: return [[[[Destination sharedInstance] languages] allKeys] count];
+    }
+    return 0;       
 }
 
 
 #pragma mark - UIPickerViewDelegate
-
+/*
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
-    UIImage *image = row == 0 ? [UIImage imageNamed:@"male.png"] : [UIImage imageNamed:@"female.png"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];        
-    imageView.frame = CGRectMake(0, 0, 32, 32);
-    
-    UILabel *genderLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 100, 32)];
-    genderLabel.text = [row == 0 ? NSLocalizedString(@"male", @"") : NSLocalizedString(@"female", @"") uppercaseString];
-    genderLabel.textAlignment = UITextAlignmentLeft;
-    genderLabel.backgroundColor = [UIColor clearColor];
-    
-    UIView *rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 32)];
-    [rowView insertSubview:imageView atIndex:0];
-    [rowView insertSubview:genderLabel atIndex:1];
-    
-    
-    return rowView;
+    switch (pickerView.tag) {
+        case 1:{
+            UIImage *image = row == 0 ? [UIImage imageNamed:@"male.png"] : [UIImage imageNamed:@"female.png"];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];        
+            imageView.frame = CGRectMake(0, 0, 32, 32);
+            
+            genderLabel.text = [row == 0 ? NSLocalizedString(@"maleKey", @"") : NSLocalizedString(@"femaleKey", @"") uppercaseString];
+            genderLabel.textAlignment = UITextAlignmentLeft;
+            genderLabel.backgroundColor = [UIColor clearColor];
+            
+            UIView *rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 32)];
+            [rowView insertSubview:imageView atIndex:0];
+            [rowView insertSubview:genderLabel atIndex:0];
+            
+            
+            return rowView;
+
+            break;
+        }
+        case 2:{
+            NSArray *values = [[[Destination sharedInstance] languages] allKeys];
+                // Configure the cell...
+            NSDictionary *currentObject= [[[Destination sharedInstance] languages] objectForKey:[values objectAtIndex:row]];
+            NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[currentObject  objectForKey:@"code"] ] ;
+                //    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[[values objectAtIndex:indexPath.row]  objectForKey:@"code"] ] ;
+            UILabel *language=[[UILabel alloc]init];
+            language.text= currentLocale.localeIdentifier;
+           
+            UIView *rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 32)];
+                //[rowView insertSubview:imageView atIndex:0];
+            [rowView insertSubview:language  atIndex:0];
+            return rowView;
+        }
+         
+        default:
+            break;
+    }
+    return nil;
 }
+*/
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
+{
+    switch (pickerView.tag) {
+        case 1:{
+            if (row==0) return NSLocalizedString(@"maleKey", @"");
+            else return NSLocalizedString(@"femaleKey", @"");
+            break;
+        }
+        case 2:{
+            NSArray *values = [[[Destination sharedInstance] languages] allKeys];
+                // Configure the cell...
+            
+            for (int i = 0; i < [values count]; i++) {
+                NSDictionary *currentObject= [[[Destination sharedInstance] languages] objectForKey:[values objectAtIndex:i]];
+                if ([(NSNumber *)[currentObject valueForKey:@"id"] intValue]  == row){
+                    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[currentObject  objectForKey:@"code"] ] ;
+                        //    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[[values objectAtIndex:indexPath.row]  objectForKey:@"code"] ] ;
+                    return currentLocale.localeIdentifier; 
+                }
+                       }
+            return nil;
+        }
+            
+        default:
+            break;
+    }
+    return nil;
+}
+
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    [self setGenderData];
+    switch (pickerView.tag) {
+        case 1:{ [self setGenderData];
+            break;
+        }
+        case 2:{
+            NSArray *values = [[[Destination sharedInstance] languages] allKeys];
+                // Configure the cell...
+            [[UserModel sharedUser] setLocaleID:[NSString stringWithFormat:@"%d", row]];
+            
+            for (int i = 0; i < [values count]; i++) {
+                NSDictionary *currentObject= [[[Destination sharedInstance] languages] objectForKey:[values objectAtIndex:i]];
+                if ([(NSNumber *)[currentObject valueForKey:@"id"] intValue]  == row){
+                    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[currentObject  objectForKey:@"code"] ] ;
+                    self.phonteTextField.text = currentLocale.localeIdentifier;                }
+            }           
+            break;
+        }
+    }
 }
 
 
@@ -523,6 +654,19 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+#pragma mark - progressView
+- (void) reloadPointsProgress {
+    /*    [UIView animateWithDuration:1.0 animations:^{
+                [self.progressView setFrame:CGRectMake(self.progressView.frame.origin.x,self.progressView.frame.origin.y,
+                                               1.0 + ( 210.0 * ( self.userModel.points / (self.userModel.goal==0?1.0:self.userModel.goal) ) ),
+                                               self.progressView.frame.size.height)];
+    }];*/
+}
 
+/*
 
+     - (void)viewDidUnload {
+         [self setMinLabel:nil];
+         [super viewDidUnload];
+     }*/
 @end

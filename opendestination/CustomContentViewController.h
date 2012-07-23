@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "RootViewController.h"
 #import "CustomBadge.h"
-#import "DAReloadActivityButton.h"
-#import "AwesomeMenu.h"
-#import "MGTileMenuController.h"
-
+    //#import "DAReloadActivityButton.h"
+    //#import "AwesomeMenu.h"
+    //#import "MGTileMenuController.h"
+#import "AnonymousBarViewController.h"
 @class CategoryModel;
 
-@interface CustomContentViewController : UIViewController <UIScrollViewDelegate, MGTileMenuDelegate, AwesomeMenuDelegate> {
+@interface CustomContentViewController : UIViewController <UIScrollViewDelegate>
+    //, MGTileMenuDelegate, AwesomeMenuDelegate> 
+{
 IBOutlet   UILabel * titleLabel;
   UIImageView * headerBackgroundImage;
   UIScrollView * customView;
@@ -24,7 +26,7 @@ IBOutlet UIButton *notificationsButton;
     IBOutlet UIPageControl *pageControl;
   ContentPageTransitionType transition;
     CategoryModel * _category;
-    DAReloadActivityButton *viewButton;
+        //   DAReloadActivityButton *viewButton;
   NSMutableArray * _categoriesButtons;
   NSMutableArray * _categoriesBadgets;
   NSMutableArray * _categoriesLabels;
@@ -42,7 +44,8 @@ IBOutlet UIButton *notificationsButton;
 @property ( nonatomic ) IBOutlet UIView * headerBackgroundImage;
 @property ( nonatomic ) IBOutlet UIBarButtonItem * backButton;
 @property ( nonatomic ) IBOutlet UIButton * notificationsButton;
-@property ( nonatomic ) IBOutlet DAReloadActivityButton * viewButton;
+@property (strong, nonatomic) AnonymousBarViewController *anonymousBar;
+    //@property ( nonatomic ) IBOutlet DAReloadActivityButton * viewButton;
 @property ( nonatomic ) UIPageControl *pageControl;
 @property ( nonatomic ) UIScrollView * customView;
 @property ( nonatomic, assign ) ContentPageTransitionType transition;
@@ -50,7 +53,7 @@ IBOutlet UIButton *notificationsButton;
 @property ( nonatomic ) CustomBadge *customBadge;
 @property ( nonatomic ) UserModel * userModel; 
 @property ( nonatomic ) UIProgressView * progressView; 
-@property (strong, nonatomic) MGTileMenuController *tileController;
+    //@property (strong, nonatomic) MGTileMenuController *tileController;
 @property (strong, nonatomic) UIButton *menuButton;
 
 - (void) setTitleLabelForHeader;

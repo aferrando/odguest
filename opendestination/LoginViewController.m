@@ -55,10 +55,10 @@ registerButton, anonymousButton;
     [destinationLabel setText:NSLocalizedString(@"selectDestinationKey", @"Select Destination")];
     // Initialize permissions
     permissions = [[NSArray alloc] initWithObjects:@"offline_access",@"email", nil];
-    destinationsData = [[NSArray alloc] initWithObjects:@"Vail", @"Region X", @"Amusement", @"Post Reestructuració", @"Diprotech 2012", @"destination prova", @"Mountain", @"F.C. Barcelona", @"Costa Brava",@"Garrotxa", @"Engadin", @"Davos", @"Verbier", @"Vilanova",@"New vilanova", @"Vilafranca",@"New vilanova",@"Anzère",@"Stop", @"Stop 2",  nil];
+    destinationsData = [[NSArray alloc] initWithObjects:@"Thyon", @"Lausanne", @"Diprotech", @"Test", @"Vail", @"Region X", @"Amusement", @"Post Reestructuració", @"Diprotech 2012", @"destination prova", @"Mountain", @"F.C. Barcelona", @"Costa Brava",@"Garrotxa", @"Engadin", @"Davos", @"Verbier", @"Vilanova",@"New vilanova", @"Vilafranca",@"UVIC",@"Anzère",@"Stop", @"Stop 2",  nil];
     
     defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(125, 18.0, 170, 40)];
-    defaultPickerView.selectedItem =    [[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]-30;
+    defaultPickerView.selectedItem =    [[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]-26;
 
     defaultPickerView.backgroundColor = [UIColor whiteColor];
     defaultPickerView.dataSource = self;
@@ -91,9 +91,9 @@ registerButton, anonymousButton;
 - (void)pickerView:(CPPickerView *)pickerView didSelectItem:(NSInteger)item
 {
     UserModel *user=[UserModel sharedUser];
-    [user setDestinationID:item+30];
+    [user setDestinationID:item+26];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:item+30 forKey:@"destination"];
+    [defaults setInteger:item+26 forKey:@"destination"];
     [defaults synchronize];
 }
 
@@ -109,6 +109,8 @@ registerButton, anonymousButton;
   if ( userModel.userName ) {
     self.usernameTextField.text = userModel.userName;
   }
+    defaultPickerView.selectedItem =    [[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]-26;
+
   /*
   if ( userModel.userName )
   {
@@ -237,13 +239,14 @@ registerButton, anonymousButton;
 
 - (IBAction) guest
 {
+    [self.navigationController dismissModalViewControllerAnimated:YES];
  // if ( ! self.userModel.deviceRegistered ) 
-    [self.userModel deviceRegister];
+  /*  [self.userModel deviceRegister];
   self.userModel.userName = nil;
   self.userModel.password = nil;
   [self addObserver];
   [self.userModel signInAsGuest];
-  [self releaseTextFieldsKeyboard];
+  [self releaseTextFieldsKeyboard];*/
 }
 
 - (IBAction)signInWithFacebook:(id)sender {

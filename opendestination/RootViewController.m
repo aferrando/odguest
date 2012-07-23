@@ -29,6 +29,8 @@
 #import "MyProfileViewController.h"
 #import "NotificationsTableViewController.h"
 #import "DDMenuController.h"
+#import "LanguageTableViewController.h"
+#import "UIImageView+WebCache.h"
 
 @implementation RootViewController;
 @synthesize liveBar,navBar, noSocialTabBarView, collapseView, contentView, oportunityButton, askButton, tabBarView, permissions;
@@ -39,6 +41,7 @@
 @synthesize segmentedNavigation;
 @synthesize collapseViewController;
 @synthesize user = _user;
+@synthesize destination = _destination;
 @synthesize myRootViewController = _myRootViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -47,6 +50,7 @@
         // Custom initialization
         _viewControllers = [[NSMutableArray alloc] initWithCapacity:0];
         _user = [UserModel sharedUser];
+        _destination = [Destination sharedInstance];
         if (_user.signedIn) {
             //reload destination info
             [self reload];
@@ -87,143 +91,24 @@
                                                     initWithRootViewController:custom];
     
     [navigationController.navigationBar setTintColor:kMainColor];
-   // [self.navigationItem set
-   //     [navigationController.navigationBar se
-    UIBarButtonItem * doneButton =
-    [[UIBarButtonItem alloc]
-     initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize
-     target:self
-     action:@selector( doneFunc ) ];
+    [_destination reload];
     
-    [self.navigationItem setRightBarButtonItem:doneButton] ;
-    [self.navigationItem setTitle:@"test"];
-    [custom setCategory:[[CategoryModel alloc] initWithId:0]];
+     [custom setCategory:[[CategoryModel alloc] initWithId:0]];
     
     
     // Override point for customization after application launch.
     
-   // FeedController *mainController = [[FeedController alloc] init];
-   // UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mainController];
     
     DDMenuController *rootController = [[DDMenuController alloc] initWithRootViewController:navigationController];
-   // _menuController = rootController;
-    
-    MyProfileViewController *leftController = [[MyProfileViewController alloc] init];
-    rootController.leftViewController = leftController;
-    
- //   MyDealsTableViewController *rightController = [[MyDealsTableViewController alloc] init];
- //   rootController.rightViewController = rightController;
-    
-//    self.window.rootViewController = rootController;
-    
- //   self.window.backgroundColor = [UIColor whiteColor];
-
-    
+     
     _myRootViewController = rootController;
     _myVisibleViewController = _myRootViewController;
-  //  [self.viewControllers addObject:_myRootViewController];
     [self.contentView addSubview:_myRootViewController.view];
-  //  [self.collapseViewController.homeButton     setSelected:YES];
-    //   [self.collapseViewController.homeButton     setEnabled:NO];
-    // [self.collapseViewController.homeButton setHidden:YES];
     [self.collapseViewController setDelegate:self];
-//    [self.segmentedNavigation addTarget:self action:@selector(segAction:) forControlEvents:UIControlEventValueChanged];
     [self tabBarHidden:YES];
-    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]];
-//    self.contentView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]];
-    //   self.tabBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]];
-    //   self.noSocialTabBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]];
+    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:background]];
     // Initialize permissions
     permissions = [[NSArray alloc] initWithObjects:@"offline_access",@"email", nil];
- // Test Awesome Menu
-    UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
-    UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
-    
-    UIImage *starImage = [UIImage imageNamed:@"Icon_Profile+.png"];
-    UIImage *likeImage = [UIImage imageNamed:@"29-heart+.png"];
-    UIImage *pushImage = [UIImage imageNamed:@"40-inbox+.png"];
-    UIImage *shareImage = [UIImage imageNamed:@"56-cloud+.png"];
-    
-    AwesomeMenuItem *starMenuItem1 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:starImage 
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem2 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:likeImage 
-                                                    highlightedContentImage:nil];
-    
-    AwesomeMenuItem *starMenuItem3 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:pushImage 
-                                                    highlightedContentImage:nil];
-    
-    AwesomeMenuItem *starMenuItem4 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:shareImage 
-                                                    highlightedContentImage:nil];
-    
-    
-    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4,  nil];
-   
-    AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.contentView.bounds menus:menus];
-    
-	// customize menu
-	/*
-     menu.rotateAngle = M_PI/3;
-     menu.timeOffset = 0.2f;
-     menu.farRadius = 180.0f;
-     menu.endRadius = 100.0f;
-     menu.nearRadius = 50.0f;
-     */
-    menu.menuWholeAngle = -M_PI/2;
-    menu.farRadius = 50.0f;
-    menu.timeOffset = 0.1f;
- 	
-    menu.delegate = self;
-  //  [self.contentView addSubview:menu];
-    menu.startPoint = CGPointMake(290, 450);
-}
-
-/* ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ */
-/* ⬇⬇⬇⬇⬇⬇ GET RESPONSE OF MENU ⬇⬇⬇⬇⬇⬇ */
-/* ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ */
-
-- (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
-{
-    NSLog(@"Select the index : %d",idx);
-    
-    if (idx==0)
-    {
-        MyProfileViewController * vc = [[MyProfileViewController alloc] initWithNibName:@"MyProfileViewController" bundle:nil];
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-        [navigationController.navigationBar setTintColor: kMainColor]; //[UIColor orangeColor]];
-        [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-        
-    }
-    
-    if (idx==1)
-    {
-        MyDealsTableViewController * vc = [[MyDealsTableViewController alloc] init];
-        [vc addCloseWindow];
-        UINavigationController *navigationController = [[UINavigationController alloc]
-                                                        initWithRootViewController:vc];
-        [navigationController.navigationBar setTintColor:kMainColor];
-        [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-        
-    }
-    
-    if (idx==2)
-    {
-        NotificationsTableViewController * vc = [[NotificationsTableViewController alloc] init];
-        [vc addCloseWindow];
-        UINavigationController *navigationController = [[UINavigationController alloc]
-                                                        initWithRootViewController:vc];
-        [navigationController.navigationBar setTintColor:kMainColor];
-        [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-    }
-    if (idx==3)
-    [self newOportunityPressed];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -231,6 +116,12 @@
     [_myVisibleViewController viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    if (![[UserModel sharedUser] isGuest] ) {
+        MyProfileViewController *leftController = [[MyProfileViewController alloc] init];
+        (( DDMenuController *) _myRootViewController).leftViewController = leftController;
+    }
+
+
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -284,7 +175,7 @@
     else [self.contentView setFrame:CGRectMake(0.0,41.0,320,361)];*/
     
 }
-
+/*
 - (void) pushViewController:(UIViewController * )viewController animated:(BOOL)animated {
     [self.viewControllers addObject:viewController];
     [_myVisibleViewController viewWillDisappear:YES];
@@ -348,20 +239,22 @@
     [self.collapseViewController.homeButton setSelected:YES];
     //  [self.collapseViewController.homeButton setEnabled:NO]; 
 }
+*/
+
 
 - (void) setDestinationSettings {
     NSLog(@"%@: Settings update!", [self description]);
+        // _destination=[Destination sharedInstance];
 #warning Users can Create Opportunities
-    self.oportunityButton.hidden = ![_destination usersCanCreateOpportunities];
+ /*   self.oportunityButton.hidden = ![_destination usersCanCreateOpportunities];
     self.segmentedNavigation.hidden = YES;
     self.navBar.hidden=YES;
+    */
     
-    
-    UIImage *image = [UIImage imageNamed:@"OD_header.png"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    
-    [self.navBar addSubview:imageView];
-    
+        UIImageView *imageView = [[UIImageView alloc] init];
+    [imageView setImageWithURL:[NSURL URLWithString:_destination.destinationImage]];
+    [self.navigationController.navigationBar.topItem setTitleView:imageView];
+   
     // self.navBar.layer.contents =(id)[UIImage imageNamed:@"OD_header.png"].CGImage;
     //    [self tabBarHidden:![_destination usersCanCreateOpportunities]];
     self.noSocialTabBarView.hidden=[_destination usersCanCreateOpportunities];
@@ -600,11 +493,11 @@
 }
 
 - (void) reload {
-    if ( (_destination = [Destination sharedInstance] )) {
-        [self setDestinationSettings];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setDestinationSettings) name:kDestinationDidUpdateNotification object:nil];
-        [_destination reload];
-    }
+        //  if ( (_destination = [Destination sharedInstance] )) {
+            //   [self setDestinationSettings];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setDestinationSettings) name:kDestinationDidUpdateNotification object:_destination];
+                    [_destination reload];
+            //   }
 }
 
 #pragma mark -
@@ -647,98 +540,7 @@
     [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ErrorTitleKey", @"") message:NSLocalizedString(@"SingupFailedMsgKey", @"")  delegate:self cancelButtonTitle:NSLocalizedString(@"CancelBtnKey", @"") otherButtonTitles:nil] show];
 }
 
-#pragma mark - FBSessionDelegate Methods
-- (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
-    [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-}
 
-/**
- * Called when the user has logged in successfully.
- */
-- (void)fbDidLogin {
-  //  [self showLoggedIn];
-    
-    opendestinationAppDelegate *delegateFB = (opendestinationAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [self storeAuthData:[[delegateFB facebook] accessToken] expiresAt:[[delegateFB facebook] expirationDate]];
-    [YRDropdownView showDropdownInView:[self.view.window rootViewController].view
-                                 title:NSLocalizedString(@"Logged in with Facebook", @"Not registered") 
-                                detail:NSLocalizedString(@"You're successfully logged into od", @"To view the profile you must be a registered user")
-                                 image:nil
-                              animated:YES
-                             hideAfter:2.0 type:1];
-    //   [pendingApiCallsController userDidGrantPermission];
-}
-
--(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSLog(@"token extended");
-    [self storeAuthData:accessToken expiresAt:expiresAt];
-}
-
-/**
- * Called when the user canceled the authorization dialog.
- */
--(void)fbDidNotLogin:(BOOL)cancelled {
-    //   [pendingApiCallsController userDidNotGrantPermission];
-}
-
-/**
- * Called when the request logout has succeeded.
- */
-- (void)fbDidLogout {
-    //    pendingApiCallsController = nil;
-    
-    // Remove saved authorization information if it exists and it is
-    // ok to clear it (logout, session invalid, app unauthorized)
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"FBAccessTokenKey"];
-    [defaults removeObjectForKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-    
-    //   [self showLoggedOut];
-}
-
-/**
- * Called when the session has expired.
- */
-- (void)fbSessionInvalidated {
-    UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Auth Exception"
-                              message:@"Your session has expired."
-                              delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil,
-                              nil];
-    [alertView show];
-    //us  [alertView release];
-    [self fbDidLogout];
-}
-
-
-#pragma mark - Facebook API Calls
-/**
- * Make a Graph API Call to get information about the current logged in user.
- */
-- (void)apiFQLIMe {
-    // Using the "pic" picture since this currently has a maximum width of 100 pixels
-    // and since the minimum profile picture size is 180 pixels wide we should be able
-    // to get a 100 pixel wide version of the profile picture
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   @"SELECT uid, name, pic, username FROM user WHERE uid=me()", @"query",
-                                   nil];
-    opendestinationAppDelegate *delegateFB = (opendestinationAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[delegateFB facebook] requestWithMethodName:@"fql.query"
-                                       andParams:params
-                                   andHttpMethod:@"POST"
-                                     andDelegate:self];
-}
-
-- (void)apiGraphUserPermissions {
-    opendestinationAppDelegate *delegateFB = (opendestinationAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[delegateFB facebook] requestWithGraphPath:@"me/permissions" andDelegate:self];
-}
 
 /**
  * Show the logged in menu
@@ -760,98 +562,11 @@
      loginButton.hidden = YES;
      self.menuTableView.hidden = NO;
      */
-    [self apiFQLIMe];
     [self addObserver];
     [_user signInAndUp];
     
     
 }
 
-
-
-#pragma mark - FBRequestDelegate Methods
-/**
- * Called when the Facebook API request has returned a response.
- *
- * This callback gives you access to the raw response. It's called before
- * (void)request:(FBRequest *)request didLoad:(id)result,
- * which is passed the parsed response object.
- */
-- (void)request:(FBRequest *)request didReceiveResponse:(NSURLResponse *)response {
-    //NSLog(@"received response");
-}
-
-/**
- * Called when a request returns and its response has been parsed into
- * an object.
- *
- * The resulting object may be a dictionary, an array or a string, depending
- * on the format of the API response. If you need access to the raw response,
- * use:
- *
- * (void)request:(FBRequest *)request
- *      didReceiveResponse:(NSURLResponse *)response
- */
-- (void)request:(FBRequest *)request didLoad:(id)result {
-    if ([result isKindOfClass:[NSArray class]]) {
-        result = [result objectAtIndex:0];
-    }
-    // This callback can be a result of getting the user's basic
-    // information or getting the user's permissions.
-    if ([result objectForKey:@"name"]) {
-        // If basic information callback, set the UI objects to
-        // display this.
-        if ( ! _user.deviceRegistered ) 
-            [_user deviceRegister];
-        _user.userName = [result objectForKey:@"uid"];
-        _user.realName =  [result objectForKey:@"name"];
-        //       self.userModel.realName =  [result objectForKey:@"email"];
-        _user.password = @"odfacebook";
-        // Get the profile image
-        _user.image = [result objectForKey:@"pic"];
-        
-        // Resize, crop the image to make sure it is square and renders
-        // well on Retina display
-        /*   float ratio;
-         float delta;
-         float px = 100; // Double the pixels of the UIImageView (to render on Retina)
-         CGPoint offset;
-         CGSize size = image.size;
-         if (size.width > size.height) {
-         ratio = px / size.width;
-         delta = (ratio*size.width - ratio*size.height);
-         offset = CGPointMake(delta/2, 0);
-         } else {
-         ratio = px / size.height;
-         delta = (ratio*size.height - ratio*size.width);
-         offset = CGPointMake(0, delta/2);
-         }
-         CGRect clipRect = CGRectMake(-offset.x, -offset.y,
-         (ratio * size.width) + delta,
-         (ratio * size.height) + delta);
-         UIGraphicsBeginImageContext(CGSizeMake(px, px));
-         UIRectClip(clipRect);
-         [image drawInRect:clipRect];
-         UIImage *imgThumb = UIGraphicsGetImageFromCurrentImageContext();
-         UIGraphicsEndImageContext();*/
-        // [_user SET:imgThumb];
-        // [profilePhotoImageView setImage:imgThumb];
-        
-        //  [self apiGraphUserPermissions];
-    } else {
-        // Processing permissions information
-        opendestinationAppDelegate *delegateFB = (opendestinationAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [delegateFB setUserPermissions:[[result objectForKey:@"data"] objectAtIndex:0]];
-    }
-}
-
-/**
- * Called when an error prevents the Facebook API request from completing
- * successfully.
- */
-- (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"Err message: %@", [[error userInfo] objectForKey:@"error_msg"]);
-    NSLog(@"Err code: %d", [error code]);
-}
 
 @end

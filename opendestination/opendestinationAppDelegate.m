@@ -10,6 +10,11 @@
 #import "RootViewController.h"
 #import "UserModel.h"
 #import "Destination.h"
+#import "CustomContentViewController.h"
+#import "HeaderViewController.h"
+#import "GlobalConstants.h"
+#import "CategoryModel.h"
+#import "TODOTableViewController.h"
 
 
 // Your Facebook APP Id must be set before running this example
@@ -21,6 +26,7 @@ static NSString* kAppId = @"255658224527885";
 @implementation opendestinationAppDelegate
 @synthesize window=_window;
 @synthesize rootController=_rootController;
+@synthesize custom=_custom;
 @synthesize facebook;
 
 @synthesize apiData;
@@ -31,7 +37,7 @@ static NSString* kAppId = @"255658224527885";
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     // Initialize Facebook. The delegate must be the LoginViewController and not the RootViewController
-    facebook = [[Facebook alloc] initWithAppId:kAppId andDelegate:(RootViewController *)[self.window rootViewController]];
+ /*   facebook = [[Facebook alloc] initWithAppId:kAppId andDelegate:(RootViewController *)[self.window rootViewController]];
     
     if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
         facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
@@ -48,9 +54,9 @@ static NSString* kAppId = @"255658224527885";
     if ( (NSInteger)[defaults valueForKey:@"register"] != 1 )
     {         
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];    
-    }
-    [self.window setRootViewController:[[RootViewController alloc] init]];
-    if ( [[launchOptions valueForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"] isKindOfClass:[NSDictionary class]] ) {
+    }*/
+        //    [self.window setRootViewController:[[RootViewController alloc] init]];
+ /*   if ( [[launchOptions valueForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"] isKindOfClass:[NSDictionary class]] ) {
         [(RootViewController *)[self.window rootViewController] parseNotificationData:[launchOptions valueForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"]];
     }
     // Check App ID:
@@ -102,10 +108,81 @@ static NSString* kAppId = @"255658224527885";
         }
     }
     [(RootViewController *)self.window.rootViewController showSignIn];
-    [self.window makeKeyAndVisible];
+  */
+    UserModel * user =[UserModel sharedUser];
+    [user deviceRegister];
+    user.userName = nil;
+    user.password = nil;
+        //  [user addObserver];
+    [user signInAsGuest];
 
+    [user setDestinationID:[(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]];
+    Destination *destination=[Destination sharedInstance];
+    [destination setDestinationID:user.destinationID];
+    [destination reload];
+    [self customizeInterface];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    
+    UITabBarController *tabController = [[UITabBarController alloc] init];
+    
+    _custom = [[CustomContentViewController alloc] init];
+    [_custom setCategory:[[CategoryModel alloc] initWithId:0]];
+  /*  [custom reload];*/
+    UINavigationController *navigationController1 = [[UINavigationController alloc]
+                                                    initWithRootViewController:_custom];
+    
+    [navigationController1.navigationBar setTintColor:kMainColor];
+    
+    UITabBarItem *tab1 = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"exploreKey", @"explore") image:[UIImage imageNamed:@"73-radar.png"] tag:1];
+    [navigationController1 setTabBarItem:tab1];
+    
+    
+    TODOTableViewController *viewController2 = [[TODOTableViewController alloc] init];
+    UITabBarItem *tab2 = [[UITabBarItem alloc] initWithTitle:@"TO-DO" 
+                                                       image:[UIImage imageNamed:@"259-list.png"] tag:2];
+    UINavigationController *navigationController2 = [[UINavigationController alloc]
+                                                     initWithRootViewController:viewController2];
+    
+    [navigationController2.navigationBar setTintColor:kMainColor];
+   [navigationController2 setTabBarItem:tab2];
+    [tab2 setEnabled:FALSE];
+    HeaderViewController *viewController3 = [[HeaderViewController alloc] init];
+    UITabBarItem *tab3 = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"profileKey", @"profile") 
+                                                       image:[UIImage imageNamed:@"register.png"] tag:3];
+    [viewController3 setTabBarItem:tab3];
+    UINavigationController *navigationController3 = [[UINavigationController alloc]
+                                                     initWithRootViewController:viewController3];
+    
+    [navigationController3.navigationBar setTintColor:kMainColor];
+    [navigationController3 setTabBarItem:tab3];
+    [tab3 setEnabled:FALSE];
+    
+    UIViewController *viewController4 = [[UIViewController alloc] init];
+    UITabBarItem *tab4 = [[UITabBarItem alloc] initWithTitle:@"Time" 
+                                                       image:[UIImage imageNamed:@"clock-tab.png"] tag:4];
+    [viewController4 setTabBarItem:tab4];    
+    
+    tabController.viewControllers = [NSArray arrayWithObjects:navigationController1, 
+                                     navigationController2, 
+                                     navigationController3,  nil];
+    
+    
+    self.window.rootViewController = tabController;
+    
+    [self.window makeKeyAndVisible];
     return YES;
 }
+- (void)customizeInterface
+{
+    UIImage* tabBarBackground = [UIImage imageNamed:@"tabbar.png"];
+    [[UITabBar appearance] setBackgroundImage:tabBarBackground];
+    
+    [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"selection-tab.png"]];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor whiteColor]];
+}
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -135,7 +212,13 @@ static NSString* kAppId = @"255658224527885";
      */
     UserModel * user =[UserModel sharedUser];
     [user setDestinationID:[(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]];
-    [(RootViewController *)[self.window rootViewController] reload];
+    Destination *destination=[Destination sharedInstance];
+    [destination setDestinationID:user.destinationID];
+    [destination reload];
+    
+
+    
+        //  [(RootViewController *)[self.window rootViewController] reload];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -146,7 +229,8 @@ static NSString* kAppId = @"255658224527885";
     UserModel * u = [UserModel sharedUser];
     [u locate];
     [u setUserStatus:UserModelStatusOnline];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [_custom setCategory:[[CategoryModel alloc] initWithId:0]];
+  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     [[self facebook] extendAccessTokenIfNeeded];
 }
 
@@ -170,23 +254,100 @@ static NSString* kAppId = @"255658224527885";
 }
 
 
-
+/*
 
 #pragma mark - Push Notifications
 
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+    
     UserModel * user = [UserModel sharedUser];
-    NSString *devToken = [[[[deviceToken description]
+  /*  NSString *devToken = [[[[deviceToken description]
                             stringByReplacingOccurrencesOfString:@"<"withString:@""]
                            stringByReplacingOccurrencesOfString:@">" withString:@""]
                           stringByReplacingOccurrencesOfString: @" " withString: @""];
 #ifdef __DEBUG__
     NSLog(@"%@: DEVICE TOKEN: %@ ",[self description], devToken);
-#endif
-    [user setUdid:devToken];
+#endif*/
+    
+        //EASY APNS
+/*    
+#if !TARGET_IPHONE_SIMULATOR
+    
+        // Get Bundle Info for Remote Registration (handy if you have more than one app)
+	NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+	NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	
+        // Check what Notifications the user has turned on.  We registered for all three, but they may have manually disabled some or all of them.
+	NSUInteger rntypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+	
+        // Set the defaults to disabled unless we find otherwise...
+	NSString *pushBadge = (rntypes & UIRemoteNotificationTypeBadge) ? @"enabled" : @"disabled";
+	NSString *pushAlert = (rntypes & UIRemoteNotificationTypeAlert) ? @"enabled" : @"disabled";
+	NSString *pushSound = (rntypes & UIRemoteNotificationTypeSound) ? @"enabled" : @"disabled";	
+	
+        // Get the users Device Model, Display Name, Unique ID, Token & Version Number
+	UIDevice *dev = [UIDevice currentDevice];
+	NSString *deviceUuid;
+	if ([dev respondsToSelector:@selector(uniqueIdentifier)])
+		deviceUuid = dev.uniqueIdentifier;
+	else {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		id uuid = [defaults objectForKey:@"deviceUuid"];
+		if (uuid)
+			deviceUuid = (NSString *)uuid;
+		else {
+			CFStringRef cfUuid = CFUUIDCreateString(NULL, CFUUIDCreate(NULL));
+			deviceUuid = (__bridge NSString *)cfUuid;
+			CFRelease(cfUuid);
+			[defaults setObject:deviceUuid forKey:@"deviceUuid"];
+		}
+	}
+	NSString *deviceName = dev.name;
+	NSString *deviceModel = dev.model;
+	NSString *deviceSystemVersion = dev.systemVersion;
+	
+        // Prepare the Device Token for Registration (remove spaces and < >)
+        NSString *deviceToken2 = [[[[devToken description] 
+                               stringByReplacingOccurrencesOfString:@"<"withString:@""] 
+                              stringByReplacingOccurrencesOfString:@">" withString:@""] 
+                             stringByReplacingOccurrencesOfString: @" " withString: @""];
+	
+        // Build URL String for Registration
+        // !!! CHANGE "www.mywebsite.com" TO YOUR WEBSITE. Leave out the http://
+        // !!! SAMPLE: "secure.awesomeapp.com"
+	NSString *host = @"beta.opendestination.com";
+	
+        // !!! CHANGE "/apns.php?" TO THE PATH TO WHERE apns.php IS INSTALLED 
+        // !!! ( MUST START WITH / AND END WITH ? ). 
+        // !!! SAMPLE: "/path/to/apns.php?"
+	NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&appname=%@&appversion=%@&deviceuid=%@&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushbadge=%@&pushalert=%@&pushsound=%@", @"register", appName,appVersion, deviceUuid, deviceToken2, deviceName, deviceModel, deviceSystemVersion, pushBadge, pushAlert, pushSound];
+	
+        // Register the Device Data
+        // !!! CHANGE "http" TO "https" IF YOU ARE USING HTTPS PROTOCOL
+	NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:host path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+	NSLog(@"Register URL: %@", url);
+	NSLog(@"Return Data: %@", returnData);
+    [user setUdid:deviceToken2];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; 
     [defaults setValue:[NSNumber numberWithInt:1] forKey:@"register"];
-    [defaults synchronize];   
+    [defaults synchronize];  
+#endif
+ UserModel * user = [UserModel sharedUser];*/
+/*
+    NSString *devToken2 = [[[[devToken description]
+                            stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                           stringByReplacingOccurrencesOfString:@">" withString:@""]
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];
+#ifdef __DEBUG__
+    NSLog(@"%@: DEVICE TOKEN: %@ ",[self description], devToken2);
+#endif
+    [user setUdid:devToken2];
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults]; 
+    [settings setValue:[NSNumber numberWithInt:1] forKey:@"register"];
+    [settings synchronize];   
+
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {    
@@ -206,5 +367,59 @@ static NSString* kAppId = @"255658224527885";
 #endif
     [(RootViewController *)[self.window rootViewController] parseNotificationData:userInfo];
 }
+*/
+#pragma mark - Push Notifications
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+/*    UserModel * user = [UserModel sharedUser];
+    NSString *devToken = [[[[deviceToken description]
+                            stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                           stringByReplacingOccurrencesOfString:@">" withString:@""]
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];
+#ifdef __DEBUG__
+    NSLog(@"%@: DEVICE TOKEN: %@ ",[self description], devToken);
+#endif
+    [user setUdid:devToken];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; 
+    [defaults setValue:[NSNumber numberWithInt:1] forKey:@"register"];
+    [defaults synchronize];   */
+    NSString *devToken = [[[[deviceToken description]
+                            stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                           stringByReplacingOccurrencesOfString:@">" withString:@""]
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];
+    
+    NSLog(@"%@",devToken);
+    
+    NSString *urlString = [NSString stringWithFormat:@"/opendes/device_registration_sw.php?device_id=%@&type=2",devToken];
+    NSString *host = @"www.kirubslabs.com";
+         NSLog(@"%@%@",host,urlString);
+    NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:host path:urlString];    
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults]; 
+    [settings setValue:[NSNumber numberWithInt:1] forKey:@"register"];
+    [settings synchronize];   
+
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {    
+    NSString *str = [NSString stringWithFormat: @"Error: %@", err];
+    NSLog(@"fail register%@",str);  
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; 
+    [defaults setValue:[NSNumber numberWithInt:0] forKey:@"register"];
+    [defaults synchronize];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{    
+    application.applicationIconBadgeNumber = 0;
+#ifdef __DEBUG__
+    NSLog(@"didReceiveRemoteNotification ----- %@",[userInfo description]);
+#endif
+    [(RootViewController *)[self.window rootViewController] parseNotificationData:userInfo];
+}
+
 
 @end

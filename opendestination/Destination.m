@@ -1,10 +1,10 @@
-//
-//  Destination.m
-//  opendestination
-//
-//  Created by David Hoyos on 18/10/11.
-//  Copyright 2011 None. All rights reserved.
-//
+    //
+    //  Destination.m
+    //  opendestination
+    //
+    //  Created by David Hoyos on 18/10/11.
+    //  Copyright 2011 None. All rights reserved.
+    //
 
 #import "Destination.h"
 #import "TaggedNSURLConnectionsManager.h"
@@ -24,7 +24,11 @@ static Destination * sharedInstance = nil;
 @synthesize destinationHostName = _destinationHostName;
 @synthesize destinationService = _destinationService;
 @synthesize destinationName = _destinationName;
+@synthesize destinationImage = _destinationImage;
 @synthesize points = _points;
+@synthesize levels = _levels;
+@synthesize languages = _languages;
+@synthesize latitude,longitude;
 
 
 -(id) init
@@ -32,14 +36,14 @@ static Destination * sharedInstance = nil;
     self = [super init];
     if (self) {
         self.destinationID = kDESTINATION_ID;
-        self.destinationHostName = kPRODUCTION_HOST;
+        self.destinationHostName = kDEVELOPMENT_HOST;
         usersCanCreateOpportunities = YES;
         usersPoints = YES;
         NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
         if ( [(NSNumber *)[settings valueForKey:@"production"] boolValue] == NO )
-        {
+            {
             self.destinationHostName = kDEVELOPMENT_HOST;
-        }
+            }
         self.destinationService = [NSString stringWithFormat:@"%@%@", self.destinationHostName,kSERVICEBASE];
         self.destinationID = [(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue];
     }
@@ -47,6 +51,51 @@ static Destination * sharedInstance = nil;
 }
 
 
+- (NSString *) getLevelFrom:(NSInteger)userPoints{
+    
+    
+    for( NSDictionary *aLevel in self.levels )
+        {
+        int starting=[(NSNumber *)[aLevel valueForKey:@"starting"] intValue];
+        int ending=[(NSNumber *)[aLevel valueForKey:@"ending"] intValue];
+        if ((userPoints>=starting) && (userPoints<=ending)) return [aLevel valueForKey:@"name"];
+            // do something
+        }
+    
+    return @"Unknown";
+    
+}
+
+
+- (int) getGoalFrom:(NSInteger)userPoints{
+    
+    
+    for( NSDictionary *aLevel in self.levels )
+        {
+        int starting=[(NSNumber *)[aLevel valueForKey:@"starting"] intValue];
+        int ending=[(NSNumber *)[aLevel valueForKey:@"ending"] intValue];
+        if ((userPoints>=starting) && (userPoints<=ending)) return ending;
+            // do something
+        }
+    
+    return 0;
+    
+}
+
+- (int) getStartingFrom:(NSInteger)userPoints{
+    
+    
+    for( NSDictionary *aLevel in self.levels )
+        {
+        int starting=[(NSNumber *)[aLevel valueForKey:@"starting"] intValue];
+        int ending=[(NSNumber *)[aLevel valueForKey:@"ending"] intValue];
+        if ((userPoints>=starting) && (userPoints<=ending)) return starting;
+            // do something
+        }
+    
+    return 0;
+    
+}
 
 
 #pragma mark - private methods
@@ -54,12 +103,10 @@ static Destination * sharedInstance = nil;
 
 - (void) setResponseData:(NSData *)data
 {
-    NSError * error = nil;
-    NSString * responseString = nil;
-    SBJsonParser * jsonParser = nil;
+    NSError * error = nil;     NSString * responseString = nil;     SBJsonParser * jsonParser = nil;
     NSDictionary * dict = nil;
     if ( data )
-    {
+        {
         jsonParser = [[SBJsonParser alloc] init];
         responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         id jsonObject = [jsonParser objectWithString:responseString ];
@@ -85,11 +132,11 @@ static Destination * sharedInstance = nil;
 #endif
         }
         
-    } else {
+        } else {
 #ifdef __DEBUG__
-        NSLog(@"%@: Error response data with void data", [self description] );
+            NSLog(@"%@: Error response data with void data", [self description] );
 #endif
-    }
+        }
 }
 
 - (int) getValueFrom:(NSString *)parameter
@@ -105,22 +152,22 @@ static Destination * sharedInstance = nil;
 #endif
     
     if ( [[dict objectForKey:@"destination_name"] isKindOfClass:[NSString class]] )
-    {
+        {
         @synchronized(self) {
             self.destinationName = [dict objectForKey:@"destination_name"];
-            self.points = [dict objectForKey:@"points"];
+             self.destinationImage =[NSString stringWithFormat:@"%@", [[dict objectForKey:@"destination_image"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] ;        self.points = [dict objectForKey:@"points"];
+            self.levels = [dict objectForKey:@"levels"] ;
+            self.languages = [dict objectForKey:@"language"] ;
+            NSDictionary *location = [dict objectForKey:@"destination_location"];
+            
+            if ( [[location objectForKey:@"latitude"] isKindOfClass:[NSNumber class]])
+                self.latitude = [(NSNumber *)[location valueForKey:@"latitude"] doubleValue];
+            if ( [[location objectForKey:@"longitude"] isKindOfClass:[NSNumber class]]) 
+                self.longitude = [(NSNumber *)[location valueForKey:@"longitude"] doubleValue];
             self.usersPoints = [(NSNumber *)[dict valueForKey:@"users_points"] boolValue];
             self.usersCanCreateOpportunities = [(NSNumber *)[dict valueForKey:@"users_can_create_opportunities"] boolValue];
-          /*   points =     {
-                consumed = "<null>";
-                created = "<null>";
-                feedback = "<null>";
-                interested = "<null>";
-                "points_per_opp" = "<null>";
-                starting = "<null>";
-            };*/
         }
-    }
+        }
 }
 
 

@@ -9,8 +9,8 @@
 //#define DATABASE_NAME @"ShopAddict.db"
 
 #define __DEBUB__
-
-#define DESTINATION_ID @"4"
+    //Thyon destination
+#define DESTINATION_ID @"26"
 #define RADIUS @"20000"
 
 
@@ -61,10 +61,11 @@
 #define ERROR_1006 @"User does not have opportunities"
 
 //constants
-#define kDefaultDest 4;
+#define kDefaultDest 26;
+#define background @"vertical_cloth.png"
 
 #define CATEGORIES [[[NSArray alloc]initWithObjects:@"Lessons", @"Guided tour",@"Child Care", @"Events", @"Rentals", @"Buddies", nil]]
 
-    //#define kMainColor [UIColor colorWithRed:0.9 green:0.4 blue:0 alpha:1] 
+#define kMainColor [UIColor colorWithRed:0.9 green:0.4 blue:0 alpha:1] 
     //Anzere color 1.0, 1.0, and 0.0
-#define kMainColor [UIColor colorWithRed:1 green:0.8 blue:0.1 alpha:1]
+    //#define kMainColor [UIColor colorWithRed:1 green:0.8 blue:0.1 alpha:1]

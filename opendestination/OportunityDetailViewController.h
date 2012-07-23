@@ -11,15 +11,17 @@
 #import "MGTileMenuController.h"
 #import <Twitter/Twitter.h>
 #import <Accounts/Accounts.h>
+#import "ClusterMapViewController.h"
 
 @class mapaViewController;
-@interface OportunityDetailViewController : CustomContentViewController <UIAlertViewDelegate, MGTileMenuDelegate>
+@interface OportunityDetailViewController : UIViewController <UIAlertViewDelegate, MGTileMenuDelegate, UIScrollViewDelegate >
 {
   id<InstantDealViewControllerDelegate> delegate;
   OpportunityModel * _opportunity;
   IBOutlet UILabel * senderLabel;
   IBOutlet UILabel * addressLabel;
   IBOutlet UILabel * detailLabel;
+    IBOutlet UILabel *shareLabel;
   IBOutlet UITextView * descriptionTextField;
   IBOutlet UIButton * interestedButton;
     IBOutlet UIButton *notInterestedButton;
@@ -32,13 +34,18 @@
     __unsafe_unretained IBOutlet UILabel *pointsLabel;
     IBOutlet UIImageView *_checkedImageView;
     IBOutlet UIView *commentBarView;
+    IBOutlet UIView *contentView;
     IBOutlet UILabel *pointsFixedLabel;
     IBOutlet UILabel *interestedLbl;
     IBOutlet UILabel *notInterestedLbl;
     IBOutlet UILabel *scoreValueLabel;
+    IBOutlet UILabel *interestedKeyLabel;
+    IBOutlet UILabel *notInterestedKeyLabel;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UIView *reservationBarView;
     __unsafe_unretained IBOutlet UIImageView *ownerImage;
     __unsafe_unretained IBOutlet UILabel *timeLabel;
-  mapaViewController * map;
+  ClusterMapViewController * map;
     __unsafe_unretained IBOutlet UIView *buttonBackgroundView;
 @private
   UIActivityIndicatorView * _spin;
@@ -48,6 +55,16 @@
 @property ( nonatomic ) IBOutlet UIImageView * ownerImage;
 @property ( nonatomic ) IBOutlet UILabel *interestedLbl;
 @property ( nonatomic ) IBOutlet UILabel *notInterestedLbl;
+@property ( nonatomic ) IBOutlet UIScrollView *scrollView;
+@property ( nonatomic ) IBOutlet UIView *contentView;
+@property (strong, nonatomic) IBOutlet UIButton *bookNowButton;
+@property (strong, nonatomic) IBOutlet UIButton *walkinButton;
+@property (strong, nonatomic) IBOutlet UILabel *walkinLabel;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *waitingIndicator;
+@property (strong, nonatomic) IBOutlet UILabel *waitingLabel;
+@property (strong, nonatomic) IBOutlet UIView *waitingView;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+
 @property (strong, nonatomic) MGTileMenuController *tileController;
 - (IBAction) interestedButtonPressed:(id)sender;
 - (IBAction) showMapLocation;
@@ -60,5 +77,5 @@
 - (void) updateButtonTittle;
 - (void) showLogin;
 - (IBAction)redeemBtnPressed:(id)sender;
-
+- (IBAction)booknowBtnPressed:(id)sender;
 @end

@@ -80,8 +80,8 @@
     [super viewDidLoad];
     
         // Signup button
-    UIBarButtonItem *signupBarItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"registerBtnKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(signup:)];
-    self.navigationItem.rightBarButtonItem = signupBarItem;
+/*    UIBarButtonItem *signupBarItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"registerBtnKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(signup:)];
+    self.navigationItem.rightBarButtonItem = signupBarItem;*/
     
         // Birthday date picker
     if (self.birthdayDatePicker == nil) {
@@ -141,7 +141,7 @@
         
     }
     
-        // Set localization
+        // Set location
     self.nameTextField.placeholder = NSLocalizedString(@"firstNameKey", @"");
         // self.lastNameTextField.placeholder = NSLocalizedString(@"lastNameKey", @"");
     self.emailLabel.text = [NSLocalizedString(@"emailKey", @"") uppercaseString]; 
@@ -238,7 +238,7 @@
                                              selector:@selector(userDataWasUpdated)
                                                  name:(NSString *)kUserUpdatedNotification
                                                object:userModel];
-    [userModel signIn];
+   
     
     
     
@@ -256,18 +256,28 @@
     if ( ( [self.nameTextField.text length] > 4 ) &&
         ( [self.passwordTextField.text length] > 4 ) &&
         //  ( [self.lastNameTextField.text length] > 4 )&&
-        ( [self.emailTextField.text length] > 4 ) && 
-        ([self.emailTextField.text rangeOfString:@"@"].location != NSNotFound ) 
+        ( [self.emailTextField.text length] > 4 )) 
         
-        )
+        
         {
-        [self addObserver];
-        userModel.userName = self.emailTextField.text;
-        userModel.password = self.passwordTextField.text;
-        userModel.realName = self.nameTextField.text;
-        userModel.birthDate = self.birthday;
-        userModel.Gender=self.gender;
-        [userModel signUp];
+        if (([self.emailTextField.text rangeOfString:@"."].location != NSNotFound ) && 
+            ([self.emailTextField.text rangeOfString:@"@"].location != NSNotFound )){
+            [self addObserver];
+            userModel.userName = self.emailTextField.text;
+            userModel.password = self.passwordTextField.text;
+            userModel.realName = self.nameTextField.text;
+            userModel.birthDate = self.birthday;
+            userModel.Gender=self.gender;
+            [userModel signUp];
+             [userModel signIn];
+        }
+        else {
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WrongEmailTitleKey", @"") 
+                                        message:NSLocalizedString(@"WrongEmailMsgKey",@"Username must have more than 2 characters.\nPassword must have more than 4 characters.") 
+                                       delegate:nil
+                              cancelButtonTitle:NSLocalizedString(@"CancelBtnKey", @"")
+                              otherButtonTitles:nil] show];
+        }
         
         
         } else {
@@ -350,7 +360,7 @@
     [UIView setAnimationDuration:0.3];
     
     if (tag > 2) {
-        rect.origin.y = -44.0f * (tag - 2);
+        rect.origin.y = -44.0f * (tag - 1);
     } else {
         rect.origin.y = 0;
     }
@@ -409,6 +419,7 @@
     self.genderLabel.textColor = [DBSignupViewController labelNormalColor];
     self.phoneLabel.textColor = [DBSignupViewController labelNormalColor];
 }
+
 
 + (UIColor *)labelNormalColor
 {

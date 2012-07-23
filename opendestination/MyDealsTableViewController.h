@@ -11,8 +11,8 @@
 #import "PullRefreshTableViewController.h"
 #import "CustomBadge.h"
 #import "TimeScroller.h"
-
-@interface MyDealsTableViewController : PullRefreshTableViewController <TimeScrollerDelegate>
+#import "ClusterMapViewController.h"
+@interface MyDealsTableViewController : PullRefreshTableViewController < TimeScrollerDelegate>
 {
   ContentPageTransitionType transition;
     UILabel *noItemLabel;
@@ -22,7 +22,9 @@
     NSMutableArray * _opportunities;
     NSMutableArray * _opportunities4;
     NSMutableArray * _opportunities24;
+    ClusterMapViewController * map;
     NSMutableArray * _opportunitiesLater;
+    int selectedControl;
 
 }
 @property ( nonatomic, assign ) ContentPageTransitionType transition;
@@ -30,6 +32,7 @@
 @property ( nonatomic)  UILabel *noItemLabel;
 @property ( nonatomic)  CustomBadge *badgeNext;;
 @property ( nonatomic)  CustomBadge *badgeRedeeming;
+@property ( nonatomic ) ClusterMapViewController * map;
 
 - (void) reload;
 -(void) addCloseWindow;

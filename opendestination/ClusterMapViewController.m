@@ -10,7 +10,9 @@
 #import "OCMapViewSampleHelpAnnotation.h"
 #import "OCMapView.h"
 #import "OpportunityModel.h"
-
+#import <QuartzCore/QuartzCore.h>
+#import "GlobalConstants.h"
+#import "Destination.h"
 
 @implementation ClusterMapViewController;
 @synthesize mapView;
@@ -32,7 +34,18 @@ static NSString *anotiationIdentifier = @"Annotation_identifier";
 -(id) init{
     CGRect rect = CGRectMake(0, 0, 320, 460);
     self.mapView = [[OCMapView alloc] initWithFrame:rect];
-    
+    self.mapView.layer.masksToBounds = YES;
+    self.mapView.layer.cornerRadius = 5.0;
+    self.mapView.layer.borderWidth = 1.5;
+    self.mapView.layer.borderColor = [kMainColor CGColor];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self 
+               action:@selector(closeWindow)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:NSLocalizedString(@"closeKey",@"Close ") forState:UIControlStateNormal];
+    button.frame = CGRectMake(5.0, 5.0, 60.0, 30.0);
+    [self.mapView addSubview:button];
+   
         //   [self setTitleLabelForHeader];
     self.mapView.delegate = self;
     mapView.clusterSize = 0.2;
@@ -49,7 +62,9 @@ static NSString *anotiationIdentifier = @"Annotation_identifier";
 }
 
 
-
+- (void) closeWindow {
+    [self dismissModalViewControllerAnimated:YES];
+}
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -126,7 +141,10 @@ static NSString *anotiationIdentifier = @"Annotation_identifier";
         span.latitudeDelta=0.05;
         span.longitudeDelta=0.05;
         region.span = span;
+        
         CLLocationCoordinate2D myCoord = annotation.coordinate;
+        myCoord.latitude =[[Destination sharedInstance] latitude];
+        myCoord.longitude =[[Destination sharedInstance] longitude];
         region.center = myCoord;
         
         [mapView setRegion:region animated:TRUE];

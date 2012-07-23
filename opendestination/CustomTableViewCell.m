@@ -62,6 +62,15 @@
         // ...
     } else if ([type isEqualToString: @"event"]) {
         imageName=@"83-calendar.png";
+            //In case that the opportunity is a deal the orange corner is shown
+        UIImageView * cornerImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,50.0,50.0)];
+        [cornerImage setImage:[UIImage imageNamed:@"cornerleftGreen.png"]];
+        [cornerImage setCenter:CGPointMake(26, 28)];
+        [content addSubview:cornerImage];
+        UIImageView * typeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,13.0f,13.0f)];
+        [typeImage setImage:[UIImage imageNamed:imageName]];
+        [typeImage setCenter:CGPointMake(15 , 15)];
+        [content addSubview:typeImage];
     } else if ([type isEqualToString: @"info"]) {
             //     imageName=@"42-info.png";
     }
@@ -71,8 +80,8 @@
     [content addSubview:typeImage];
     
  */   
-    imageName=@"ribbon.png";
-    UIImageView * status = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,370,130)];
+    imageName=@"ribbonlow.png";
+    UIImageView * status = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,30,50)];
     [status setImage:[UIImage imageNamed:imageName]];
     [status setCenter:CGPointMake(280, 22)];
     [content addSubview:status];
@@ -233,7 +242,7 @@
     if (opportunity.status == OpportunityStatusWalkin) {
         UIView * coverView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 80)];
         [coverView setBackgroundColor:[UIColor blackColor]];
-        [coverView setAlpha:0.8];
+        [coverView setAlpha:0.5];
         
         self.accessoryType = UITableViewCellAccessoryNone;
         UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]
@@ -248,13 +257,13 @@
         [textLabel setMinimumFontSize:10.0];
         textLabel.backgroundColor = [UIColor clearColor];
         textLabel.numberOfLines = 2;
-        textLabel.text=NSLocalizedString(@"Opportunity being validated...", @"Being validated");
+        textLabel.text=NSLocalizedString(@"waitingKey", @"Being validated");
         
         [content addSubview:coverView];
         [content addSubview:indicator];
         [content addSubview:textLabel];
         
-        self.userInteractionEnabled = NO;
+        self.userInteractionEnabled = YES;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.alpha=0.2;
         

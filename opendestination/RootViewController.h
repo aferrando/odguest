@@ -26,8 +26,7 @@ typedef enum ContentPageTransitionType {
     ContentPageTranistionTypeSide
 } ContentPageTransitionType;
 
-@interface RootViewController : UIViewController <CollapseViewControllerDelegate, LoginViewControllerDelegate, RegisterViewControllerDelegate, InstantDealViewControllerDelegate, FBSessionDelegate, FBRequestDelegate,
-FBDialogDelegate, AwesomeMenuDelegate > {
+@interface RootViewController : UIViewController <CollapseViewControllerDelegate, LoginViewControllerDelegate, RegisterViewControllerDelegate, InstantDealViewControllerDelegate > {
     UIView * liveBar;
     IBOutlet UINavigationBar *navBar;
     UIView * collapseView;
@@ -63,6 +62,7 @@ FBDialogDelegate, AwesomeMenuDelegate > {
 @property ( nonatomic ) AskViewController * askOpportunityViewController;
 @property ( nonatomic ) LoginViewController * loginViewController;
 @property ( nonatomic, readonly ) UserModel * user;
+@property ( nonatomic, readonly ) Destination * destination;
 @property ( nonatomic, readonly ) UIViewController * myRootViewController;
 - (IBAction) newOportunityPressed;
 - (IBAction) askOpportunityPressed;

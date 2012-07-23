@@ -8,7 +8,7 @@
 
 #define __DEBUG__
 
-#define kDESTINATION_ID 4
+#define kDESTINATION_ID 26
 
 // <HOST>/<ACTION>/<OBJECT>/METHOD>/<DESTINATION>/<PARAMS>
 // method parameters <uuid> [, <lang>]

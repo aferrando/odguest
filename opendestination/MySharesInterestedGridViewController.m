@@ -217,8 +217,8 @@
 - (void) reload
 {
     //Adding the type of opportunities status to be shown
-    NSString * url = [NSString stringWithFormat:@"%@/opportunity/listStatus?status_id=1&destination_id=%d&udid=%d&user_id=%d&opportunity_id=%d",
-                      [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] udid], [[UserModel sharedUser] userID], _opportunity.opportunityID];
+    NSString * url = [NSString stringWithFormat:@"%@/opportunity/listStatus?status_id=1&destination_id=%d&udid=%d&user_id=%d&opportunity_id=%d&language_id=%d",
+                      [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] udid], [[UserModel sharedUser] userID], _opportunity.opportunityID, [[UserModel sharedUser] localeID]];
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
      getDataFromURLString:url forTarget:self action:@selector(setResponse:) hudActivied:YES withString:@"Loading"];
 //    [self stopLoading];

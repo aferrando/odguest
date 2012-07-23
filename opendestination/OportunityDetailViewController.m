@@ -1,10 +1,10 @@
-//
-//  OportunityDetailViewController.m
-//  opendestination
-//
-//  Created by David Hoyos on 14/07/11.
-//  Copyright 2011 None. All rights reserved.
-//
+    //
+    //  OportunityDetailViewController.m
+    //  opendestination
+    //
+    //  Created by David Hoyos on 14/07/11.
+    //  Copyright 2011 None. All rights reserved.
+    //
 
 #import <QuartzCore/QuartzCore.h>
 #import "OportunityDetailViewController.h"
@@ -19,37 +19,44 @@
 #import "AwesomeMenu.h"
 #import "Destination.h"
 @implementation OportunityDetailViewController
+@synthesize bookNowButton;
+@synthesize walkinButton;
+@synthesize walkinLabel;
+@synthesize waitingIndicator;
+@synthesize waitingLabel;
+@synthesize waitingView;
+@synthesize priceLabel;
 
 @synthesize opportunity = _opportunity;
 @synthesize imageView = _imageView;
 @synthesize ownerImage = _ownerImage;
 @synthesize interestedLbl, notInterestedLbl;
-@synthesize tileController;
+@synthesize tileController, contentView, scrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-  self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-  if (self) {
-    map = nil;
-    _opportunity = nil;
-    self.transition = ContentPageTransitionTypeFlip;
-      
-  }
-  return self;
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        map = nil;
+        _opportunity = nil;
+            //   self.transition = ContentPageTransitionTypeFlip;
+        
+    }
+    return self;
 }
 
 
 -(void) dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
 - (void)didReceiveMemoryWarning
 {
-  // Releases the view if it doesn't have a superview.
-  [super didReceiveMemoryWarning];
-  
-  // Release any cached data, images, etc that aren't in use.
+        // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+        // Release any cached data, images, etc that aren't in use.
 }
 
 
@@ -57,8 +64,11 @@
 
 - (void)viewDidLoad
 {
-  [super viewDidLoad];
-  //[self.backButton setHidden:NO];
+    [super viewDidLoad];
+    [self.scrollView addSubview:self.contentView];
+    self.scrollView.contentSize = self.contentView.bounds.size;
+    
+        //[self.backButton setHidden:NO];
     [(RootViewController *)[self.view.window rootViewController] tabBarHidden:YES];
     _imageView.layer.masksToBounds = YES;
     _imageView.layer.cornerRadius = 5.0;
@@ -68,97 +78,105 @@
     _ownerImage.layer.cornerRadius = 5.0;
     _ownerImage.layer.borderWidth = 0.5;
     _ownerImage.layer.borderColor = [[UIColor whiteColor] CGColor];
-          descriptionBackgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
-          buttonBackgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+    descriptionBackgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+    buttonBackgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+    descriptionBackgroundView.layer.masksToBounds = YES;
     descriptionBackgroundView.layer.cornerRadius = 5.0;
     descriptionBackgroundView.layer.borderWidth = 1.5;
     descriptionBackgroundView.layer.borderColor = [[UIColor whiteColor] CGColor];
     pointsLabel.text=[NSString stringWithFormat:@"%d",[[Destination sharedInstance] getValueFrom:@"interested"]];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSpin) name:SDWebImageDownloadStartNotification object:nil];
-  if ( self.opportunity ) [self reload];
-   // [interestedButton setTitle:NSLocalizedString(@"interestedBtnKey", @"Add to my deals") forState:UIControlStateNormal];
-   // [notInterestedButton setTitle:NSLocalizedString(@"notInterestedBtnKey", @"NotInterested") forState:UIControlStateNormal];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSpin) name:SDWebImageDownloadStartNotification object:nil];
+    if ( self.opportunity ) [self reload];
+        // [interestedButton setTitle:NSLocalizedString(@"interestedBtnKey", @"Add to my deals") forState:UIControlStateNormal];
+        // [notInterestedButton setTitle:NSLocalizedString(@"notInterestedBtnKey", @"NotInterested") forState:UIControlStateNormal];
+    
+#warning Replace Event by Reservation
     if ( [self.opportunity.type isEqualToString: @"event"] ){
-        [interestedButton setTitle:NSLocalizedString(@"syncAgendaKey",@"") forState:UIControlStateNormal];
+        bookNowButton.layer.masksToBounds = YES;
+        bookNowButton.layer.cornerRadius = 5.0;
+        bookNowButton.layer.borderWidth = 0.5;
+        if (self.opportunity.status == OpportunityStatusWalkin){
+            reservationBarView.hidden=YES;
+            waitingView.hidden=NO;
+        }
+        else {
+            reservationBarView.hidden=NO;
+            waitingView.hidden=YES;
+        }
+        redeemBarVIew.hidden=YES;
+        likeBarView.hidden=YES;
     }
     _checkedImageView.hidden=YES;
     commentBarView.hidden=YES;
     if ([self.opportunity.type isEqualToString:@"deal"]){
         redeemBarVIew.hidden=NO;
         likeBarView.hidden=YES;
+        reservationBarView.hidden=YES;
+        walkinButton.layer.masksToBounds = YES;
+        if (self.opportunity.status == OpportunityStatusWalkin){
+            redeemBarVIew.hidden=YES;
+            waitingView.hidden=NO;
+        }
+        else {
+            redeemBarVIew.hidden=NO;
+            waitingView.hidden=YES;
+        }
+        walkinButton.layer.cornerRadius = 5.0;
+        walkinButton.layer.borderWidth = 0.5;
+        switch (self.opportunity.status) {
+            case OpportunityStatusTODO:
+                
+                break;
+            case OpportunityStatusWalkin:
+                
+                break;
+                
+            default: walkinLabel.text=NSLocalizedString(@"addToDoKey", @"ADD TO DO");
+                break;
+        }
+        if (self.opportunity.status == OpportunityStatusTODO){
+            
+        }
+    }
+    if ([self.opportunity.type isEqualToString:@"info"]){
+        redeemBarVIew.hidden=YES;
+        likeBarView.hidden=NO;
+        reservationBarView.hidden=YES;
     }
     UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
     navLabel.backgroundColor = [UIColor clearColor];
     navLabel.textColor = [UIColor whiteColor];
     navLabel.font = [UIFont boldSystemFontOfSize:18];
     navLabel.textAlignment = UITextAlignmentCenter;
+    [priceLabel setText:[[NSString alloc] 
+                         initWithFormat:@"(%0.2f %@)",[_opportunity price],[_opportunity currency] ]];
     self.navigationItem.titleView = navLabel;
     navLabel.text=_opportunity.title;
     self.navigationItem.title=_opportunity.title;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, HH:mm"];
     [timeLabel setText:[[NSString alloc] 
-                                               initWithFormat:@"(%@ - %@)",[format stringFromDate:[_opportunity startDate] ]
-                                               ,[format stringFromDate:[_opportunity endDate] ]
-                                               ]];
-  //  titleLabel.text = _opportunity.title;
-    // Test Awesome Menu
- /*   UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
-    UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
+                        initWithFormat:@"(%@ - %@)",[format stringFromDate:[_opportunity startDate] ]
+                        ,[format stringFromDate:[_opportunity endDate] ]
+                        ]];
     
-    UIImage *starImage = [UIImage imageNamed:@"Icon_Profile+.png"];
-    UIImage *likeImage = [UIImage imageNamed:@"29-heart+.png"];
-    UIImage *pushImage = [UIImage imageNamed:@"40-inbox+.png"];
-    UIImage *shareImage = [UIImage imageNamed:@"56-cloud+.png"];
-    
-    AwesomeMenuItem *starMenuItem1 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:starImage 
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem2 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:likeImage 
-                                                    highlightedContentImage:nil];
-    
-    AwesomeMenuItem *starMenuItem3 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:pushImage 
-                                                    highlightedContentImage:nil];
-    
-    AwesomeMenuItem *starMenuItem4 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed 
-                                                               ContentImage:shareImage 
-                                                    highlightedContentImage:nil];
-    
-    
-    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem4,  nil];
-    
-    AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds menus:menus];
-    
-	// customize menu
-	/*
-     menu.rotateAngle = M_PI/3;
-     menu.timeOffset = 0.2f;
-     menu.farRadius = 180.0f;
-     menu.endRadius = 100.0f;
-     menu.nearRadius = 50.0f;
-     */
-  /*  menu.menuWholeAngle = -M_PI/3;
-    menu.farRadius = 50.0f;
-    menu.timeOffset = 0.01f;
- 	
-    menu.delegate = self;
-//    [self.view addSubview:menu];
-    menu.startPoint = CGPointMake(250, 440);*/
-    
-    //Trying MGTileMenu
-    menuButton = [[UIButton alloc] initWithFrame:CGRectMake(20., 398., 52, 52)];
-    [menuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
-    menuButton.center = CGPointMake(160, 390);
-    [menuButton setImage:[UIImage imageNamed:@"icon-plus.png"] forState:UIControlStateNormal];
-    [menuButton setBackgroundImage:[UIImage imageNamed:@"bg-addbutton.png"] forState:UIControlStateNormal];
-    [self.view addSubview:menuButton];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"mapKey", @"Mapa")
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(showMapLocation)];
+    self.navigationItem.rightBarButtonItem = barButton;
+        //Trying MGTileMenu
+    /*    menuButton = [[UIButton alloc] initWithFrame:CGRectMake(20., 398., 52, 52)];
+     [menuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
+     menuButton.center = CGPointMake(160, 390);
+     [menuButton setImage:[UIImage imageNamed:@"icon-plus.png"] forState:UIControlStateNormal];
+     [menuButton setBackgroundImage:[UIImage imageNamed:@"bg-addbutton.png"] forState:UIControlStateNormal];*/
+        //  [self.view addSubview:menuButton];
     [scoreValueLabel setText:[NSString stringWithFormat:@"%d",[_opportunity getScore]]];
+    [interestedKeyLabel setText:NSLocalizedString(@"MyOpportunitieskey", @"")];
+    [notInterestedKeyLabel setText:NSLocalizedString(@"dislikeKey", @"")];
+    [shareLabel setText:NSLocalizedString(@"shareKey", @"")];
+    [waitingLabel setText:NSLocalizedString(@"waitingKey", @"")]; 
 #warning If points are not activated
     if (![[Destination sharedInstance] usersPoints]) {
         [pointsLabel setHidden:TRUE];
@@ -166,7 +184,9 @@
         [pointsFixedLabel setHidden:TRUE];
         
     }
-
+    
+    
+    
 }
 
 - (void)sendEasyTweet:(id)sender {
@@ -205,61 +225,20 @@
 
 
 -(void) showMenu {
-    // If there isn't already a visible TileMenu, we should create one if necessary, and show it.
+        // If there isn't already a visible TileMenu, we should create one if necessary, and show it.
     if (!tileController || tileController.isVisible == NO) {
         if (!tileController) {
-            // Create a tileController.
+                // Create a tileController.
             tileController = [[MGTileMenuController alloc] initWithDelegate:self];
             tileController.dismissAfterTileActivated = NO; // to make it easier to play with in the demo app.
         }
-        // Display the TileMenu.
+            // Display the TileMenu.
         [tileController displayMenuCenteredOnPoint:CGPointMake(160, 470) inView:self.view];
         
-        [menuButton setHidden:TRUE];
+            //     [menuButton setHidden:TRUE];
     }
 }
 
-/* ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ */
-/* ⬇⬇⬇⬇⬇⬇ GET RESPONSE OF MENU ⬇⬇⬇⬇⬇⬇ */
-/* ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ */
-
-- (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
-{
-    NSLog(@"Select the index : %d",idx);
-    /*  
-     if (idx==0)
-     {
-     MyProfileViewController * vc = [[MyProfileViewController alloc] initWithNibName:@"MyProfileViewController" bundle:nil];
-     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-     [navigationController.navigationBar setTintColor: kMainColor]; //[UIColor orangeColor]];
-     [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-     
-     }
-     
-     if (idx==1)
-     {
-     MyDealsTableViewController * vc = [[MyDealsTableViewController alloc] init];
-     [vc addCloseWindow];
-     UINavigationController *navigationController = [[UINavigationController alloc]
-     initWithRootViewController:vc];
-     [navigationController.navigationBar setTintColor:kMainColor];
-     [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-     
-     }
-     
-     if (idx==2)
-     {
-     NotificationsTableViewController * vc = [[NotificationsTableViewController alloc] init];
-     [vc addCloseWindow];
-     UINavigationController *navigationController = [[UINavigationController alloc]
-     initWithRootViewController:vc];
-     [navigationController.navigationBar setTintColor:kMainColor];
-     [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
-     }
-     if (idx==3)
-     [self newOportunityPressed];*/
-
-}
 
 
 - (void)viewDidUnload
@@ -279,8 +258,21 @@
     pointsImageView = nil;
     pointsLabel = nil;
     scoreValueLabel = nil;
-  [super viewDidUnload];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:SDWebImageDownloadStartNotification object:nil];
+    contentView = nil;
+    scrollView = nil;
+    interestedKeyLabel = nil;
+    notInterestedKeyLabel = nil;
+    shareLabel = nil;
+    reservationBarView = nil;
+    [self setBookNowButton:nil];
+    [self setWalkinButton:nil];
+    [self setWalkinLabel:nil];
+    [self setWaitingIndicator:nil];
+    [self setWaitingLabel:nil];
+    [self setWaitingView:nil];
+    [self setPriceLabel:nil];
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:SDWebImageDownloadStartNotification object:nil];
 }
 
 
@@ -288,66 +280,66 @@
 
 - (void) setOpportunity:(OpportunityModel *)opportunity
 {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  _opportunity = nil;
-  _opportunity = opportunity;
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(reload)
-                                               name:(NSString *)kOpportunityUpdatedNotification
-                                             object:self.opportunity];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _opportunity = nil;
+    _opportunity = opportunity;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reload)
+                                                 name:(NSString *)kOpportunityUpdatedNotification
+                                               object:self.opportunity];
 }
 
 
 - (void) showSpin
 {
-  _spin = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-  [_spin setCenter:self.imageView.center];
-  [_spin startAnimating];
+    _spin = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [_spin setCenter:self.imageView.center];
+    [_spin startAnimating];
 }
 
 
 - (void) removeSpin
 {
-  [_spin stopAnimating];
-  _spin = nil;
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:SDWebImageDownloadStopNotification object:self];
+    [_spin stopAnimating];
+    _spin = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:SDWebImageDownloadStopNotification object:self];
 }
 
 - (IBAction) goBack {
-        [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
+    [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
 }
 
 - (void) reload
 {
-  self.title = [_opportunity.name capitalizedString];
-
+    self.title = [_opportunity.name capitalizedString];
+    
         // [self setTitleLabelForHeader];
     [self.interestedLbl setText:[NSString stringWithFormat:@"%d", _opportunity.numInterests]];
     [self.notInterestedLbl setText:[NSString stringWithFormat:@"%d", _opportunity.numNotInterests]];
     
-  descriptionTextField.text = _opportunity.description;
+    descriptionTextField.text = _opportunity.description;
     NSString *realname = (NSString *)[_opportunity.owner objectForKey:@"real_name"];
     if ([realname isEqualToString:@""] || [realname isEqualToString:@" "]) 
         senderLabel.text= [_opportunity.owner objectForKey:@"user_name"];
     else 
-     senderLabel.text =  realname;
-  if ( [[_opportunity.owner objectForKey:@"address"] isKindOfClass:[NSString class]] )
-    addressLabel.text = [_opportunity.owner objectForKey:@"address"];
-  
-  //TODO: if ( [[_opportunity._owner objectForKey:@"phone"] isKindOfClass:[NSString class]] )
-  [self.imageView setImageWithURL:[NSURL URLWithString:_opportunity.imageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
+        senderLabel.text =  realname;
+    if ( [[_opportunity.owner objectForKey:@"address"] isKindOfClass:[NSString class]] )
+        addressLabel.text = [_opportunity.owner objectForKey:@"address"];
+    
+        //TODO: if ( [[_opportunity._owner objectForKey:@"phone"] isKindOfClass:[NSString class]] )
+    [self.imageView setImageWithURL:[NSURL URLWithString:_opportunity.imageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
     [self.ownerImage setImageWithURL:[NSURL URLWithString:_opportunity.ownerImageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
-  [self.view setNeedsDisplay];
-  [self updateButtonTittle];
+    [self.view setNeedsDisplay];
+    [self updateButtonTittle];
 }
 
 - (void)animateSnapshotOfView:(UIView *)view toTab:(UIViewController *)navController
 {
-/*    NSUInteger targetTabIndex = [self.tabBarController.viewControllers indexOfObject:navController];
-    NSUInteger tabCount = [self.tabBarController.tabBar.items count];
-    // AFAIK there's no API (as of iOS 4) to get the frame of a tab bar item, so guesstimate using the index and the tab bar frame.
-    CGRect tabBarFrame = self.tabBarController.tabBar.frame;*/
-   // CGPoint targetPoint = CGPointMake((targetTabIndex + 0.5) * tabBarFrame.size.width / tabCount, CGRectGetMidY(tabBarFrame));
+    /*    NSUInteger targetTabIndex = [self.tabBarController.viewControllers indexOfObject:navController];
+     NSUInteger tabCount = [self.tabBarController.tabBar.items count];
+     // AFAIK there's no API (as of iOS 4) to get the frame of a tab bar item, so guesstimate using the index and the tab bar frame.
+     CGRect tabBarFrame = self.tabBarController.tabBar.frame;*/
+        // CGPoint targetPoint = CGPointMake((targetTabIndex + 0.5) * tabBarFrame.size.width / tabCount, CGRectGetMidY(tabBarFrame));
     CGPoint targetPoint = CGPointMake(310,460);
     
     targetPoint = [self.view convertPoint:targetPoint fromView:navController.view];
@@ -394,20 +386,20 @@
 }
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    // the user clicked one of the OK/Cancel buttons
+        // the user clicked one of the OK/Cancel buttons
     if (buttonIndex == 0)
-    {
+        {
         NSLog(@"ok");
-        [[UserModel sharedUser] signOut];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+            //   [[UserModel sharedUser] signOut];
+            //  [self.navigationController popToRootViewControllerAnimated:YES];
         
-
+        
         [self showLogin];
-    }
+        }
     else
-    {
+        {
         NSLog(@"cancel");
-    }
+        }
 }
 -(void) showLogin {
     LoginViewController *vc = [[LoginViewController alloc] init];
@@ -422,155 +414,256 @@
 {
     
         //If the user is not registered is not allowed to show interest and get rewarded
-      if (  [(UserModel *)[UserModel sharedUser] isGuest]  )
-      {
-       /*   BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
-          
-          [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
-          
-        //  UIAlertView *alert= [UIAlertView
-                               UIAlertView *alert = [[UIAlertView alloc] init];
-                               [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
-                               [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
-                               [alert setDelegate:self];
-                               [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
-                               [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
-                               [alert show];
-
-  /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
-              [self showLogin];
-          }];*/
-          [alert show];
-      }
-      else
-      {
-          [self animateSnapshotOfView:self.imageView toTab:(RootViewController *)[self.view.window rootViewController]];
-
-          [self.opportunity setInterested];
-          [likeBarView setHidden:YES];
-          [redeemBarVIew setHidden:YES];
-          [commentBarView setHidden:FALSE];
-    //      sleep(2);
-          [YRDropdownView showDropdownInView:[self.view.window rootViewController].view
-                                       title:@"Congrats!" 
-                                      detail:@"You are getting closer to your next goal"
-                                       image:nil
-                                    animated:YES
-                                   hideAfter:2.0
-                                        type:1];
-         // [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
-          [self.navigationController popToRootViewControllerAnimated:YES];
-
-       }
-  
- // [self updateButtonTittle];
+    if (  [(UserModel *)[UserModel sharedUser] isGuest]  )
+        {
+        /*   BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+         
+         [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
+        
+            //  UIAlertView *alert= [UIAlertView
+        UIAlertView *alert = [[UIAlertView alloc] init];
+        [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
+        [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+        [alert setDelegate:self];
+        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
+        [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
+        [alert show];
+        
+        /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
+         [self showLogin];
+         }];*/
+        [alert show];
+        }
+    else
+        {
+        
+        [self.opportunity setInterested];
+        [likeBarView setHidden:YES];
+        [redeemBarVIew setHidden:YES];
+        [commentBarView setHidden:FALSE];
+            //      sleep(2);
+        [YRDropdownView showDropdownInView:[self.view.window rootViewController].view
+                                     title:@"Congrats!" 
+                                    detail:@"You are getting closer to your next goal"
+                                     image:nil
+                                  animated:YES
+                                 hideAfter:2.0
+                                      type:1];
+            // [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self animateSnapshotOfView:self.imageView toTab:self.navigationController];
+        
+        }
+    
+        // [self updateButtonTittle];
 }
 
 
 - (IBAction) showMapLocation
 {
-  if ( map == nil ) {
-    map = [[mapaViewController alloc] init];
-    map.title = self.title;
-    map.opportunity = self.opportunity;
-  }
-  [self.view addSubview:map.view];
+    if ( map == nil ) {
+        map = [[ClusterMapViewController alloc] init];
+    }
+        // map.title = self.title;
+    [map setCategoryName:_opportunity.name];
+    
+    [map setOpportunities:[NSArray arrayWithObjects:_opportunity, nil] ];
+    [map.mapView setClusteringEnabled:FALSE];
+    map.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:map animated:YES];
 }
 
 - (IBAction)notInterestedButtonPressed:(id)sender {
-    [self.opportunity setNotInterested];
-    [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
-    
+    if (  [(UserModel *)[UserModel sharedUser] isGuest]  )
+        {
+        /*   BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+         
+         [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
+        
+            //  UIAlertView *alert= [UIAlertView
+        UIAlertView *alert = [[UIAlertView alloc] init];
+        [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
+        [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+        [alert setDelegate:self];
+        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
+        [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
+        [alert show];
+        
+        /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
+         [self showLogin];
+         }];*/
+        [alert show];
+        }
+    else
+        {
+        [self.opportunity setNotInterested];
+        [self.navigationController popViewControllerAnimated:YES];
+        }
     
 }
 
 
 - (void) updateButtonTittle
 {
-  switch (self.opportunity.status)
-  {
-    case OpportunityStatusPendant:
-          [likeBarView setHidden:NO];
-          [redeemBarVIew setHidden:YES];
-          [commentBarView setHidden:YES];
-      [interestedButton setHidden:NO];
-          if ( [self.opportunity.type isEqualToString: @"event"] ){
-              [interestedButton setTitle:NSLocalizedString(@"syncAgendaKey",@"") forState:UIControlStateNormal];
-          }
-      break;
-    case OpportunityStatusWatched:
-          [likeBarView setHidden:NO];
-          [redeemBarVIew setHidden:YES];
-          [commentBarView setHidden:YES];
-          [interestedButton setHidden:NO];
-          if ( [self.opportunity.type isEqualToString: @"event"] ){
-              [interestedButton setTitle:NSLocalizedString(@"syncAgendaKey",@"") forState:UIControlStateNormal];
-          }
-          break;
-    default:
-          [likeBarView setHidden:YES];
-          [redeemBarVIew setHidden:YES];
-          [commentBarView setHidden:FALSE];
-          break;
-  }
+    switch (self.opportunity.status)
+    {
+        case OpportunityStatusPendant:
+        [likeBarView setHidden:NO];
+        [redeemBarVIew setHidden:YES];
+        [commentBarView setHidden:YES];
+        [interestedButton setHidden:NO];
+        if ( [self.opportunity.type isEqualToString: @"event"] ){
+            [interestedButton setTitle:NSLocalizedString(@"syncAgendaKey",@"") forState:UIControlStateNormal];
+        }
+        break;
+        case OpportunityStatusWatched:
+        [likeBarView setHidden:NO];
+        [redeemBarVIew setHidden:YES];
+        [commentBarView setHidden:YES];
+        [interestedButton setHidden:NO];
+        if ( [self.opportunity.type isEqualToString: @"event"] ){
+            [interestedButton setTitle:NSLocalizedString(@"syncAgendaKey",@"") forState:UIControlStateNormal];
+        }
+        break;
+        default:
+        [likeBarView setHidden:YES];
+        [redeemBarVIew setHidden:YES];
+        [commentBarView setHidden:FALSE];
+        break;
+    }
 }
 
 - (IBAction)redeemBtnPressed:(id)sender {
+    
+    switch (self.opportunity.status) {
+        case OpportunityStatusTODO:
+            [self.opportunity setWalkin];
+            break;
+        case OpportunityStatusWalkin:
+                //    [self.opportunity setStatus:OpportunityStatusConsumed];
+            break;
+            
+        default: [self.opportunity setWalkin];
+            break;
+    }
+        //    [self showSocialQuestion];
+    /*    
+     [[[UIAlertView alloc] initWithTitle: NSLocalizedString(@"congratulationsMsgKey",@"Congratulations!")
+     message: NSLocalizedString(@"reedemingMsgKey",@"You just need to show up at the front desk!. Our crew is waiting for you. See you in a minute!")
+     delegate:self
+     cancelButtonTitle:NSLocalizedString(@"cancelKey",@"Cancel")
+     otherButtonTitles:NSLocalizedString(@"reedemKey",@"Redeem"), nil] show];*/
+    
+        //SHow alert explaining the process
+        // [redeemBtn setEnabled:FALSE];
+    
+        //  [redeemBtn setTitle:NSLocalizedString(@"ValidatingKey",@"validating..!") forState:UIControlStateNormal];
+        // [redeemBtn setImage:[UIImage imageNamed:@"34-coffee.png"] forState:UIControlStateNormal];
+    
 }
+
+- (IBAction)booknowBtnPressed:(id)sender {
+    if (  [(UserModel *)[UserModel sharedUser] isGuest]  )
+        {
+        /*   BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+         
+         [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
+        
+            //  UIAlertView *alert= [UIAlertView
+        UIAlertView *alert = [[UIAlertView alloc] init];
+        [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
+        [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+        [alert setDelegate:self];
+        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
+        [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
+        [alert show];
+        
+        /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
+         [self showLogin];
+         }];*/
+        [alert show];
+        }
+    else
+        {
+        [self.opportunity setWalkin];
+        }
+}
+
+- (IBAction)bookBtnPresesd:(id)sender {
+}
+/*
+ - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+ {
+ if (buttonIndex == 0)
+ {
+ // No, do something
+ }
+ else if (buttonIndex == 1)
+ {
+ //SHow alert explaining the process
+ [redeemBtn setEnabled:FALSE];
+ [self.opportunity setWalkin];
+ [redeemBtn setTitle:NSLocalizedString(@"ValidatingKey",@"validating..!") forState:UIControlStateNormal];
+ [redeemBtn setImage:[UIImage imageNamed:@"34-coffee.png"] forState:UIControlStateNormal];
+ }
+ }
+ */
 
 - (void) showPoints
 {
-  [[UserModel sharedUser] refresh];
-  _pointsSplash = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"big_badget"]];
-  
-  UILabel * upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 225.0, 32.0)];
-  [upperLabel setCenter:CGPointMake(150, 85)];
-  upperLabel.font = [UIFont boldSystemFontOfSize:18];
-  [upperLabel setMinimumFontSize:16];
-  upperLabel.textColor = [UIColor whiteColor];
-  upperLabel.text = NSLocalizedString(@"congratulationsMsgKey",@"Congratulations!");
-  [upperLabel setTextAlignment:UITextAlignmentCenter];
-  upperLabel.backgroundColor = [UIColor clearColor];
-  upperLabel.numberOfLines = 1;
-  [_pointsSplash addSubview:upperLabel];
-  
-  UILabel * pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 72.0, 72.0)];
-  [pointsLabel setCenter:CGPointMake(150, 150)];
-  pointsLabel.font = [UIFont boldSystemFontOfSize:58];
-  pointsLabel.textColor = [UIColor whiteColor];
-  pointsLabel.text = [NSString stringWithFormat:@"%d", self.opportunity.points];
-  [pointsLabel setTextAlignment:UITextAlignmentCenter];
-  pointsLabel.backgroundColor = [UIColor clearColor];
-  pointsLabel.numberOfLines = 1;
-  [_pointsSplash addSubview:pointsLabel];
-  
-  
-  UILabel * msgLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 225.0, 22.0)];
-  [msgLabel2 setCenter:CGPointMake(150, 205)];
-  msgLabel2.font = [UIFont boldSystemFontOfSize:18];
-  [msgLabel2 setMinimumFontSize:14];
-  msgLabel2.textColor = [UIColor whiteColor];
-  msgLabel2.numberOfLines = 1;
-  msgLabel2.text = [NSString stringWithFormat:@"Points", self.opportunity.points];
-  [msgLabel2 setTextAlignment:UITextAlignmentCenter];
-  msgLabel2.backgroundColor = [UIColor clearColor];
-  [_pointsSplash addSubview:msgLabel2];
-  
-  [self.view addSubview:_pointsSplash];
-  //[_pointsSplash setContentMode:UIViewContentModeScaleAspectFill];
-  [_pointsSplash setCenter:self.view.center];
-  [_pointsSplash setContentScaleFactor:0.1];
-  [UIView animateWithDuration:0. animations:^{[_pointsSplash setContentScaleFactor:4.0];}];
-
-  [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(removePointsSplash) userInfo:nil repeats:NO];
+    [[UserModel sharedUser] refresh];
+    _pointsSplash = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"big_badget"]];
+    
+    UILabel * upperLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 225.0, 32.0)];
+    [upperLabel setCenter:CGPointMake(150, 85)];
+    upperLabel.font = [UIFont boldSystemFontOfSize:18];
+    [upperLabel setMinimumFontSize:16];
+    upperLabel.textColor = [UIColor whiteColor];
+    upperLabel.text = NSLocalizedString(@"congratulationsMsgKey",@"Congratulations!");
+    [upperLabel setTextAlignment:UITextAlignmentCenter];
+    upperLabel.backgroundColor = [UIColor clearColor];
+    upperLabel.numberOfLines = 1;
+    [_pointsSplash addSubview:upperLabel];
+    
+    UILabel * pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 72.0, 72.0)];
+    [pointsLabel setCenter:CGPointMake(150, 150)];
+    pointsLabel.font = [UIFont boldSystemFontOfSize:58];
+    pointsLabel.textColor = [UIColor whiteColor];
+    pointsLabel.text = [NSString stringWithFormat:@"%d", self.opportunity.points];
+    [pointsLabel setTextAlignment:UITextAlignmentCenter];
+    pointsLabel.backgroundColor = [UIColor clearColor];
+    pointsLabel.numberOfLines = 1;
+    [_pointsSplash addSubview:pointsLabel];
+    
+    
+    UILabel * msgLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 225.0, 22.0)];
+    [msgLabel2 setCenter:CGPointMake(150, 205)];
+    msgLabel2.font = [UIFont boldSystemFontOfSize:18];
+    [msgLabel2 setMinimumFontSize:14];
+    msgLabel2.textColor = [UIColor whiteColor];
+    msgLabel2.numberOfLines = 1;
+    msgLabel2.text = [NSString stringWithFormat:@"Points", self.opportunity.points];
+    [msgLabel2 setTextAlignment:UITextAlignmentCenter];
+    msgLabel2.backgroundColor = [UIColor clearColor];
+    [_pointsSplash addSubview:msgLabel2];
+    
+    [self.view addSubview:_pointsSplash];
+        //[_pointsSplash setContentMode:UIViewContentModeScaleAspectFill];
+    [_pointsSplash setCenter:self.view.center];
+    [_pointsSplash setContentScaleFactor:0.1];
+    [UIView animateWithDuration:0. animations:^{[_pointsSplash setContentScaleFactor:4.0];}];
+    
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(removePointsSplash) userInfo:nil repeats:NO];
 }
 
 - (void) removePointsSplash
 {
-  [_pointsSplash removeFromSuperview];
-  _pointsSplash = nil;
-  [self.view setNeedsDisplay];
+    [_pointsSplash removeFromSuperview];
+    _pointsSplash = nil;
+    [self.view setNeedsDisplay];
 }
+
+/*
 #pragma mark - TileMenu delegate
 
 
@@ -679,13 +772,13 @@
     switch (tileNumber) {
         case 0: //request
         {
-            
+        
         }
             break;
             
         case 1: //Map
         {
-            [self interestedButtonPressed:nil];   
+        [self interestedButtonPressed:nil];   
         }
             break;
             
@@ -709,8 +802,23 @@
 - (void)tileMenuDidDismiss:(MGTileMenuController *)tileMenu
 {
 	tileController = nil;
-    [menuButton setHidden:FALSE];
+        //  [menuButton setHidden:FALSE];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+}
+
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+        //    pageControlUsed = NO;
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+        //   pageControlUsed = NO;
+}
+#pragma mark -
+*/
 
 @end

@@ -150,10 +150,10 @@ static UserModel * sharedInstance = nil;
     self.userID = [[dict objectForKey:@"id"] integerValue];
   if ( [[self.dataDict objectForKey:@"destination_name"] isKindOfClass:[NSString class]] )
     self.destinationName = [self.dataDict objectForKey:@"destination_name"];
-  if ( [[self.dataDict objectForKey:@"userName"] isKindOfClass:[NSString class]] )
-    self.userName = [self.dataDict objectForKey:@"userName"];
-  if ( [[self.dataDict objectForKey:@"real_name"] isKindOfClass:[NSString class]] )
-    self.realName = [self.dataDict objectForKey:@"real_name"];
+  if ( [[self.dataDict objectForKey:@"username"] isKindOfClass:[NSString class]] )
+    self.userName = [self.dataDict objectForKey:@"username"];
+  if ( [[self.dataDict objectForKey:@"realname"] isKindOfClass:[NSString class]] )
+    self.realName = [self.dataDict objectForKey:@"realname"];
   self.gender = [self.dataDict objectForKey:@"gender"];
   if ( [[self.dataDict objectForKey:@"language_id"] isKindOfClass:[NSString class]] )
     self.localeID = [self.dataDict objectForKey:@"language_id"];
@@ -189,6 +189,8 @@ static UserModel * sharedInstance = nil;
         self.shares = [[self.dataDict objectForKey:@"shares"] integerValue];
   if ( [[self.dataDict objectForKey:@"tags"] isKindOfClass:[NSNumber class]] )
     self.tags = [[self.dataDict objectForKey:@"tags"] integerValue];
+    
+    self.level=[dict objectForKey:@"level"];
 
   [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kUserUpdatedNotification object:self];
 }
@@ -199,17 +201,17 @@ static UserModel * sharedInstance = nil;
 {
     dataDict = nil;
     dataDict = dict;
-    
+    self.level=[dict objectForKey:@"level"];
     if ( [[self.dataDict objectForKey:@"user_id"] isKindOfClass:[NSNumber class]] )
         self.userID = [[dict objectForKey:@"user_id"] integerValue];
     if ( [[self.dataDict objectForKey:@"destination_name"] isKindOfClass:[NSString class]] )
         self.destinationName = [self.dataDict objectForKey:@"destination_name"];
     if ( [[self.dataDict objectForKey:@"username"] isKindOfClass:[NSString class]] )
         self.userName = [self.dataDict objectForKey:@"username"];
-    if ( [[self.dataDict objectForKey:@"real_name"] isKindOfClass:[NSString class]] )
-        self.realName = [self.dataDict objectForKey:@"real_name"];
+    if ( [[self.dataDict objectForKey:@"realname"] isKindOfClass:[NSString class]] )
+        self.realName = [self.dataDict objectForKey:@"realname"];
     self.gender = [self.dataDict objectForKey:@"gender"];
-    if ( [[self.dataDict objectForKey:@"language_id"] isKindOfClass:[NSString class]] )
+    if ( [[self.dataDict objectForKey:@"language_id"] isKindOfClass:[NSNumber class]] )
         self.localeID = [self.dataDict objectForKey:@"language_id"];
     if ( [[self.dataDict objectForKey:@"birthday"] isKindOfClass:[NSString class]] )
     {
@@ -297,9 +299,9 @@ static UserModel * sharedInstance = nil;
 {
   if  ( ( _userName != nil) && ( _password != nil) ) {
     guest = NO;
-    NSString * url = [NSString stringWithFormat:@"%@/user/register?destination_id=%d&device_type=ios&uuid=%@&username=%@&password=%@",
-                      [[Destination sharedInstance] destinationService], self.destinationID, udid, _userName, _password];
-    [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(deviceWasRegistered:) hudActivied:NO withString:nil];
+    NSString * url = [NSString stringWithFormat:@"%@/user/register?destination_id=%d&device_type=ios&uuid=%@&username=%@&password=%@&realname=%@",
+                      [[Destination sharedInstance] destinationService], self.destinationID, udid, _userName, _password, _realName];
+    [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(deviceWasRegistered:) hudActivied:YES withString:NSLocalizedString(@"signingUpKey", @"signingUp")];
   }
 }
 
@@ -448,7 +450,7 @@ static UserModel * sharedInstance = nil;
   if ( property == _gender )
     fullURLString = [NSString stringWithFormat:@"%@&gender=%@",url,_gender];
   if ( property == _localeID)
-    fullURLString = [NSString stringWithFormat:@"%@&gender=%@",url,_localeID];
+    fullURLString = [NSString stringWithFormat:@"%@&language_id=%@",url,_localeID];
   if ( property == _birthDate )
     fullURLString = [NSString stringWithFormat:@"%@&birthday=%@",url,[self stringFromBirthdate]];
   
