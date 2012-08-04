@@ -69,6 +69,7 @@
           NSString * desc = (NSString *)[dict objectForKey:@"description"];
           NSLog(@"%@: errorCode: %d: %@",[self description], errorCode, desc);
         } else {
+            
           [self parseDataDict:dict];
           [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kDestinationDidUpdateNotification object:self];
         }

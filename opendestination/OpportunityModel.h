@@ -83,6 +83,7 @@ typedef enum {
 @property ( nonatomic ) NSDictionary * owner;
 @property ( nonatomic ) NSString * description;
 @property ( nonatomic ) NSString * currency;
+@property ( nonatomic ) NSInteger confirmationCode;
 @property ( nonatomic, assign ) OpportunityStatus status;
 @property ( nonatomic ) NSString * ownerImageURL;
 @property ( nonatomic ) NSString * imageURL;
@@ -104,6 +105,7 @@ typedef enum {
 - (void) setAddedTODO;
 - (void) syncEvent;
 - (void) setWalkin;
+- (void) doReservation;
 - (void) parseDataDict:(NSDictionary *)dict;
 - (void) parseDataDictTest:(NSDictionary *)dict;
 - (NSString *)groupTag;

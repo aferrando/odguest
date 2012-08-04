@@ -21,7 +21,7 @@
 #import "SVSegmentedControl.h"
 
 @interface MyDealsTableViewController ()
-@property ( nonatomic ) NSMutableArray * deals;
+@property ( strong, nonatomic ) NSMutableArray * deals;
 @property ( nonatomic ) NSMutableArray * hotdeals;
 @property ( nonatomic ) NSMutableArray * waitingdeals;
 @property ( nonatomic ) UserModel * userModel;
@@ -30,7 +30,7 @@
 @end
 
 @implementation MyDealsTableViewController
-@synthesize transition, deals,hotdeals,waitingdeals,
+@synthesize transition,hotdeals,waitingdeals,deals,
 userModel, dataDict, typeSegmentedCtrl, noItemLabel,
 badgeNext, badgeRedeeming , map ;
 
@@ -44,7 +44,8 @@ badgeNext, badgeRedeeming , map ;
         _opportunities4 = [[NSMutableArray alloc] initWithCapacity:0];
         _opportunities24 = [[NSMutableArray alloc] initWithCapacity:0];
         _opportunitiesLater = [[NSMutableArray alloc] initWithCapacity:0];*/
-        deals = [[NSMutableArray alloc] initWithCapacity:0];
+        self.deals = nil;
+        self.deals = [[NSMutableArray alloc] initWithCapacity:0];
         self.waitingdeals = [[NSMutableArray alloc] initWithCapacity:0];
         self.transition =    ContentPageTranistionTypeSide;
         noItemLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30,self.tableView.bounds.size.width, 60)];
@@ -82,14 +83,14 @@ badgeNext, badgeRedeeming , map ;
     }
         // map.title = self.title;
     [map setCategoryName:NSLocalizedString(@"myDealsKey", @"")];
-    
+ /*   
     NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[_opportunities count] + [_opportunities24 count]+ [_opportunities4 count]+ [_opportunitiesLater count]];
     [ret addObjectsFromArray:_opportunities];
     [ret addObjectsFromArray:_opportunities4];
     [ret addObjectsFromArray:_opportunities24];
     [ret addObjectsFromArray:_opportunitiesLater];
 
-    [map setOpportunities:ret];
+    [map setOpportunities:ret];*/
     [map.mapView setClusteringEnabled:FALSE];
     map.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:map animated:YES];
@@ -191,10 +192,12 @@ badgeNext, badgeRedeeming , map ;
   
     return 1;
 }
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 30.0;
 }
+ */
 /*
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section 
 {
@@ -385,7 +388,7 @@ badgeNext, badgeRedeeming , map ;
             break;
     }
     }*/
-    return [deals count];
+    return [self.deals count];
 }
 
 - (UITableViewCell *) noPlansCell {
@@ -427,7 +430,7 @@ badgeNext, badgeRedeeming , map ;
 {
 	static NSString *CellIdentifier = @"Cell";	
 	CustomTableViewCell *cell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    OpportunityModel * opp = [deals objectAtIndex:indexPath.row];
+    OpportunityModel * opp = [self.deals objectAtIndex:indexPath.row];
  /*   else {
     switch (indexPath.section) {
         case 0:{
@@ -525,7 +528,7 @@ badgeNext, badgeRedeeming , map ;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OportunityDetailViewController * detail = [[OportunityDetailViewController alloc] init];
-    OpportunityModel * opp =[deals objectAtIndex:indexPath.row];
+    OpportunityModel * opp =[self.deals objectAtIndex:indexPath.row];
    /* else {
         switch (indexPath.section) {
            case 0:
@@ -583,7 +586,7 @@ badgeNext, badgeRedeeming , map ;
             if ( [jsonObject isKindOfClass:[NSDictionary class]] ) {
                 dict = jsonObject;
                 if ( [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 0 ) {
-                    NSLog(@"%@: opprotunity list: %@", [self description], [dict description]);
+                    NSLog(@"%@: opportunity list: %@", [self description], [dict description]);
                     [self setDataDict:dict];
                 } else {
                     //TODO: Alert the user
@@ -628,8 +631,8 @@ badgeNext, badgeRedeeming , map ;
     if ( [[dict objectForKey:@"errorCode"] isKindOfClass:[NSNumber class]] )
     {
         dataDict = dict;
-        [deals removeAllObjects];
-        [_opportunities removeAllObjects];
+        [self.deals removeAllObjects];
+        //    [_opportunities removeAllObjects];
         [_opportunities4 removeAllObjects];
         [_opportunities24 removeAllObjects];
         [_opportunitiesLater removeAllObjects];
@@ -639,8 +642,8 @@ badgeNext, badgeRedeeming , map ;
             if ( [[dataDict objectForKey:index] isKindOfClass:[NSDictionary class]] ) {
                 OpportunityModel * opp = [[OpportunityModel alloc] init];
                 [opp parseDataDict:(NSDictionary *)[dataDict objectForKey:index]];
-                if ([opp.type isEqualToString:@"deal"]) {
-                    if ((opp.status==OpportunityStatusInterested) || (opp.status==OpportunityStatusWalkin)){
+                    // if ([opp.type isEqualToString:@"deal"]) {
+                 /*   if ((opp.status==OpportunityStatusInterested) || (opp.status==OpportunityStatusWalkin)){
                         NSDate *now=[[NSDate alloc] init];
                         NSTimeInterval timeInSeconds = [[opp startDate] timeIntervalSinceDate:now];
                         double hours = timeInSeconds / 3600;
@@ -658,10 +661,10 @@ badgeNext, badgeRedeeming , map ;
                         
                         
                     }
-                    else {
-                        [deals addObject:opp];
-                    }
-                }
+                    else {*/
+                        [self.deals addObject:opp];
+                        //}
+               /* }
                 
                 else {
                     
@@ -696,7 +699,7 @@ badgeNext, badgeRedeeming , map ;
                     }
                     
                     
-                }
+                }*/
             }
         }
         [self.tableView reloadData];

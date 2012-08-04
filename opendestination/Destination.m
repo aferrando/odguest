@@ -155,7 +155,9 @@ static Destination * sharedInstance = nil;
         {
         @synchronized(self) {
             self.destinationName = [dict objectForKey:@"destination_name"];
-             self.destinationImage =[NSString stringWithFormat:@"%@", [[dict objectForKey:@"destination_image"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] ;        self.points = [dict objectForKey:@"points"];
+            if ([dict objectForKey:@"destination_image"]!=[NSNull null])
+             self.destinationImage =[NSString stringWithFormat:@"%@", [[dict objectForKey:@"destination_image"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] ; 
+            self.points = [dict objectForKey:@"points"];
             self.levels = [dict objectForKey:@"levels"] ;
             self.languages = [dict objectForKey:@"language"] ;
             NSDictionary *location = [dict objectForKey:@"destination_location"];

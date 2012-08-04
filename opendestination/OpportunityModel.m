@@ -29,6 +29,7 @@
 @synthesize name = _name;
 @synthesize description = _description;
 @synthesize currency = _currency;
+@synthesize confirmationCode = _confirmationCode;
 @synthesize type = _type;
 @synthesize imageURL = _imageURL;
 @synthesize thumbURL = _thumbURL;
@@ -43,6 +44,7 @@
     self = [super init];
     if (self) {
         _userInfo = nil;
+        _confirmationCode = 0;
         self.language = @"en_US";
     }
     return self;
@@ -62,10 +64,10 @@
 - (void) reload
 {
     
-    NSString * url = [NSString stringWithFormat:@"%@/opportunity/get?destination_id=%d&user_id=%d&uuid=%@&opportunity_id=%d&language_id=%d",
+    NSString * url = [NSString stringWithFormat:@"%@/opportunity/get?destination_id=%d&user_id=%d&uuid=%@&opportunity_id=%d&language_id=%@",
                       [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] userID], [[UserModel sharedUser] udid], opportunityID, [[UserModel sharedUser] localeID]];
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
-     getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:YES withString:nil];
+     getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:YES withString:@"Opportunity Updating.."];
 }
 
 #pragma mark -
@@ -136,7 +138,7 @@
 - (void) parseDataDict:(NSDictionary *)dict
 {
 #ifdef __DEBUG__
-    NSLog(@"%@: opportunity: %@", [self description], [dict description]);
+    NSLog(@" opportunity: %@", [dict description]);
 #endif
     _userInfo = nil;
     _userInfo = dict;
@@ -188,13 +190,17 @@
         self.type = [_userInfo valueForKey:@"type"];
     if ( [[_userInfo objectForKey:@"status"] isKindOfClass:[NSNumber class]] )
         self.status = (OpportunityStatus)[[_userInfo objectForKey:@"status"] integerValue];
+#warning status is String or Number
+    if ( [[_userInfo objectForKey:@"status"] isKindOfClass:[NSString class]] )
+        self.status = (OpportunityStatus)[[_userInfo objectForKey:@"status"] integerValue];
     if ( [[_userInfo objectForKey:@"startDate"] isKindOfClass:[NSString class]] )
         self.startDate = [self dateFromString:[_userInfo objectForKey:@"startDate"]];
     if ( [[_userInfo objectForKey:@"endDate"] isKindOfClass:[NSString class]] )
         self.endDate = [self dateFromString:[_userInfo objectForKey:@"endDate"]];
     if ( [[_userInfo objectForKey:@"modifyDate"] isKindOfClass:[NSString class]] )
         self.modifyDate = [self dateFromString:[_userInfo objectForKey:@"modifyDate"]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kOpportunityUpdatedNotification object:self];
+    if ( [[_userInfo objectForKey:@"confirmation_code"] isKindOfClass:[NSNumber class]] )
+        self.confirmationCode = [(NSNumber *)[_userInfo valueForKey:@"confirmation_code"] integerValue];      [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kOpportunityUpdatedNotification object:self];
 }
 
 - (void) parseDataDictTest:(NSDictionary *)dict
@@ -256,7 +262,8 @@
         self.endDate = [self dateFromString:[_userInfo objectForKey:@"endDate"]];
     if ( [[_userInfo objectForKey:@"modifyDate"] isKindOfClass:[NSString class]] )
         self.modifyDate = [self dateFromString:[_userInfo objectForKey:@"modifyDate"]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kOpportunityUpdatedNotification object:self];
+    if ( [[_userInfo objectForKey:@"confirmation_code"] isKindOfClass:[NSNumber class]] )
+        self.confirmationCode = [(NSNumber *)[_userInfo valueForKey:@"confirmation_code"] integerValue];  [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kOpportunityUpdatedNotification object:self];
 }
 
 - (NSDate *) dateFromString:(NSString *)date
@@ -332,6 +339,12 @@
                       [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] userID], [[UserModel sharedUser] udid], opportunityID ];
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
      getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:NO withString:nil];
+}
+- (void) doReservation {
+    NSString * url = [NSString stringWithFormat:@"%@/opportunity/reservation?destination_id=%d&user_id=%d&uuid=%@&opportunity_id=%d",
+                      [[Destination sharedInstance] destinationService], [[UserModel sharedUser] destinationID], [[UserModel sharedUser] userID], [[UserModel sharedUser] udid], opportunityID ];
+    [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]
+     getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:NO withString:NSLocalizedString(@"CheckingInntopiaKey", @"Checking..")];
 }
 - (NSString *)groupTag{
     return _groupTag;

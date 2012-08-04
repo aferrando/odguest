@@ -32,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIView *myNotifiticationView;
 @property (strong, nonatomic) IBOutlet UIView *mySharesView;
 @property (strong, nonatomic) IBOutlet UILabel *minLabel;
+@property (strong, nonatomic) IBOutlet UILabel *completedLabel;
 @property ( nonatomic ) UserModel * userModel; 
 -(void) addCloseWindow;
 - (IBAction)settingBtnPressed:(id)sender;

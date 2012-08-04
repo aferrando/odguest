@@ -15,7 +15,7 @@
 #import "MySharesTableViewController.h"
 #import "SettingsViewController.h"
 #import "GlobalConstants.h"
-
+#import "SelectSignInViewController.h"
 @interface HeaderViewController ()
 
 @end
@@ -38,6 +38,7 @@
 @synthesize myNotifiticationView;
 @synthesize mySharesView;
 @synthesize minLabel;
+@synthesize completedLabel;
 @synthesize userModel = _userModel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -171,7 +172,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     self.userModel=[UserModel sharedUser];
     if ((self.userModel.userName==nil) || ([self.userModel isGuest])) {
-        LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        SelectSignInViewController *loginVC = [[SelectSignInViewController alloc] initWithNibName:@"SelectSignInViewController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc]
                                                         initWithRootViewController:loginVC];
         [navigationController.navigationBar setTintColor:kMainColor];
@@ -189,7 +190,7 @@
         [self.userModel refresh];
     realnameTextField.text=self.userModel.userName;
         //    [self setTitle:user.realName];
-    [self setTitle:self.userModel.userName];
+    [self setTitle:self.userModel.realName];
     [userImage setImageWithURL:[NSURL URLWithString:self.userModel.image] placeholderImage:[UIImage imageNamed:@"photo_default.png"]];
     userImage.layer.masksToBounds = YES;
     userImage.layer.cornerRadius = 5.0;
@@ -243,7 +244,7 @@
         double ratio=(double) ( self.userModel.points- range_min)/(range_max-range_min);
         [self.pointProgressView setProgressTintColor:[ UIColor colorWithHexString:[self.userModel.level objectForKey:@"color"]]];
         [self.points setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
-        [points setText:[NSString stringWithFormat:@"%d", self.userModel.points]];
+        [points setText:[NSString stringWithFormat:NSLocalizedString(@"%d pointsKey",""), self.userModel.points]];
         [self.level setText:[NSString stringWithFormat:@"%d", range_max]];
         [self.pointProgressView setProgress:ratio animated:TRUE];
         [minLabel setText:[NSString stringWithFormat:@"%d", range_min]];
@@ -280,7 +281,7 @@
    
 }
 - (void) reloadUser {
-    [self setTitle:@"Profile"];
+    [self setTitle:self.userModel.realName];
     [userImage setImageWithURL:[NSURL URLWithString:self.userModel.image] placeholderImage:[UIImage imageNamed:@"photo_default.png"]];
     userImage.layer.masksToBounds = YES;
     userImage.layer.cornerRadius = 5.0;
@@ -334,7 +335,7 @@
         double ratio=(double) ( self.userModel.points- range_min)/(range_max-range_min);
         [self.pointProgressView setProgressTintColor:[ UIColor colorWithHexString:[self.userModel.level objectForKey:@"color"]]];
         [self.points setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
-        [points setText:[NSString stringWithFormat:@"%d", self.userModel.points]];
+        [completedLabel setText:[NSString stringWithFormat:@"(%0.0f%% completed)", ratio*100]];
         [self.level setText:[NSString stringWithFormat:@"%d", range_max]];
         [self.pointProgressView setProgress:ratio animated:TRUE];
         [minLabel setText:[NSString stringWithFormat:@"%d", range_min]];
@@ -388,6 +389,7 @@
     [self setMyNotifiticationView:nil];
     [self setMySharesView:nil];
     [self setMinLabel:nil];
+    [self setCompletedLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -446,7 +448,7 @@
             //sign out confirmed
         [[UserModel sharedUser] signOut];
         
-        LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        SelectSignInViewController *loginVC = [[SelectSignInViewController alloc] initWithNibName:@"SelectSignInViewController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc]
                                                         initWithRootViewController:loginVC];
         [navigationController.navigationBar setTintColor:kMainColor];

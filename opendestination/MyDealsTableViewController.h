@@ -19,7 +19,7 @@
     CustomBadge *badgeNext;
     CustomBadge *badgeRedeeming;
     TimeScroller *_timeScroller;
-    NSMutableArray * _opportunities;
+    NSMutableArray * _deals;
     NSMutableArray * _opportunities4;
     NSMutableArray * _opportunities24;
     ClusterMapViewController * map;

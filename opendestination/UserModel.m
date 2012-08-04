@@ -368,7 +368,7 @@ static UserModel * sharedInstance = nil;
 {
   if ( ( signedIn ) && (_userID > 0) ) {
     NSString * url = [NSString stringWithFormat:@"%@/user/get?destination_id=%d&uuid=%@&id=%d",
-                    [[Destination sharedInstance] destinationService], kDESTINATION_ID, udid, _userID];
+                    [[Destination sharedInstance] destinationService], _destinationID, udid, _userID];
     [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(setResponseUserData:) hudActivied:NO withString:nil];
     [self locate];
   }
@@ -379,7 +379,7 @@ static UserModel * sharedInstance = nil;
 {
   if ( ( signedIn ) && (_userID > 0) ) {
     NSString * ws = [NSString stringWithFormat:@"%@/user/setStatus?destination_id=%d&user_id=%d&uuid=%@&status=%d",
-                     [[Destination sharedInstance] destinationService], kDESTINATION_ID, _userID, udid, status];
+                     [[Destination sharedInstance] destinationService], _destinationID, _userID, udid, status];
     //[[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:ws forTarget:self action:@selector(checkResponse:) hudActivied:NO withString:nil];
     
     NSURL * url = [NSURL URLWithString:[[NSString stringWithString:ws] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -606,7 +606,8 @@ static UserModel * sharedInstance = nil;
         if ([(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 0)
         {
           deviceRegistered = YES;
-          if ( signedIn && guest )
+            //if the device is registered, and the user is not SIGN IN
+          if ( !signedIn && guest )
           {
             [self signIn];
           }

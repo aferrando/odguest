@@ -14,6 +14,7 @@
 #import "CPPickerView.h"
 #import "Destination.h"
 #import "DBSignupViewController.h"
+#import "GlobalConstants.h"
 
 @implementation LoginViewController
 
@@ -53,6 +54,7 @@ registerButton, anonymousButton;
     [registerButton setTitle:NSLocalizedString(@"registerBtnKey",@"Sign up") forState:UIControlStateNormal];
     [anonymousButton setTitle:NSLocalizedString(@"guestBtnKey",@"Enter as guest") forState:UIControlStateNormal];
     [destinationLabel setText:NSLocalizedString(@"selectDestinationKey", @"Select Destination")];
+    [destinationLabel setHidden:TRUE];
     // Initialize permissions
     permissions = [[NSArray alloc] initWithObjects:@"offline_access",@"email", nil];
     destinationsData = [[NSArray alloc] initWithObjects:@"Thyon", @"Lausanne", @"Diprotech", @"Test", @"Vail", @"Region X", @"Amusement", @"Post Reestructuració", @"Diprotech 2012", @"destination prova", @"Mountain", @"F.C. Barcelona", @"Costa Brava",@"Garrotxa", @"Engadin", @"Davos", @"Verbier", @"Vilanova",@"New vilanova", @"Vilafranca",@"UVIC",@"Anzère",@"Stop", @"Stop 2",  nil];
@@ -64,8 +66,20 @@ registerButton, anonymousButton;
     defaultPickerView.dataSource = self;
     defaultPickerView.delegate = self;
     [defaultPickerView reloadData];
-    [self.navigationItem setTitle:@"opendestination"];
-    [self.view addSubview:defaultPickerView];
+    [self.navigationItem setTitle:@"Welcome to"];
+    loginButton.layer.masksToBounds = YES;
+    loginButton.layer.cornerRadius = 5.0;
+    loginButton.layer.borderWidth = 0.5;
+    loginButton.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    [loginButton setTitle:NSLocalizedString(@"loginKey", @"Social Networks") forState:UIControlStateNormal];
+
+        //If the app is a traveller app we can select among multiple destinations
+    int traveller=kTraveller;
+    if (traveller==1) {
+        [self.view addSubview:defaultPickerView];
+        [destinationLabel setHidden:FALSE];
+    }
+     
 }
 
 
@@ -110,7 +124,7 @@ registerButton, anonymousButton;
     self.usernameTextField.text = userModel.userName;
   }
     defaultPickerView.selectedItem =    [[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]-26;
-
+    [self setTitleView];
   /*
   if ( userModel.userName )
   {
@@ -120,7 +134,30 @@ registerButton, anonymousButton;
   }
   */
 }
+-(void) setTitleView {
+    UIView *myView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 300, 30)]; 
+    UILabel *welcome = [[UILabel alloc] initWithFrame: CGRectMake(20, 0, 160, 10)];
+    UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(20, 10, 160, 20)];
+    
+    title.text = [[Destination sharedInstance] destinationName];
+    [title setTextColor:[UIColor whiteColor]];
+    [title setFont:[UIFont boldSystemFontOfSize:20.0]];
+    
+    welcome.text = NSLocalizedString(@"welcomeKey","");
+    [welcome setTextColor:[UIColor whiteColor]];
+    [welcome setFont:[UIFont boldSystemFontOfSize:10.0]];
+    
+    [title setBackgroundColor:[UIColor clearColor]];
+    [welcome setBackgroundColor:[UIColor clearColor]];
+    [title setTextAlignment:UITextAlignmentCenter];  
+    [welcome setTextAlignment:UITextAlignmentCenter];  
+    [myView addSubview:welcome];
+    [myView addSubview:title];
+    [myView setBackgroundColor:[UIColor  clearColor]];
+        //   [myView addSubview:myImageView];
+    self.navigationItem.titleView = myView;
 
+}
 - (void) viewWillDisappear:(BOOL)animated
 {
   [super viewWillDisappear:YES];

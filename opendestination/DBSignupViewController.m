@@ -9,6 +9,8 @@
 #import "DBSignupViewController.h"
 #import "UserModel.h"
 #import "YRDropdownView.h"
+#import "LoginViewController.h"
+#import "Destination.h"
 
     // Safe releases
 #define RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
@@ -28,6 +30,7 @@
 @synthesize phoneTextField = phoneTextField_;
 @synthesize photoButton = photoButton_;
 @synthesize termsTextView = termsTextView_;
+@synthesize signupButton;
 
 @synthesize emailLabel = emailLabel_;
 @synthesize passwordLabel = passwordLabel_;
@@ -78,11 +81,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBarHidden = NO;
     
         // Signup button
 /*    UIBarButtonItem *signupBarItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"registerBtnKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(signup:)];
     self.navigationItem.rightBarButtonItem = signupBarItem;*/
-    
+    signupButton.layer.masksToBounds = YES;
+    signupButton.layer.cornerRadius = 5.0;
+    signupButton.layer.borderWidth = 0.5;
+    signupButton.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    [signupButton setTitle:NSLocalizedString(@"signUpKey", @"Social Networks") forState:UIControlStateNormal];
+
         // Birthday date picker
     if (self.birthdayDatePicker == nil) {
         self.birthdayDatePicker = [[UIDatePicker alloc] init];
@@ -162,6 +171,7 @@
 
 - (void)viewDidUnload
 {
+    [self setSignupButton:nil];
     [super viewDidUnload];
         // Release any retained subviews of the main view.
         // e.g. self.myOutlet = nil;
@@ -172,7 +182,40 @@
         // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
+- (void) viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
+    [self setTitleView];
+}
+-(void) setTitleView {
+    UIView *myView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 300, 30)]; 
+    UILabel *welcome = [[UILabel alloc] initWithFrame: CGRectMake(20, 0, 160, 10)];
+    UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(20, 10, 160, 20)];
+    UILabel *steps = [[UILabel alloc] initWithFrame: CGRectMake(200, 5, 80, 20)];
+    
+    title.text = [[Destination sharedInstance] destinationName];
+    [title setTextColor:[UIColor whiteColor]];
+    [title setFont:[UIFont boldSystemFontOfSize:20.0]];
+    
+    welcome.text = NSLocalizedString(@"welcomeKey","");
+    [welcome setTextColor:[UIColor whiteColor]];
+    [welcome setFont:[UIFont boldSystemFontOfSize:10.0]];
+    steps.text = NSLocalizedString(@"1of2Key","");
+    [steps setTextColor:[UIColor whiteColor]];
+    [steps setFont:[UIFont boldSystemFontOfSize:14.0]];
+    
+    [steps setBackgroundColor:[UIColor clearColor]];
+    [title setBackgroundColor:[UIColor clearColor]];
+    [welcome setBackgroundColor:[UIColor clearColor]];
+    [title setTextAlignment:UITextAlignmentCenter];  
+    [welcome setTextAlignment:UITextAlignmentCenter];  
+    [myView addSubview:welcome];
+    [myView addSubview:title];
+    [myView addSubview:steps];
+    [myView setBackgroundColor:[UIColor  clearColor]];
+        //   [myView addSubview:myImageView];
+    self.navigationItem.titleView = myView;
+    
+}
 
 #pragma mark - IBActions
 
@@ -228,17 +271,25 @@
      delegate:self
      cancelButtonTitle:NSLocalizedString(@"OkBtnKey", @"Ok")
      otherButtonTitles:nil] show]; //TODO: Language;*/
-    [YRDropdownView showDropdownInView:self.view
+    [YRDropdownView showDropdownInView:self.navigationController.view
                                  title:@"Important" 
                                 detail:NSLocalizedString(@"userCreatedTitleKey", @"User created !")
                                  image:nil
                               animated:YES
                              hideAfter:3.0 type:1];
-    [[NSNotificationCenter defaultCenter] addObserver:self
+    UserModel *user=[UserModel sharedUser];
+    user.userName=self.emailTextField.text;
+    NSLog(@"username:%@", [[UserModel sharedUser] userName]);
+    LoginViewController *loginVC =[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    
+    [self.navigationController pushViewController:loginVC animated:TRUE];
+
+        /*  [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userDataWasUpdated)
                                                  name:(NSString *)kUserUpdatedNotification
                                                object:userModel];
    
+    */
     
     
     
@@ -262,14 +313,14 @@
         {
         if (([self.emailTextField.text rangeOfString:@"."].location != NSNotFound ) && 
             ([self.emailTextField.text rangeOfString:@"@"].location != NSNotFound )){
-            [self addObserver];
+            [self addObserver]; 
             userModel.userName = self.emailTextField.text;
             userModel.password = self.passwordTextField.text;
             userModel.realName = self.nameTextField.text;
             userModel.birthDate = self.birthday;
             userModel.Gender=self.gender;
             [userModel signUp];
-             [userModel signIn];
+         
         }
         else {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WrongEmailTitleKey", @"") 

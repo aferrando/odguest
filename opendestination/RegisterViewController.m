@@ -61,7 +61,9 @@
 {
   [super viewDidUnload];
 }
-
+- (void) viewWillAppear:(BOOL)animated {
+    [self.navigationController.navigationBar setHidden:NO];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -136,7 +138,7 @@
                               delegate:self
                      cancelButtonTitle:NSLocalizedString(@"OkBtnKey", @"Ok")
                      otherButtonTitles:nil] show]; //TODO: Language;*/
-    [YRDropdownView showDropdownInView:self.modalViewController.view
+    [YRDropdownView showDropdownInView:self.view
                                  title:@"Important" 
                                 detail:NSLocalizedString(@"userCreatedTitleKey", @"User created !")
                                  image:nil

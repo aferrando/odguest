@@ -50,6 +50,7 @@
 @property(nonatomic) IBOutlet UIButton *photoButton;
 @property(nonatomic) IBOutlet UITextView *termsTextView;
 
+@property (strong, nonatomic) IBOutlet UIButton *signupButton;
 @property(nonatomic) IBOutlet UILabel *emailLabel;
 @property(nonatomic) IBOutlet UILabel *passwordLabel;
 @property(nonatomic) IBOutlet UILabel *birthdayLabel;
