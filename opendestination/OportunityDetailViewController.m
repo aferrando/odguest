@@ -18,14 +18,20 @@
 #import "GlobalConstants.h"
 #import "AwesomeMenu.h"
 #import "Destination.h"
+#import "PopUpViewController.h"
+#import "UIViewController+MJPopupViewController.h"
+#import "SHK.h"
+#import "SelectSignInViewController.h"
+
 @implementation OportunityDetailViewController
 @synthesize bookNowButton;
 @synthesize walkinButton;
 @synthesize walkinLabel;
 @synthesize waitingIndicator;
 @synthesize waitingLabel;
-@synthesize waitingView;
 @synthesize priceLabel;
+@synthesize alert;
+@synthesize detailViewController;
 
 @synthesize opportunity = _opportunity;
 @synthesize imageView = _imageView;
@@ -67,59 +73,104 @@
     [super viewDidLoad];
     [self.scrollView addSubview:self.contentView];
     self.scrollView.contentSize = self.contentView.bounds.size;
-    
+        //   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showReservationCode) name:(NSString *)kOpportunityUpdatedNotification object:_opportunity];
+
         //[self.backButton setHidden:NO];
-    [(RootViewController *)[self.view.window rootViewController] tabBarHidden:YES];
+        //  [(RootViewController *)[self.view.window rootViewController] tabBarHidden:YES];
+     
+    
+    
+}
+- (void) viewWillAppear:(BOOL)animated  {
     _imageView.layer.masksToBounds = YES;
     _imageView.layer.cornerRadius = 5.0;
-    _imageView.layer.borderWidth = 1.5;
-    _imageView.layer.borderColor = [[UIColor whiteColor] CGColor];
+        //  _imageView.layer.borderWidth = 1.5;
+        // _imageView.layer.borderColor = [[UIColor whiteColor] CGColor];
+    yesnoVIew.layer.masksToBounds = YES;
+    yesnoVIew.layer.cornerRadius = 5.0;
+        // yesnoVIew.layer.borderWidth = 1.5;
+        //yesnoVIew.layer.borderColor = [[UIColor whiteColor] CGColor];
     _ownerImage.layer.masksToBounds = YES;
     _ownerImage.layer.cornerRadius = 5.0;
-    _ownerImage.layer.borderWidth = 0.5;
-    _ownerImage.layer.borderColor = [[UIColor whiteColor] CGColor];
+        //  _ownerImage.layer.borderWidth = 0.5;
+        //_ownerImage.layer.borderColor = [[UIColor whiteColor] CGColor];
+    confirmationButton.layer.masksToBounds = YES;
+    confirmationButton.layer.cornerRadius = 5.0;
+    confirmationButton.layer.borderWidth = 1;
+     reservationMessage.text=NSLocalizedString(@"confirmationCodeKey", @"ADD TO DO");
+    confirmationButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     descriptionBackgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
     buttonBackgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+    yesnoVIew.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"black_gradient.png"]];
     descriptionBackgroundView.layer.masksToBounds = YES;
     descriptionBackgroundView.layer.cornerRadius = 5.0;
     descriptionBackgroundView.layer.borderWidth = 1.5;
     descriptionBackgroundView.layer.borderColor = [[UIColor whiteColor] CGColor];
     pointsLabel.text=[NSString stringWithFormat:@"%d",[[Destination sharedInstance] getValueFrom:@"interested"]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSpin) name:SDWebImageDownloadStartNotification object:nil];
-    if ( self.opportunity ) [self reload];
+        //   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSpin) name:SDWebImageDownloadStartNotification object:nil];
+        //   if ( self.opportunity ) [self reload];
         // [interestedButton setTitle:NSLocalizedString(@"interestedBtnKey", @"Add to my deals") forState:UIControlStateNormal];
         // [notInterestedButton setTitle:NSLocalizedString(@"notInterestedBtnKey", @"NotInterested") forState:UIControlStateNormal];
+     
+    [self refreshOpportunity];
+}
+- (void) refreshOpportunity {
+        // NSLog(@"Confirmation code: %d status:%@", self.opportunity.confirmationCode, self.opportunity.status);
+[detailViewController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+   descriptionTextField.text = self.opportunity.description;
+    if (descriptionTextField.frame.size.height==24) {
+     CGRect frame = descriptionTextField.frame;
+    frame.size.height = descriptionTextField.contentSize.height;
+    NSLog(@"height = %0.2f", frame.size.height);
+    descriptionTextField.frame = frame;
+        //background
+    CGRect frameBackground = descriptionBackgroundView.frame;
+   frameBackground.size.height = frame.size.height+frameBackground.size.height;
+    descriptionBackgroundView.frame=frameBackground;
+        //contentview
+    CGRect frameContent = contentView.frame;
+    frameContent.size.height =frameContent.size.height+ frame.size.height;
+    contentView.frame=frameContent;
+    [scrollView setContentSize:(CGSizeMake(320, frameContent.size.height+30))];
+    [scrollView setNeedsDisplay];
+    }
+    NSString *realname = (NSString *)[self.opportunity.owner objectForKey:@"real_name"];
+    if ([realname isEqualToString:@""] || [realname isEqualToString:@" "]) 
+        senderLabel.text= [self.opportunity.owner objectForKey:@"user_name"];
+    else 
+        senderLabel.text =  realname;
+    if ( [[self.opportunity.owner objectForKey:@"address"] isKindOfClass:[NSString class]] )
+        addressLabel.text = [self.opportunity.owner objectForKey:@"address"];
     
+        //TODO: if ( [[_opportunity._owner objectForKey:@"phone"] isKindOfClass:[NSString class]] )
+    [self.imageView setImageWithURL:[NSURL URLWithString:_opportunity.imageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
+    [self.ownerImage setImageWithURL:[NSURL URLWithString:_opportunity.ownerImageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
+    reservationBarView.hidden=YES;
+    confirmationView.hidden=YES;
+    redeemBarVIew.hidden=YES;
+    likeBarView.hidden=YES;
+    commentBarView.hidden=YES;
+    _checkedImageView.hidden=YES;
+  
 #warning Replace Event by Reservation
     if ( [self.opportunity.type isEqualToString: @"event"] ){
         bookNowButton.layer.masksToBounds = YES;
         bookNowButton.layer.cornerRadius = 5.0;
         bookNowButton.layer.borderWidth = 0.5;
         if (self.opportunity.status == OpportunityStatusWalkin){
-            reservationBarView.hidden=YES;
-            waitingView.hidden=NO;
+            confirmationView.hidden=NO;
+            confirmationLabel.text=[NSString stringWithFormat:@"%d",_opportunity.confirmationCode];
         }
         else {
             reservationBarView.hidden=NO;
-            waitingView.hidden=YES;
         }
-        redeemBarVIew.hidden=YES;
-        likeBarView.hidden=YES;
     }
-    _checkedImageView.hidden=YES;
-    commentBarView.hidden=YES;
     if ([self.opportunity.type isEqualToString:@"deal"]){
-        redeemBarVIew.hidden=NO;
-        likeBarView.hidden=YES;
-        reservationBarView.hidden=YES;
-        walkinButton.layer.masksToBounds = YES;
         if (self.opportunity.status == OpportunityStatusWalkin){
-            redeemBarVIew.hidden=YES;
             waitingView.hidden=NO;
         }
         else {
             redeemBarVIew.hidden=NO;
-            waitingView.hidden=YES;
         }
         walkinButton.layer.cornerRadius = 5.0;
         walkinButton.layer.borderWidth = 0.5;
@@ -139,9 +190,7 @@
         }
     }
     if ([self.opportunity.type isEqualToString:@"info"]){
-        redeemBarVIew.hidden=YES;
         likeBarView.hidden=NO;
-        reservationBarView.hidden=YES;
     }
     UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
     navLabel.backgroundColor = [UIColor clearColor];
@@ -185,10 +234,7 @@
         
     }
     
-    
-    
 }
-
 - (void)sendEasyTweet:(id)sender {
         // Set up the built-in twitter composition view controller.
     TWTweetComposeViewController *tweetViewController = [[TWTweetComposeViewController alloc] init];
@@ -269,8 +315,14 @@
     [self setWalkinLabel:nil];
     [self setWaitingIndicator:nil];
     [self setWaitingLabel:nil];
-    [self setWaitingView:nil];
     [self setPriceLabel:nil];
+    waitingView = nil;
+    confirmationView = nil;
+    confirmationLabel = nil;
+    confirmationButton = nil;
+    reservationMessage = nil;
+    shareButton = nil;
+    yesnoVIew = nil;
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SDWebImageDownloadStartNotification object:nil];
 }
@@ -280,13 +332,16 @@
 
 - (void) setOpportunity:(OpportunityModel *)opportunity
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+        //  [[NSNotificationCenter defaultCenter] removeObserver:self];
     _opportunity = nil;
     _opportunity = opportunity;
-    [[NSNotificationCenter defaultCenter] addObserver:self
+    [self reload];
+        /*    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reload)
                                                  name:(NSString *)kOpportunityUpdatedNotification
                                                object:self.opportunity];
+     [self refreshOpportunity];
+*/
 }
 
 
@@ -308,11 +363,28 @@
 - (IBAction) goBack {
     [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
 }
+-(void) finishedReservation {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:(NSString *)kOpportunityUpdatedNotification object:self.opportunity];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshOpportunity) name:(NSString *)kOpportunityUpdatedNotification object:self.opportunity];
 
+    [self.opportunity reload];
+}    
+    
+-(void) showReservationCode2 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:(NSString *)kOpportunityUpdatedNotification object:_opportunity];
+   
+    detailViewController = [[PopUpViewController alloc] initWithNibName:@"PopUpViewController" bundle:nil];
+    detailViewController.opportunity=_opportunity;
+    
+    [self presentPopupViewController:detailViewController animationType:3];
+
+    
+}
 - (void) reload
 {
-    self.title = [_opportunity.name capitalizedString];
-    
+   self.title = [_opportunity.name capitalizedString];
+    NSLog(@"Confirmation code: %d", _opportunity.confirmationCode);
         // [self setTitleLabelForHeader];
     [self.interestedLbl setText:[NSString stringWithFormat:@"%d", _opportunity.numInterests]];
     [self.notInterestedLbl setText:[NSString stringWithFormat:@"%d", _opportunity.numNotInterests]];
@@ -329,8 +401,9 @@
         //TODO: if ( [[_opportunity._owner objectForKey:@"phone"] isKindOfClass:[NSString class]] )
     [self.imageView setImageWithURL:[NSURL URLWithString:_opportunity.imageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
     [self.ownerImage setImageWithURL:[NSURL URLWithString:_opportunity.ownerImageURL] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
-    [self.view setNeedsDisplay];
-    [self updateButtonTittle];
+        //   [self.view setNeedsDisplay];
+        //    [self updateButtonTittle];
+        //    [self refreshOpportunity];
 }
 
 - (void)animateSnapshotOfView:(UIView *)view toTab:(UIViewController *)navController
@@ -386,23 +459,50 @@
 }
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (actionSheet.tag) {
+        case 0:{
+            if (buttonIndex == 0)
+                {
+                NSLog(@"ok");
+                    //   [[UserModel sharedUser] signOut];
+                    //  [self.navigationController popToRootViewControllerAnimated:YES];
+                
+                
+                [self showLogin];
+                }
+            else
+                {
+                NSLog(@"cancel");
+                }
+
+        }
+            
+        case 1:{
+            if (buttonIndex == 0)
+                {
+                NSLog(@"ok");
+                actionSheet.hidden=YES;
+                    //   [[UserModel sharedUser] signOut];
+                    //  [self.navigationController popToRootViewControllerAnimated:YES];
+                
+                [self.opportunity doReservation];
+
+                }
+            else
+                {
+                NSLog(@"cancel");
+                }
+            
+        }         break;
+            
+        default:
+            break;
+    }
         // the user clicked one of the OK/Cancel buttons
-    if (buttonIndex == 0)
-        {
-        NSLog(@"ok");
-            //   [[UserModel sharedUser] signOut];
-            //  [self.navigationController popToRootViewControllerAnimated:YES];
-        
-        
-        [self showLogin];
-        }
-    else
-        {
-        NSLog(@"cancel");
-        }
-}
+   }
 -(void) showLogin {
-    LoginViewController *vc = [[LoginViewController alloc] init];
+    SelectSignInViewController *vc = [[SelectSignInViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:vc];
     [navigationController.navigationBar setTintColor:kMainColor];
@@ -421,26 +521,26 @@
          [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
         
             //  UIAlertView *alert= [UIAlertView
-        UIAlertView *alert = [[UIAlertView alloc] init];
-        [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
-        [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
-        [alert setDelegate:self];
-        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
-        [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
-        [alert show];
+        UIAlertView *alert2 = [[UIAlertView alloc] init];
+        [alert2 setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
+        [alert2 setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+        [alert2 setDelegate:self];
+        [alert2 addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
+        [alert2 addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
+        [alert2 show];
         
         /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
          [self showLogin];
          }];*/
-        [alert show];
+        [alert2 show];
         }
     else
         {
         
         [self.opportunity setInterested];
-        [likeBarView setHidden:YES];
+  /*      [likeBarView setHidden:YES];
         [redeemBarVIew setHidden:YES];
-        [commentBarView setHidden:FALSE];
+        [commentBarView setHidden:FALSE];*/
             //      sleep(2);
         [YRDropdownView showDropdownInView:[self.view.window rootViewController].view
                                      title:@"Congrats!" 
@@ -450,8 +550,9 @@
                                  hideAfter:2.0
                                       type:1];
             // [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-        [self animateSnapshotOfView:self.imageView toTab:self.navigationController];
+     /*   [self.navigationController popToRootViewControllerAnimated:YES];
+        [self animateSnapshotOfView:self.imageView toTab:self.navigationController];*/
+        
         
         }
     
@@ -481,13 +582,13 @@
          [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
         
             //  UIAlertView *alert= [UIAlertView
-        UIAlertView *alert = [[UIAlertView alloc] init];
-        [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
-        [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
-        [alert setDelegate:self];
-        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
-        [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
-        [alert show];
+        UIAlertView *alert2 = [[UIAlertView alloc] init];
+        [alert2 setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
+        [alert2 setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+        [alert2 setDelegate:self];
+        [alert2 addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
+        [alert2 addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
+        [alert2 show];
         
         /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
          [self showLogin];
@@ -497,7 +598,7 @@
     else
         {
         [self.opportunity setNotInterested];
-        [self.navigationController popViewControllerAnimated:YES];
+            //   [self.navigationController popViewControllerAnimated:YES];
         }
     
 }
@@ -505,7 +606,7 @@
 
 - (void) updateButtonTittle
 {
-    switch (self.opportunity.status)
+ /*   switch (self.opportunity.status)
     {
         case OpportunityStatusPendant:
         [likeBarView setHidden:NO];
@@ -525,12 +626,40 @@
             [interestedButton setTitle:NSLocalizedString(@"syncAgendaKey",@"") forState:UIControlStateNormal];
         }
         break;
+        case OpportunityStatusWalkin:
+            //  [likeBarView setHidden:NO];
+            //  [redeemBarVIew setHidden:NO];
+        [waitingView setHidden:NO];
+        [commentBarView setHidden:YES];
+            // [interestedButton setHidden:NO];
+        if ( [self.opportunity.type isEqualToString: @"event"] ){
+            [waitingLabel setText:NSLocalizedString(@"syncAgendaKey",@"")];
+        }
+        break;
         default:
         [likeBarView setHidden:YES];
         [redeemBarVIew setHidden:YES];
         [commentBarView setHidden:FALSE];
         break;
-    }
+    }*/
+}
+
+- (IBAction)shareBtnPressed:(id)sender {
+    
+    
+        //Applying ShareKit 
+        // Create the item to share (in this example, a url)
+	NSURL *url = [NSURL URLWithString:@"http://www.opendestination.com"];
+        	SHKItem *item = [SHKItem URL:url title:_opportunity.title];
+    item.image=_imageView.image;
+    item.facebookURLSharePictureURI=_opportunity.imageURL;
+    
+    
+        // Get the ShareKit action sheet
+        	SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+    
+        // Display the action sheet
+        	[actionSheet showFromToolbar: self.navigationController.toolbar];
 }
 
 - (IBAction)redeemBtnPressed:(id)sender {
@@ -565,18 +694,24 @@
 - (IBAction)booknowBtnPressed:(id)sender {
     if (  [(UserModel *)[UserModel sharedUser] isGuest]  )
         {
-        /*   BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
+          alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
          
-         [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
+        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign In") block:^{
+                // Do something or nothing.... This block can even be nil!
+            [self showLogin];
+            
+        }];
+        [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];
         
             //  UIAlertView *alert= [UIAlertView
-        UIAlertView *alert = [[UIAlertView alloc] init];
+      /*  UIAlertView *alert = [[UIAlertView alloc] init];
+        [alert setTag:0];
         [alert setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
         [alert setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
         [alert setDelegate:self];
         [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in")];
         [alert addButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel")];
-        [alert show];
+        [alert show];*/
         
         /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
          [self showLogin];
@@ -585,29 +720,31 @@
         }
     else
         {
-        [self.opportunity setWalkin];
-        }
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(finishedReservation)
+                                                     name:(NSString *)kOpportunityUpdatedNotification
+                                                   object:self.opportunity];
+        alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"alertTitleKey",@"Alert") message:NSLocalizedString(@"bookingQuestionKey",@"Must be registered to set your deals and add points to your profile")];
+            // [alert set:FALSE];
+        
+         [alert addButtonWithTitle:NSLocalizedString(@"bookBtnKey",@"Sign in") block:^{
+                // Do something or nothing.... This block can even be nil!
+            [self doReservation ];
+            
+        }];
+        [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey","")  block:nil];
+        [alert show];
+         }
 }
-
-- (IBAction)bookBtnPresesd:(id)sender {
+- (void) doReservation {
+        //  [alert d
+    detailViewController = [[PopUpViewController alloc] initWithNibName:@"PopUpViewController" bundle:nil];
+    detailViewController.opportunity=_opportunity;
+    
+    [self presentPopupViewController:detailViewController animationType:3];
+  [self.opportunity doReservation ];
+    
 }
-/*
- - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
- {
- if (buttonIndex == 0)
- {
- // No, do something
- }
- else if (buttonIndex == 1)
- {
- //SHow alert explaining the process
- [redeemBtn setEnabled:FALSE];
- [self.opportunity setWalkin];
- [redeemBtn setTitle:NSLocalizedString(@"ValidatingKey",@"validating..!") forState:UIControlStateNormal];
- [redeemBtn setImage:[UIImage imageNamed:@"34-coffee.png"] forState:UIControlStateNormal];
- }
- }
- */
 
 - (void) showPoints
 {

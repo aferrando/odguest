@@ -39,7 +39,7 @@
 @property ( nonatomic ) NSDictionary * dataDict;
 @property ( nonatomic ) CategoryModel * category;
 @property ( nonatomic ) ClusterMapViewController * map;
-@property (strong, nonatomic) MGTileMenuController *tileController;
+    //@property (strong, nonatomic) MGTileMenuController *tileController;
 - (IBAction) showMapLocation;
 
 - (void) refresh;

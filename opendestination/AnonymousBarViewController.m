@@ -7,7 +7,7 @@
 //
 
 #import "AnonymousBarViewController.h"
-#import "LoginViewController.h"
+#import "SelectSignInViewController.h"
 #import "GlobalConstants.h"
 
 @interface AnonymousBarViewController ()
@@ -48,7 +48,7 @@
 }
 
 - (IBAction)signInBtnPressed:(id)sender {
-    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    SelectSignInViewController *loginVC = [[SelectSignInViewController alloc] initWithNibName:@"SelectSignInViewController" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:loginVC];
     [navigationController.navigationBar setTintColor:kMainColor];

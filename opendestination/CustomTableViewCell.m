@@ -239,7 +239,7 @@
         }
     }
     
-    if (opportunity.status == OpportunityStatusWalkin) {
+   /* if (opportunity.status == OpportunityStatusWalkin) {
         UIView * coverView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 80)];
         [coverView setBackgroundColor:[UIColor blackColor]];
         [coverView setAlpha:0.5];
@@ -267,7 +267,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.alpha=0.2;
         
-    }
+    }*/
     [self.contentView addSubview:content];
     [[dict objectForKey:@"textLabel"] setText:[opportunity name]];
     NSTimeInterval timeInSeconds = [[opportunity endDate] timeIntervalSinceDate:[opportunity startDate]];

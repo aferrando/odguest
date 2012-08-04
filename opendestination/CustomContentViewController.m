@@ -23,6 +23,8 @@
 #import "ProfileBarViewController.h"
 #import "AnonymousBarViewController.h"
 
+#import "PistePlanViewController.h"
+
 @implementation CustomContentViewController
 
 @synthesize headerBackgroundImage, customView, titleLabel,
@@ -30,6 +32,7 @@ backButton, notificationsButton, transition,
 pageControl, customBadge,  progressView, anonymousBar;
 @synthesize category = _category;
 @synthesize userModel = _userModel;
+@synthesize destination = _destination;
     //@synthesize tileController;
 @synthesize menuButton = _menuButton;
 
@@ -47,7 +50,7 @@ pageControl, customBadge,  progressView, anonymousBar;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+        //   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning{
@@ -59,13 +62,13 @@ pageControl, customBadge,  progressView, anonymousBar;
 - (void) setCategory:(CategoryModel *)category {
    /* _category=category;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:(NSString *)kCategoryUpdatedNotification object:_category];*/
-      [[NSNotificationCenter defaultCenter] removeObserver:self name:kCategoryUpdatedNotification object:_category];
-     _category = nil;
+        //  [[NSNotificationCenter defaultCenter] removeObserver:self name:kCategoryUpdatedNotification object:_category];
+          _category = nil;
      if (category) {
      _category = category;
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:(NSString *)kCategoryUpdatedNotification object:self.category];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:(NSString *)kCategoryUpdatedNotification object:_category];
          [self.category reload];
-     }
+         }
 }
 
 #pragma mark -
@@ -90,13 +93,15 @@ pageControl, customBadge,  progressView, anonymousBar;
     self.userModel=[UserModel sharedUser];
         // [self setCategory:[[CategoryModel alloc] initWithId:0]];
         //  [self.category reload];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:(NSString *)kCategoryUpdatedNotification object:_category];
+    [self.category reload];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadUser)
                                                  name:kUserUpdatedNotification
                                                object:self.userModel];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTitleLabelForHeader) name:kDestinationDidUpdateNotification object:nil];
-        //   [[Destination sharedInstance] reload];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTitleLabelForHeader) name:kDestinationDidUpdateNotification object:_destination];
+       //   [[Destination sharedInstance] reload];
     
     customView.pagingEnabled = YES;
     customView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -199,6 +204,7 @@ pageControl, customBadge,  progressView, anonymousBar;
     
 }
 - (void) viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:(NSString *)kCategoryUpdatedNotification object:_category];
         // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:(NSString *)kCategoryUpdatedNotification object:_category];
     
         // [super viewWillAppear:animated];
@@ -245,7 +251,9 @@ pageControl, customBadge,  progressView, anonymousBar;
     
         //[self.view addSubview:profileBar.view];
     [self setTitleLabelForHeader];
-    [self reload];
+    [self.category reload];
+
+        //    [self reload];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -348,7 +356,7 @@ pageControl, customBadge,  progressView, anonymousBar;
             [self.navigationItem setTitle:self.category.name];
         }
     if (self.category.categoryID == 0) { 
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
+            //  [[NSNotificationCenter defaultCenter] removeObserver:self];
         
         UIView *myView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 300, 30)]; 
         UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(10, 0, 160, 30)];
@@ -410,16 +418,27 @@ pageControl, customBadge,  progressView, anonymousBar;
  
  }*/
 - (IBAction) buttonPressed:(id)sender {
+
     CategoryModel * cat = [self.category.sons objectAtIndex:(NSUInteger)[(UIButton *)sender tag]];
+        //Categories that require specific Controllers such as: PistePlan, Meteo and Snow conditions.
+#warning AddCode for the PistePlan
+    if ([cat.name isEqualToString:@"PistePlan"])
+        {
+        PistePlanViewController * piste = [[PistePlanViewController alloc] initWithNibName:@"PistePlanViewController" bundle:nil];
+            // [detail setCategory:cat];
+        piste.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentModalViewController:piste animated:YES];
+        
+        }
         //  UIViewController * vc = nil;
     if ( ( cat.numOpportunities > 0) && ([cat.sons count] > 0) ) {
         CustomContentViewController * detail = [[CustomContentViewController alloc] init];
         [detail setCategory:cat];
-        
         [self.navigationController pushViewController:detail animated:YES];
     } else if (cat.numOpportunities > 0 ) {
         OpportunitiesListViewController * detail = [[OpportunitiesListViewController alloc] init];
         [detail setCategory:cat];
+        detail.hidesBottomBarWhenPushed = YES;  
         
         [self.navigationController pushViewController:detail animated:YES];
     } else {
@@ -433,8 +452,8 @@ pageControl, customBadge,  progressView, anonymousBar;
  }*/
 
 - (void) update {
-    [self.category reload];
-        //  [self setTitleLabelForHeader];
+    [self setTitleLabelForHeader];
+   [self.category reload];
     
         // [self reload];
 }
@@ -474,14 +493,14 @@ pageControl, customBadge,  progressView, anonymousBar;
         for (NSUInteger i=0;i<[_category.sons count];i++) {
             CategoryModel *cat = [self.category.sons objectAtIndex:i];
             NSLog(@"%@",cat.name);
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0., 0., 70., 70.)];
-            UILabel *bdgt = [[UILabel alloc] initWithFrame:CGRectMake(0., 0., 30., 30.)];
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0., 0., kCategoryWidth, kCategoryHeigth)];
+                //  UILabel *bdgt = [[UILabel alloc] initWithFrame:CGRectMake(0., 0., 30., 30.)];
             UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0., 0., 98., 22.)];
             [btn setImageWithURL:[NSURL URLWithString:cat.iconURL] placeholderImage:[UIImage imageNamed:@"mistery_icon.png"]];
             [btn addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [btn setTag:(NSInteger)i];
-                //if the category has 0 opportunities set Enabled FALSE
-            if( cat.numOpportunities == 0) [btn setEnabled:false];
+                //if the category has 0 opportunities and is a FOLDER set Enabled FALSE
+            if( cat.numOpportunities == 0 && cat.folder) [btn setEnabled:false];
             [_categoriesButtons addObject:btn];
             CustomBadge *customBadge2 = [CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", cat.numOpportunities] 
                                                            withStringColor:[UIColor whiteColor] 
@@ -498,7 +517,7 @@ pageControl, customBadge,  progressView, anonymousBar;
                                                                                  withScale:1.0
                                                                                withShining:NO];
             
-            [customBadge2 setFrame:CGRectMake(230, 25, customBadge2.frame.size.width, customBadge2.frame.size.height)];
+            [customBadge2 setFrame:CGRectMake(210, 25, customBadge2.frame.size.width, customBadge2.frame.size.height)];
             
             
                 // Add Badges to View
@@ -520,18 +539,19 @@ pageControl, customBadge,  progressView, anonymousBar;
              [bdgt setBackgroundColor:[UIColor darkGrayColor]];
              [bdgt setTextColor:[UIColor lightGrayColor]];
              }*/
-            [_categoriesBadgets addObject:customBadge2];
+                //if (cat.folder)
+                [_categoriesBadgets addObject:customBadge2];
             [lbl setBackgroundColor:[UIColor clearColor]];
-            [lbl setTextColor:[UIColor whiteColor]];
+            [lbl setTextColor:kCategoryTextColor];
             [lbl setShadowColor:[UIColor blackColor]];
             
-            [lbl setFont:[UIFont systemFontOfSize:12]];
-            [lbl setMinimumFontSize:12];
+            [lbl setFont:[UIFont systemFontOfSize:kCategoryFontSize]];
+            [lbl setMinimumFontSize:kCategoryFontSize];
             [lbl setTextAlignment:UITextAlignmentCenter];
             [lbl setText:cat.name];
             [lbl setTag:(NSInteger)i];
                 //if the category has 0 opportunities set Enabled FALSE
-            if( cat.numOpportunities == 0) [lbl setTextColor:[UIColor grayColor]];
+            if( cat.numOpportunities == 0 && cat.folder) [lbl setTextColor:[UIColor grayColor]];
             [_categoriesLabels addObject:lbl];
         }
         [self showCategories];
@@ -589,7 +609,7 @@ pageControl, customBadge,  progressView, anonymousBar;
          nn = [_categoriesButtons count]+1;
          
          } */
-        pageControl.numberOfPages = ((nn)/9);
+        pageControl.numberOfPages = ((nn)/kCategoryMaxPerPage);
         pageControl.currentPage = 0;
         NSLog(@"Categories:%d, Num of pages:%u",nn, pageControl.numberOfPages);
         customView.contentSize = CGSizeMake(self.view.frame.size.width * pageControl.numberOfPages, self.view.frame.size.height-20);
@@ -599,7 +619,7 @@ pageControl, customBadge,  progressView, anonymousBar;
         CGFloat row_max = 1.0;
         CGFloat inset = 0;
         CGFloat w = self.view.frame.size.width;
-        CGFloat h = self.view.frame.size.height - 50;
+        CGFloat h = self.view.frame.size.height - kCategoryFooterMargin ;
         CGFloat row_width = 0.0;
         CGFloat row_height = 0.0;
         if (nn>9) n=9;
@@ -749,14 +769,17 @@ pageControl, customBadge,  progressView, anonymousBar;
              }
              }*/
             else {
+                CategoryModel *cat = [self.category.sons objectAtIndex:i];
                 UIButton * btn = [_categoriesButtons objectAtIndex:i];
                 UIButton * bdgt = [_categoriesBadgets objectAtIndex:i];
                 UIButton * lbl = [_categoriesLabels objectAtIndex:i];
                 btn.center = CGPointMake(floorf((row*row_width)-(row_width/2.0))+(320*(i/9)),floorf(inset+((line*row_height)-(row_height/2))));
                 bdgt.center = CGPointMake(btn.frame.origin.x + btn.frame.size.width,btn.frame.origin.y );
-                lbl.center = CGPointMake(btn.center.x, btn.center.y + btn.frame.size.height/2.0 + 4 + 11);
+                lbl.center = CGPointMake(btn.center.x, btn.center.y + btn.frame.size.height/2.0 + 11);
                 [customView addSubview:btn];
+                if (cat.folder ){
                 [customView addSubview:bdgt];
+                }
                 [customView addSubview:lbl];
             }
             row=row+1.0;
@@ -802,13 +825,15 @@ pageControl, customBadge,  progressView, anonymousBar;
         }
         }
     if (![self.userModel isGuest]){
+    
         UITabBarItem *mapTabBarItem= [[((UITabBarController *)[self.view.window rootViewController]).tabBar items] objectAtIndex:1]; // I want to desable the second tab for example (index 1)
         UITabBarItem *mapTabBarItem2= [[((UITabBarController *)[self.view.window rootViewController]).tabBar items] objectAtIndex:2]; // I want to desable  
         [mapTabBarItem setEnabled:YES];
         [mapTabBarItem2 setEnabled:YES];
         [mapTabBarItem2 setTitle:[self.userModel realName]];
+        ((UITabBarController *)[self.view.window rootViewController]).hidesBottomBarWhenPushed=TRUE;
     }
-    
+ 
 }
 /*
  -(void) showMenu {

@@ -26,7 +26,7 @@
 @synthesize category;
 @synthesize dataDict = _dataDict;
 @synthesize tableViewController = _tableViewController;
-@synthesize tileController;
+    //@synthesize tileController;
 @synthesize map;
 static NSString *CellClassName = @"CellViewController";
 
@@ -74,7 +74,7 @@ static NSString *CellClassName = @"CellViewController";
     [self.tableViewController.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableViewController.tableView setBackgroundColor:[UIColor clearColor]];
     self.tableViewController.clearsSelectionOnViewWillAppear = YES;
-    [self.tableViewController.tableView setFrame:CGRectMake(0, 0., 320, 390)];
+    [self.tableViewController.tableView setFrame:CGRectMake(0, 0., 320, 420)];
     //Trying MGTileMenu
 /*    menuButton = [[UIButton alloc] initWithFrame:CGRectMake(20., 398., 52, 52)];
     [menuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
@@ -100,7 +100,7 @@ static NSString *CellClassName = @"CellViewController";
 }
 -(void) showMenu {
     // If there isn't already a visible TileMenu, we should create one if necessary, and show it.
-    if (!tileController || tileController.isVisible == NO) {
+/*    if (!tileController || tileController.isVisible == NO) {
         if (!tileController) {
             // Create a tileController.
             tileController = [[MGTileMenuController alloc] initWithDelegate:self];
@@ -110,7 +110,7 @@ static NSString *CellClassName = @"CellViewController";
         [tileController displayMenuCenteredOnPoint:CGPointMake(160, 470) inView:self.view];
         
             //    [menuButton setHidden:TRUE];
-    }
+    }*/
 }
 
 
@@ -520,7 +520,7 @@ static NSString *CellClassName = @"CellViewController";
     [self presentModalViewController:map animated:YES];
 }
 
-
+/*
 #pragma mark - TileMenu delegate
 
 
@@ -655,7 +655,7 @@ static NSString *CellClassName = @"CellViewController";
 {
 	tileController = nil;
         //   [menuButton setHidden:FALSE];
-}
+}*/
 #pragma mark SlidingTabsControl Delegate
 - (UILabel*) labelFor:(SlidingTabsControl*)slidingTabsControl atIndex:(NSUInteger)tabIndex;
 {

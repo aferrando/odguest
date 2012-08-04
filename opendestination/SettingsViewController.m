@@ -262,9 +262,9 @@
 {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [YRDropdownView showDropdownInView:self.view
+    [YRDropdownView showDropdownInView:self.navigationController.view
                                  title:@"Important" 
-                                detail:NSLocalizedString(@"userCreatedTitleKey", @"User created !")
+                                detail:NSLocalizedString(@"userUpdatedTitleKey", @"User created !")
                                  image:nil
                               animated:YES
                              hideAfter:3.0 type:1];

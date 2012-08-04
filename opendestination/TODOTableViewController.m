@@ -389,9 +389,9 @@
         //    return nil;
     UITableViewCell *cell2 =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
     
-     // cell2.textLabel.text=NSLocalizedString(@"NothingPlannedKey", @"Nothing planned!!. Click to see options!");
-     cell2.textLabel.textColor=[UIColor whiteColor];
-     UIImageView *buttonView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,142,43.0f)];
+      cell2.textLabel.text=NSLocalizedString(@"NothingPlannedKey", @"Nothing planned!!. Click to see options!");
+     cell2.textLabel.textColor=[UIColor lightGrayColor];
+ /*    UIImageView *buttonView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,142,43.0f)];
      [buttonView setImage:[UIImage imageNamed:@"button_grey.png"]];
      //   [cell2.contentView addSubview:buttonView];
      UILabel *noPlansLabel=[[UILabel alloc] initWithFrame:CGRectMake(50,0.0,220,20)];
@@ -415,7 +415,7 @@
      [cell2 addSubview:btn];
      [cell2 addSubview:btn2];
      [cell2 addSubview:noPlansLabel];
-     [cell2 addSubview:orLabel];
+     [cell2 addSubview:orLabel];*/
      cell2.userInteractionEnabled = NO;
     return cell2;
     

@@ -34,6 +34,7 @@ IBOutlet UIButton *notificationsButton;
     BOOL pageControlUsed;
     AwesomeMenu *_menu;
     UserModel * _userModel;
+    Destination * _destination;
     UIProgressView *progressView;
     UIButton * menuButton;
 
@@ -52,6 +53,7 @@ IBOutlet UIButton *notificationsButton;
 @property ( nonatomic ) CategoryModel * category;
 @property ( nonatomic ) CustomBadge *customBadge;
 @property ( nonatomic ) UserModel * userModel; 
+@property ( nonatomic ) Destination * destination; 
 @property ( nonatomic ) UIProgressView * progressView; 
     //@property (strong, nonatomic) MGTileMenuController *tileController;
 @property (strong, nonatomic) UIButton *menuButton;

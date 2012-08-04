@@ -12,6 +12,9 @@
 #import <Twitter/Twitter.h>
 #import <Accounts/Accounts.h>
 #import "ClusterMapViewController.h"
+#import "BlockAlertView.h"
+#import "PopUpViewController.h"
+
 
 @class mapaViewController;
 @interface OportunityDetailViewController : UIViewController <UIAlertViewDelegate, MGTileMenuDelegate, UIScrollViewDelegate >
@@ -36,6 +39,7 @@
     IBOutlet UIView *commentBarView;
     IBOutlet UIView *contentView;
     IBOutlet UILabel *pointsFixedLabel;
+    IBOutlet UIView *yesnoVIew;
     IBOutlet UILabel *interestedLbl;
     IBOutlet UILabel *notInterestedLbl;
     IBOutlet UILabel *scoreValueLabel;
@@ -43,10 +47,18 @@
     IBOutlet UILabel *notInterestedKeyLabel;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIView *reservationBarView;
+    IBOutlet UIView *waitingView;
+    IBOutlet UIView *confirmationView;
+    IBOutlet UILabel *reservationMessage;
     __unsafe_unretained IBOutlet UIImageView *ownerImage;
+    IBOutlet UIButton *confirmationButton;
+    IBOutlet UILabel *confirmationLabel;
     __unsafe_unretained IBOutlet UILabel *timeLabel;
   ClusterMapViewController * map;
     __unsafe_unretained IBOutlet UIView *buttonBackgroundView;
+    IBOutlet UIButton *shareButton;
+    BlockAlertView *alert;
+    PopUpViewController *detailViewController;
 @private
   UIActivityIndicatorView * _spin;
 }
@@ -62,8 +74,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *walkinLabel;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *waitingIndicator;
 @property (strong, nonatomic) IBOutlet UILabel *waitingLabel;
-@property (strong, nonatomic) IBOutlet UIView *waitingView;
 @property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+@property (strong, nonatomic) BlockAlertView *alert;
+@property (strong, nonatomic) PopUpViewController *detailViewController;
 
 @property (strong, nonatomic) MGTileMenuController *tileController;
 - (IBAction) interestedButtonPressed:(id)sender;
@@ -75,6 +88,7 @@
 - (void) showSpin;
 - (void) removeSpin;
 - (void) updateButtonTittle;
+- (IBAction)shareBtnPressed:(id)sender;
 - (void) showLogin;
 - (IBAction)redeemBtnPressed:(id)sender;
 - (IBAction)booknowBtnPressed:(id)sender;

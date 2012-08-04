@@ -15,8 +15,9 @@
 #import "GlobalConstants.h"
 #import "CategoryModel.h"
 #import "TODOTableViewController.h"
-
-
+#import "SHKConfiguration.h"
+#import "ShareKitDemoConfigurator.h"
+#import "SHKFacebook.h"
 // Your Facebook APP Id must be set before running this example
 // See http://www.facebook.com/developers/createapp.php
 // Also, your application must bind to the fb[app_id]:// URL
@@ -109,6 +110,9 @@ static NSString* kAppId = @"255658224527885";
     }
     [(RootViewController *)self.window.rootViewController showSignIn];
   */
+    
+    DefaultSHKConfigurator *configurator = [[ShareKitDemoConfigurator alloc] init];
+    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
     UserModel * user =[UserModel sharedUser];
     [user deviceRegister];
     user.userName = nil;
@@ -134,7 +138,8 @@ static NSString* kAppId = @"255658224527885";
                                                     initWithRootViewController:_custom];
     
     [navigationController1.navigationBar setTintColor:kMainColor];
-    
+    navigationController1.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:background]];
+
     UITabBarItem *tab1 = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"exploreKey", @"explore") image:[UIImage imageNamed:@"73-radar.png"] tag:1];
     [navigationController1 setTabBarItem:tab1];
     
@@ -172,6 +177,11 @@ static NSString* kAppId = @"255658224527885";
     self.window.rootViewController = tabController;
     
     [self.window makeKeyAndVisible];
+    
+    	// Let the device know we want to receive push notifications
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
     return YES;
 }
 - (void)customizeInterface
@@ -214,11 +224,11 @@ static NSString* kAppId = @"255658224527885";
     [user setDestinationID:[(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"destination"] integerValue]];
     Destination *destination=[Destination sharedInstance];
     [destination setDestinationID:user.destinationID];
-    [destination reload];
+        //  [destination reload];
     
 
     
-        //  [(RootViewController *)[self.window rootViewController] reload];
+        //      [_custom setCategory:[[CategoryModel alloc] initWithId:0]];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -229,18 +239,30 @@ static NSString* kAppId = @"255658224527885";
     UserModel * u = [UserModel sharedUser];
     [u locate];
     [u setUserStatus:UserModelStatusOnline];
-    [_custom setCategory:[[CategoryModel alloc] initWithId:0]];
-  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    [[self facebook] extendAccessTokenIfNeeded];
+        //  [_custom setCategory:[[CategoryModel alloc] initWithId:0]];
+        //  [_custom reload];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        //   [[self facebook] extendAccessTokenIfNeeded];
 }
 
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [self.facebook handleOpenURL:url];
+- (BOOL)handleOpenURL:(NSURL*)url
+{
+   NSString* scheme = [url scheme];
+    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
+    if ([scheme hasPrefix:prefix])
+        return [SHKFacebook handleOpenURL:url];
+    return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [self.facebook handleOpenURL:url];
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation 
+{
+    return [self handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
+{
+    return [self handleOpenURL:url];  
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

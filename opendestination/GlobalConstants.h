@@ -62,10 +62,21 @@
 
 //constants
 #define kDefaultDest 26;
+#define kTraveller 0; //Traveller 1 or Guest 0
 #define background @"vertical_cloth.png"
+                      //#define background @"crema.png"
 
 #define CATEGORIES [[[NSArray alloc]initWithObjects:@"Lessons", @"Guided tour",@"Child Care", @"Events", @"Rentals", @"Buddies", nil]]
 
 #define kMainColor [UIColor colorWithRed:0.9 green:0.4 blue:0 alpha:1] 
+#define kCategoryWidth 65.0
+#define kCategoryHeigth 65.0
+#define kCategoryFontSize 12.0
+#define kCategoryMaxPerPage 9
+#define kCategoryFooterMargin 35
+#define kCategoryTextColor [UIColor whiteColor]
+    //#define kCategoryTextColor [UIColor blackColor]
+
+
     //Anzere color 1.0, 1.0, and 0.0
     //#define kMainColor [UIColor colorWithRed:1 green:0.8 blue:0.1 alpha:1]
