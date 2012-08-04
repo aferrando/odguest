@@ -171,7 +171,7 @@ badgeNext, badgeRedeeming  ;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     noItemLabel.hidden=TRUE;
-    
+  /*  
     switch (typeSegmentedCtrl.selectedSegmentIndex) {
         case 0:
             if ([hotdeals count]==0) {
@@ -184,20 +184,19 @@ badgeNext, badgeRedeeming  ;
         default:
             if ([deals count]==0) {
                 noItemLabel.hidden=FALSE;
-            } 
+            } */
             
             return [deals count];
-            break;
-    }   
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *CellIdentifier = @"Cell";	
 	CustomTableViewCell *cell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    OpportunityModel * opp = nil;
-    if (typeSegmentedCtrl.selectedSegmentIndex==0) opp=[hotdeals objectAtIndex:indexPath.row];
-    if (typeSegmentedCtrl.selectedSegmentIndex==1) opp=[deals objectAtIndex:indexPath.row];
+    OpportunityModel * opp = [deals objectAtIndex:indexPath.row];
+/*    if (typeSegmentedCtrl.selectedSegmentIndex==0) opp=[hotdeals objectAtIndex:indexPath.row];
+    if (typeSegmentedCtrl.selectedSegmentIndex==1) opp=[deals objectAtIndex:indexPath.row];*/
    // if (typeSegmentedCtrl.selectedSegmentIndex==2) opp=[deals objectAtIndex:indexPath.row];
     if (cell == nil) {		
 		cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
@@ -286,7 +285,7 @@ badgeNext, badgeRedeeming  ;
             if ( [jsonObject isKindOfClass:[NSDictionary class]] ) {
                 dict = jsonObject;
                 if ( [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 0 ) {
-                    NSLog(@"%@: opprotunity list: %@", [self description], [dict description]);
+                    NSLog(@"%@: opportunity list: %@", [self description], [dict description]);
                     [self setDataDict:dict];
                 } else {
                     //TODO: Alert the user
@@ -341,14 +340,15 @@ badgeNext, badgeRedeeming  ;
                 [opp parseDataDictTest:(NSDictionary *)[dataArray objectAtIndex:i]];
                 NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:opp.modifyDate];
                 NSDateComponents *today = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
-                if([today day] == [otherDay day] &&
+              /*  if([today day] == [otherDay day] &&
                    [today month] == [otherDay month] &&
                    [today year] == [otherDay year] &&
                    [today era] == [otherDay era]) {
                     //do stuff
                     [hotdeals addObject:opp];
                 }
-                else [deals addObject:opp];
+                else */
+                [deals addObject:opp];
                 
             }
         }
