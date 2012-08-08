@@ -11,6 +11,8 @@
 #import "DataSet.h"
 #import "RootViewController.h"
 #import "CustomContentViewController.h"
+#import "CategoriesTableViewController.h"
+#import "CategoryViewController.h"
 
 @interface opendestinationAppDelegate : NSObject <UIApplicationDelegate> {
     Facebook *facebook;
@@ -21,6 +23,8 @@
 @property (nonatomic, retain) Facebook *facebook;
 @property (strong, nonatomic) RootViewController *rootController;
 @property (strong, nonatomic) CustomContentViewController *custom;
+@property (strong, nonatomic) CategoriesTableViewController *categories;
+@property (strong, nonatomic) CategoryViewController *category;
 @property (nonatomic, retain) DataSet *apiData;
 
 @property (nonatomic, retain) NSMutableDictionary *userPermissions;

@@ -18,6 +18,7 @@
 #import "SHKConfiguration.h"
 #import "ShareKitDemoConfigurator.h"
 #import "SHKFacebook.h"
+#import "SDImageCache.h"
 // Your Facebook APP Id must be set before running this example
 // See http://www.facebook.com/developers/createapp.php
 // Also, your application must bind to the fb[app_id]:// URL
@@ -27,7 +28,9 @@ static NSString* kAppId = @"255658224527885";
 @implementation opendestinationAppDelegate
 @synthesize window=_window;
 @synthesize rootController=_rootController;
+@synthesize category=_category;
 @synthesize custom=_custom;
+@synthesize categories=_categories;
 @synthesize facebook;
 
 @synthesize apiData;
@@ -37,6 +40,10 @@ static NSString* kAppId = @"255658224527885";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
+    [imageCache cleanDisk];
     // Initialize Facebook. The delegate must be the LoginViewController and not the RootViewController
  /*   facebook = [[Facebook alloc] initWithAppId:kAppId andDelegate:(RootViewController *)[self.window rootViewController]];
     
@@ -130,13 +137,23 @@ static NSString* kAppId = @"255658224527885";
     
     
     UITabBarController *tabController = [[UITabBarController alloc] init];
-    
     _custom = [[CustomContentViewController alloc] init];
     [_custom setCategory:[[CategoryModel alloc] initWithId:0]];
-  /*  [custom reload];*/
-    UINavigationController *navigationController1 = [[UINavigationController alloc]
-                                                    initWithRootViewController:_custom];
-    
+    _categories = [[CategoriesTableViewController alloc] init];
+    [_categories setCategory:[[CategoryModel alloc] initWithId:0]];
+
+    _category = [[CategoryViewController alloc] init];
+    /*  [custom reload];*/
+    UINavigationController *navigationController1=nil;
+        //                                               initWithRootViewController:_category];
+    if (kCategoryNavigation == 0)
+        navigationController1 = [[UINavigationController alloc]
+                                 initWithRootViewController:_custom];
+    else {
+        navigationController1 = [[UINavigationController alloc]
+                                 initWithRootViewController:_categories];
+        
+    }
     [navigationController1.navigationBar setTintColor:kMainColor];
     navigationController1.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:background]];
 
@@ -393,7 +410,7 @@ static NSString* kAppId = @"255658224527885";
 #pragma mark - Push Notifications
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-/*    UserModel * user = [UserModel sharedUser];
+    UserModel * user = [UserModel sharedUser];
     NSString *devToken = [[[[deviceToken description]
                             stringByReplacingOccurrencesOfString:@"<"withString:@""]
                            stringByReplacingOccurrencesOfString:@">" withString:@""]
@@ -404,11 +421,11 @@ static NSString* kAppId = @"255658224527885";
     [user setUdid:devToken];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; 
     [defaults setValue:[NSNumber numberWithInt:1] forKey:@"register"];
-    [defaults synchronize];   */
-    NSString *devToken = [[[[deviceToken description]
+    [defaults synchronize];   
+        /*   NSString *devToken = [[[[deviceToken description]
                             stringByReplacingOccurrencesOfString:@"<"withString:@""]
                            stringByReplacingOccurrencesOfString:@">" withString:@""]
-                          stringByReplacingOccurrencesOfString: @" " withString: @""];
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];*/
     
     NSLog(@"%@",devToken);
     

@@ -75,6 +75,7 @@
 #define kCategoryMaxPerPage 9
 #define kCategoryFooterMargin 35
 #define kCategoryTextColor [UIColor whiteColor]
+#define kCategoryNavigation 0 //0 is Grid, 1 is TableView
     //#define kCategoryTextColor [UIColor blackColor]
 
 

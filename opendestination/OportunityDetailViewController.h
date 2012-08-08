@@ -47,6 +47,7 @@
     IBOutlet UILabel *notInterestedKeyLabel;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIView *reservationBarView;
+    IBOutlet UIButton *likeButton;
     IBOutlet UIView *waitingView;
     IBOutlet UIView *confirmationView;
     IBOutlet UILabel *reservationMessage;
@@ -57,6 +58,7 @@
   ClusterMapViewController * map;
     __unsafe_unretained IBOutlet UIView *buttonBackgroundView;
     IBOutlet UIButton *shareButton;
+    IBOutlet UIButton *doNotLikeButton;
     BlockAlertView *alert;
     PopUpViewController *detailViewController;
 @private

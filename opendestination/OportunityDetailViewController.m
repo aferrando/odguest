@@ -116,7 +116,13 @@
 }
 - (void) refreshOpportunity {
         // NSLog(@"Confirmation code: %d status:%@", self.opportunity.confirmationCode, self.opportunity.status);
-[detailViewController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+    if (_opportunity.status== OpportunityStatusInterested)
+        [likeButton setSelected:TRUE];
+    else [likeButton setSelected:FALSE];
+    if (_opportunity.status== OpportunityStatusNotInterested)
+        [doNotLikeButton setSelected:TRUE];
+    else [doNotLikeButton setSelected:FALSE];
+    [detailViewController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
    descriptionTextField.text = self.opportunity.description;
     if (descriptionTextField.frame.size.height==24) {
      CGRect frame = descriptionTextField.frame;
@@ -222,8 +228,11 @@
      [menuButton setBackgroundImage:[UIImage imageNamed:@"bg-addbutton.png"] forState:UIControlStateNormal];*/
         //  [self.view addSubview:menuButton];
     [scoreValueLabel setText:[NSString stringWithFormat:@"%d",[_opportunity getScore]]];
+    [detailLabel setText:NSLocalizedString(@"opportunityDescriptionKey", @"")];
     [interestedKeyLabel setText:NSLocalizedString(@"MyOpportunitieskey", @"")];
     [notInterestedKeyLabel setText:NSLocalizedString(@"dislikeKey", @"")];
+    [notInterestedLbl setText:[NSString stringWithFormat:@"%d",[_opportunity numNotInterests]]];
+    [interestedLbl setText:[NSString stringWithFormat:@"%d",[_opportunity numInterests]]];
     [shareLabel setText:NSLocalizedString(@"shareKey", @"")];
     [waitingLabel setText:NSLocalizedString(@"waitingKey", @"")]; 
 #warning If points are not activated
@@ -323,6 +332,8 @@
     reservationMessage = nil;
     shareButton = nil;
     yesnoVIew = nil;
+    likeButton = nil;
+    doNotLikeButton = nil;
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SDWebImageDownloadStartNotification object:nil];
 }
@@ -536,7 +547,11 @@
         }
     else
         {
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reloadOpportunity)
+                                                     name:(NSString *)kOpportunityUpdatedNotification
+                                                   object:self.opportunity];
+
         [self.opportunity setInterested];
   /*      [likeBarView setHidden:YES];
         [redeemBarVIew setHidden:YES];
@@ -558,8 +573,13 @@
     
         // [self updateButtonTittle];
 }
+-(void) reloadOpportunity{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:(NSString *)kOpportunityUpdatedNotification object:self.opportunity];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshOpportunity) name:(NSString *)kOpportunityUpdatedNotification object:self.opportunity];
 
-
+    [self.opportunity reload];
+    
+}
 - (IBAction) showMapLocation
 {
     if ( map == nil ) {
@@ -597,6 +617,11 @@
         }
     else
         {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reloadOpportunity)
+                                                     name:(NSString *)kOpportunityUpdatedNotification
+                                                   object:self.opportunity];
+
         [self.opportunity setNotInterested];
             //   [self.navigationController popViewControllerAnimated:YES];
         }
