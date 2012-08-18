@@ -13,6 +13,7 @@
 #import "Destination.h"
 #import "UIButton+WebCache.h"
 #import "SHKFacebook.h"
+#import "MixpanelAPI.h"
 
 @interface SelectSignInViewController ()
 
@@ -69,6 +70,7 @@
     [guestButton setTitle:NSLocalizedString(@"guestKey", @"Social Networks") forState:UIControlStateNormal];
     [self.navigationController.navigationBar setHidden:YES];
     [logoButton setImageWithURL:[NSURL URLWithString:[[Destination sharedInstance] destinationImage]] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
+    
 
 }
 
@@ -108,10 +110,22 @@
 }
 
 - (IBAction)facebookBtnPressed:(id)sender {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Signin Facebook click"]];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookDone) name:@"SHKSendDidFinish" object:nil];       //  [SHKTwitter release];
     [[[SHKFacebook alloc] init] authorize];
 }
 - (void) facebookDone {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Facebook succesfull"]];
+
     NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
     NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
     NSLog(@"FB username: %@", fbUserName);
@@ -121,6 +135,12 @@
         [self.userModel deviceRegister];
     [self releaseTextFieldsKeyboard];
     mustShowRegister = YES;*/
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:@"Sign up click"];
+
     [self.navigationController.navigationBar setHidden:NO];
     DBSignupViewController * registerVC = [[DBSignupViewController alloc] initWithNibName:@"DBSignupViewController" bundle:nil];
         // registerVC.delegate = self;
@@ -130,6 +150,12 @@
 }
 
 - (IBAction)loginButtonPressed:(id)sender {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Signin click"]];
+
     [self.navigationController.navigationBar setHidden:NO];
     LoginViewController *loginVC =[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     [self.navigationController pushViewController:loginVC animated:TRUE];
@@ -137,6 +163,12 @@
 }
 
 - (IBAction)guestButtonPressed:(id)sender {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Enter as Guest click"]];
+
     [self.navigationController dismissModalViewControllerAnimated:YES];
 
 }

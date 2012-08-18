@@ -161,11 +161,11 @@ static Destination * sharedInstance = nil;
             self.levels = [dict objectForKey:@"levels"] ;
             self.languages = [dict objectForKey:@"language"] ;
             NSDictionary *location = [dict objectForKey:@"destination_location"];
-            
+#warning Reversing Destination Latitude & Longitude            
             if ( [[location objectForKey:@"latitude"] isKindOfClass:[NSNumber class]])
-                self.latitude = [(NSNumber *)[location valueForKey:@"latitude"] doubleValue];
+                self.longitude = [(NSNumber *)[location valueForKey:@"latitude"] doubleValue];
             if ( [[location objectForKey:@"longitude"] isKindOfClass:[NSNumber class]]) 
-                self.longitude = [(NSNumber *)[location valueForKey:@"longitude"] doubleValue];
+                self.latitude = [(NSNumber *)[location valueForKey:@"longitude"] doubleValue];
             self.usersPoints = [(NSNumber *)[dict valueForKey:@"users_points"] boolValue];
             self.usersCanCreateOpportunities = [(NSNumber *)[dict valueForKey:@"users_can_create_opportunities"] boolValue];
         }

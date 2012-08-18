@@ -39,11 +39,14 @@ static NSString *anotiationIdentifier = @"Annotation_identifier";
     self.mapView.layer.borderWidth = 1.5;
     self.mapView.layer.borderColor = [kMainColor CGColor];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self 
+    [button setImage:[UIImage imageNamed:@"CloseButton.png"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(5.0, 5.0, 25, 25);
+    [button setBackgroundColor:[UIColor clearColor]];
+   [button addTarget:self 
                action:@selector(closeWindow)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:NSLocalizedString(@"closeKey",@"Close ") forState:UIControlStateNormal];
-    button.frame = CGRectMake(5.0, 5.0, 60.0, 30.0);
+        // [button setTitle:NSLocalizedString(@"closeKey",@"Close ") forState:UIControlStateNormal];
+    button.frame = CGRectMake(5.0, 5.0, 30.0, 30.0);
     [self.mapView addSubview:button];
    
         //   [self setTitleLabelForHeader];

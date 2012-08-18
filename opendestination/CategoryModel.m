@@ -84,15 +84,15 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         //[myLocale release];
     
-    if ( [user signedIn] ) {
+        //if ( [user signedIn] ) {
         NSString * url = [NSString stringWithFormat:@"%@/category/get?destination_id=%d&user_id=%d&uuid=%@&category_id=%d&start_date=%@&end_date=%@&language_id=%@",[[Destination sharedInstance] destinationService], [user destinationID], [user userID], [user udid], categoryID, [dateFormatter stringFromDate:today], [dateFormatter stringFromDate:endate], [user localeID]];
         if (categoryID==0) {
-            [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:YES withString:NSLocalizedString(@"Loading Categories",@"Loading categories")];
+            [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:NO withString:NSLocalizedString(@"Loading Categories",@"Loading categories")];
         } else {
             [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(setResponseData:) hudActivied:NO withString:NSLocalizedString(@"Loading Categories",@"Loading categories")];
             
         }
-    }
+        // }
 }
 
 

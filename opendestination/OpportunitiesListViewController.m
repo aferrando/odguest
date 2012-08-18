@@ -19,7 +19,7 @@
 #import "CellViewController.h"
 #import "ConnectViewController.h"
 #import "GlobalConstants.h"
-
+#import "MixpanelAPI.h"
 @implementation OpportunitiesListViewController
 
 @synthesize categoryID;
@@ -384,6 +384,12 @@ static NSString *CellClassName = @"CellViewController";
         [opp setWatched];
     }
     [detail setOpportunity:opp];
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[NSString stringWithFormat:@"Opportunity %d %@ selected",opp.opportunityID,opp.title]];
+
     
   //  [(RootViewController *)[self.view.window rootViewController] tabBarHidden:YES];
     detail.hidesBottomBarWhenPushed = YES;  

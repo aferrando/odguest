@@ -47,7 +47,7 @@ badgeNext, badgeRedeeming  ;
         noItemLabel.backgroundColor=[UIColor clearColor];
         noItemLabel.textColor=[UIColor darkGrayColor];
         
-        [self addSegmentedControl];
+            //  [self addSegmentedControl];
     }
     return self;
 }
@@ -130,6 +130,7 @@ badgeNext, badgeRedeeming  ;
 {
     return 1;
 }
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 35.0;
@@ -159,7 +160,7 @@ badgeNext, badgeRedeeming  ;
      [headerView addSubview:label];
      
      [headerView setBackgroundColor:[UIColor darkGrayColor]];
-     }*/
+     }
     return headerView;
 }
 - (void) onSegmentedControlChanged:(UISegmentedControl *) sender {
@@ -168,6 +169,7 @@ badgeNext, badgeRedeeming  ;
     [self.tableView reloadData];
     
 }
+ */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     noItemLabel.hidden=TRUE;
@@ -254,9 +256,7 @@ badgeNext, badgeRedeeming  ;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MySharesInterestedGridViewController * detail = [[MySharesInterestedGridViewController alloc] init];
-    OpportunityModel * opp = nil;
-    if (typeSegmentedCtrl.selectedSegmentIndex==0) opp=[hotdeals objectAtIndex:indexPath.row];
-    if (typeSegmentedCtrl.selectedSegmentIndex==1) opp=[deals objectAtIndex:indexPath.row];
+    OpportunityModel * opp = [deals objectAtIndex:indexPath.row];
     [detail setOpportunity:opp];
     //    [(RootViewController *)[self.view.window rootViewController] tabBarHidden:YES];
     [self.navigationController pushViewController:detail animated:YES];

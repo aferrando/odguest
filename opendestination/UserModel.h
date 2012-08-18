@@ -103,5 +103,8 @@ typedef enum {
 - (void) locate;
 - (NSString *) stringFromBirthdate;
 - (void) parseDataDict:(NSDictionary *)dict;
-
+- (void) setFullUser;
+- (NSString *) genderValue;
+- (NSString *) localeIDValue;
+- (void) save;
 @end

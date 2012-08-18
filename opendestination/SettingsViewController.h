@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "BlockAlertView.h"
 
 @interface SettingsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate> {
     UIToolbar *keyboardToolbar_;
@@ -18,6 +19,7 @@
     NSDate *birthday_;
     NSString *gender_;
     UIImage *photo_;
+    BlockAlertView *alert;
 
 }
 @property (unsafe_unretained, nonatomic) IBOutlet UITextField *nameTextField;
@@ -27,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UITextField *birthdayTextField;
 @property (strong, nonatomic) IBOutlet UITextField *genderTextField;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollview;
 @property (strong, nonatomic) IBOutlet UILabel *emailLabel;
 @property (strong, nonatomic) IBOutlet UILabel *passwordLabel;
 @property (strong, nonatomic) IBOutlet UILabel *birthdayLabel;
@@ -38,6 +41,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *phonteTextField;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundView;
 @property (strong, nonatomic) IBOutlet UILabel *minLabel;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) BlockAlertView *alert;
 
 @property(nonatomic,strong) UIToolbar *keyboardToolbar;
 @property(nonatomic,strong) UIPickerView *genderPickerView;

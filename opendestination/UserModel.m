@@ -14,6 +14,7 @@
 #import "IAMultipartRequestGenerator.h"
 #import "Destination.h"
 #import "YRDropdownView.h"
+#import "BlockAlertView.h"
 
 
 @interface UserModel ()
@@ -136,8 +137,39 @@ static UserModel * sharedInstance = nil;
   //NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:dataDict];
   //[coder encodeObject:myEncodedObject forKey:@"userInfo"];
 }
+- (void) setLocaleIDValue:(NSString *) localeIDvalue{
+}
+- (NSString *) localeIDValue{
+    NSArray *values = [[[Destination sharedInstance] languages] allKeys];
+        // Configure the cell...
+        //   NSMutableArray *languages=[[NSMutableArray alloc] init];
+        //  for (int i = 0; i < [values count]; i++) {
+        NSDictionary *currentObject= [[[Destination sharedInstance] languages] objectForKey:[values objectAtIndex:[self.localeID integerValue]]];
+            // if ([(NSNumber *)[currentObject valueForKey:@"id"] intValue]  == row){
+        NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[currentObject  objectForKey:@"code"] ] ;
+            //    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:[[values objectAtIndex:indexPath.row]  objectForKey:@"code"] ] ;
+        NSArray *myArray = [[currentLocale  displayNameForKey:NSLocaleIdentifier value:[currentObject  objectForKey:@"code"]] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"("]];
+    return [myArray objectAtIndex:0];
+}
 
-
+ 
+- (void) setGenderValue:(NSString *) genderValue{
+    if ([genderValue isEqualToString:NSLocalizedString(@"maleKey", @"")]) {
+        _gender=@"0";
+    } else
+        _gender=@"1";
+}
+- (NSString *) genderValue{
+    switch ([_gender integerValue]) {
+        case 0:
+            return  NSLocalizedString(@"maleKey", @"");
+            break;
+            
+        default:
+            return  NSLocalizedString(@"femaleKey", @"");
+            break;
+    }
+}
 
 # pragma mark - Private methods
 
@@ -247,7 +279,6 @@ static UserModel * sharedInstance = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kUserUpdatedNotification object:self];
 }
 
-
 - (void) saveSettings
 {
   NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
@@ -261,13 +292,19 @@ static UserModel * sharedInstance = nil;
   [settings synchronize];
 }
 
-
+- (NSString *) getPasswordValue {
+    return @"protected";
+}
+- (void) setPasswordValue:(NSString *)password{
+[self setPassword:password];
+}
 - (void) setPassword:(NSString *)password
 {
     @synchronized(self) {
       _password = nil;
     if ( password )
       _password = [Utilities returnMD5Hash:password];
+    
   }
 }
 
@@ -444,7 +481,7 @@ static UserModel * sharedInstance = nil;
   NSString * url = [NSString stringWithFormat:@"%@/user/set?destination_id=%d&uuid=%@&user_id=%d", [[Destination sharedInstance] destinationService], _destinationID, udid, _userID];
   NSString * fullURLString = nil;
   if ( property == _realName )
-    fullURLString = [NSString stringWithFormat:@"%@&real_name=%@",url,_realName];
+    fullURLString = [NSString stringWithFormat:@"%@&real_name=""%@""",url,_realName];
   if ( property == _password )
     fullURLString = [NSString stringWithFormat:@"%@&password=%@",url,_password];
   if ( property == _gender )
@@ -461,6 +498,19 @@ static UserModel * sharedInstance = nil;
                                                                                   hudActivied:NO
                                                                                    withString:nil];
 }
+- (void) save {
+    [self setFullUser];
+}
+- (void) setFullUser
+{
+    NSString * url = [NSString stringWithFormat:@"%@/user/set?destination_id=%d&uuid=%@&user_id=%d&real_name=""%@""&gender=%@&language_id=%@&birthday=%@&password=%@", [[Destination sharedInstance] destinationService], _destinationID, udid, _userID, [_realName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], _gender, _localeID, [self stringFromBirthdate],_password ];
+          [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url
+                                                                                        forTarget:self
+                                                                                           action:@selector(userWasUpdated:)
+                                                                                      hudActivied:NO
+                                                                                       withString:nil];
+}
+
 
 
 
@@ -583,6 +633,61 @@ static UserModel * sharedInstance = nil;
     [alert show];
 
     
+}
+- (void) userWasUpdated:(NSData *)data
+{
+    NSError * error = nil;
+    NSString * responseString = nil;
+    SBJsonParser * jsonParser = nil;
+    deviceRegistered = NO;
+    if ( data ) {
+        jsonParser = [[SBJsonParser alloc] init];
+        responseString = [[NSString alloc] initWithData:data
+                                               encoding:NSUTF8StringEncoding];
+        id jsonObject = [jsonParser objectWithString:responseString ];
+        if ( ( error == nil ) && ([TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager]) ) {
+#ifdef __DEBUG__
+            NSLog(@"%@: Received data: %@", [self description],  responseString);
+#endif
+            jsonParser = nil;
+            if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+                NSDictionary * dict = jsonObject;
+                if ([(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 0)
+                    {
+                    deviceRegistered = YES;
+                        //if the device is registered, and the user is not SIGN IN
+                    if ( !signedIn && guest )
+                        {
+                        [self signIn];
+                        }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kUserUpdatedNotification object:self];
+                    }
+                else
+                    {
+                    NSLog(@"%@: error code %d when registering the device",
+                          [self description], [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue]);
+                    if ( [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 1003)
+                        [self showAlert:NSLocalizedString(@"usernameExists",  @"User name already exists")];
+                    else
+                        [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+                    
+                    }
+            } else {
+                NSLog(@"%@: error when parsing registering the device response, recibed object is a king of %@",
+                      [self description], [jsonObject class] );
+                
+                [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+            }
+        } else {
+            NSLog(@"%@: Error at parsing json. Maybe an encoding problem: %@",[self description], [error description] );
+            [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+        }
+    } else {
+#ifdef __DEBUG__
+        NSLog(@"%@: Error response data with void data", [self description] );
+#endif
+        [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+    }
 }
 
 - (void) deviceWasRegistered:(NSData *)data
@@ -883,7 +988,7 @@ static UserModel * sharedInstance = nil;
     case 0:
       _sendingImage;
       _sendingImage = nil;
-      alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"profileUpdatedKey",@"Connection Error")
+       alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"imageUpdatedKey",@"Connection Error")
                                            message:nil
                                           delegate:self cancelButtonTitle:@"OK"
                                  otherButtonTitles: nil];

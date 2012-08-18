@@ -15,6 +15,7 @@
 #import "Destination.h"
 #import "DBSignupViewController.h"
 #import "GlobalConstants.h"
+#import "MixpanelAPI.h"
 
 @implementation LoginViewController
 
@@ -231,27 +232,53 @@ registerButton, anonymousButton;
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:(NSString *)kUserUpdatedNotification 
                                                 object:userModel];
-  if ( userModel.userID > 0 ) {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+ if ( userModel.userID > 0 ) {
+       [mixpanel setSendDeviceModel:YES];
+      [mixpanel identifyUser:[NSString stringWithFormat:@"%d", userModel.userID]];
+     [mixpanel setUserProperty:userModel.realName forKey:@"name"];
+     [mixpanel setUserProperty:userModel.userName forKey:@"email"];
+
+      [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in successfull"]];
+
     [self.delegate userDidSignIn];
       [self.navigationController dismissModalViewControllerAnimated:YES];
       
   } else {
     [self.delegate userSignInFailed];
+      [mixpanel setSendDeviceModel:YES];
+      [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+      
+      [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in failed"]];
   }
 }
 
 
 - (IBAction) signIn
 {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in button clicked"]];
+
   if ( ! self.userModel.deviceRegistered ) 
     [self.userModel deviceRegister];
   if ( ( [self.usernameTextField.text length] > 3 ) && ( [self.passwordTextField.text length] > 4) ) {
+      [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+      
+      [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in correct form"]];
+
     self.userModel.userName = (NSString *)self.usernameTextField.text;
     self.userModel.password = (NSString *)self.passwordTextField.text;
     [self addObserver];
     [userModel signIn];
     [self releaseTextFieldsKeyboard];
   } else {
+      [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+      
+      [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in wrong data"]];
+
     [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WrongUsernameTitleKey", @"") 
                                 message:NSLocalizedString(@"WrongUsernameMsgKey",@"Username must have more than 2 characters.\nPassword must have more than 4 characters.") 
                                delegate:nil

@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UserModel.h"
 
-@interface HeaderViewController : UIViewController
+@interface HeaderViewController : UIViewController <UIImagePickerControllerDelegate>
 {
     UserModel * _userModel;
 
@@ -27,13 +27,19 @@
 @property (strong, nonatomic) IBOutlet UILabel *myLikesLabel;
 @property (strong, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (strong, nonatomic) IBOutlet UILabel *sharesLabel;
+@property (strong, nonatomic) IBOutlet UILabel *levelName;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundView;
 @property (strong, nonatomic) IBOutlet UIView *myLikesView;
 @property (strong, nonatomic) IBOutlet UIView *myNotifiticationView;
 @property (strong, nonatomic) IBOutlet UIView *mySharesView;
 @property (strong, nonatomic) IBOutlet UILabel *minLabel;
 @property (strong, nonatomic) IBOutlet UILabel *completedLabel;
+@property (strong, nonatomic) IBOutlet UIButton *signOutButton;
+@property (strong, nonatomic) IBOutlet UIButton *pointsButton;
+@property (strong, nonatomic) IBOutlet UIButton *levelButton;
+@property (strong, nonatomic) IBOutlet UILabel *locationLabel;
 @property ( nonatomic ) UserModel * userModel; 
+- (IBAction)singOutBtnPressed:(id)sender;
 -(void) addCloseWindow;
 - (IBAction)settingBtnPressed:(id)sender;
 - (IBAction)likesBtnPressed:(id)sender;

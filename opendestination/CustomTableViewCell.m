@@ -230,7 +230,7 @@
             
             [content addSubview:coverView];
             
-            self.userInteractionEnabled = NO;
+            self.userInteractionEnabled = YES;
             self.selectionStyle = UITableViewCellSelectionStyleNone;
             self.alpha=0.2;
             [(UIImageView *)[dict objectForKey:@"badget"]  setImage:[UIImage imageNamed:@"Owned_Stamp.png"]];

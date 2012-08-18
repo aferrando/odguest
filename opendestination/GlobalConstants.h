@@ -9,9 +9,6 @@
 //#define DATABASE_NAME @"ShopAddict.db"
 
 #define __DEBUB__
-    //Thyon destination
-#define DESTINATION_ID @"26"
-#define RADIUS @"20000"
 
 
 
@@ -60,6 +57,10 @@
 #define ERROR_1004 @"User is not logged in"
 #define ERROR_1006 @"User does not have opportunities"
 
+//Thyon destination
+#define DESTINATION_ID @"26"
+#define RADIUS @"20000"
+
 //constants
 #define kDefaultDest 26;
 #define kTraveller 0; //Traveller 1 or Guest 0
@@ -77,6 +78,12 @@
 #define kCategoryTextColor [UIColor whiteColor]
 #define kCategoryNavigation 0 //0 is Grid, 1 is TableView
     //#define kCategoryTextColor [UIColor blackColor]
+#define MIXPANEL_WHISTLER @"890d68e5afed6da476ff1fbd468610cf" //odWhistler
+
+#define MIXPANEL_VILANOVA @"168e8d5409920fea5c832b5d95e211f0" //odVilanova
+#define MIXPANEL_THYON @"2857c0c6d9a4b3f719d93b136d896aa2" //odThyon
+#define MIXPANEL_OTHERS @"b0a175d14e957eb31204022523b76a93" //odThyon
+
 
 
     //Anzere color 1.0, 1.0, and 0.0

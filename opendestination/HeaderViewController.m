@@ -16,6 +16,7 @@
 #import "SettingsViewController.h"
 #import "GlobalConstants.h"
 #import "SelectSignInViewController.h"
+#import "MeTableViewController.h"
 @interface HeaderViewController ()
 
 @end
@@ -27,6 +28,7 @@
 @synthesize mySettingsButton;
 @synthesize points;
 @synthesize level;
+@synthesize levelName;
 @synthesize likesButton;
 @synthesize notificationsButton;
 @synthesize sharesButton;
@@ -39,6 +41,10 @@
 @synthesize mySharesView;
 @synthesize minLabel;
 @synthesize completedLabel;
+@synthesize signOutButton;
+@synthesize pointsButton;
+@synthesize levelButton;
+@synthesize locationLabel;
 @synthesize userModel = _userModel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -160,12 +166,12 @@
     
     mySharesView.layer.shadowRadius = 10.0f;
     */
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"signOutKey", @"signout")
+  /*  UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"signOutKey", @"signout")
                                                                   style:UIBarButtonItemStyleBordered
                                                                  target:self
                                                                  action:@selector(signOut)];
-    self.navigationItem.rightBarButtonItem = barButton;
-   
+    self.navigationItem.rightBarButtonItem = barButton;*/
+    [signOutButton setTitle:NSLocalizedString(@"signOutKey", @"signout") forState:UIControlStateNormal];
   
     // Do any additional setup after loading the view from its nib.
 }
@@ -187,11 +193,11 @@
                                                  name:kUserUpdatedNotification
                                                object:self.userModel];
     
-        [self.userModel refresh];
+        [self.userModel refresh]; 
     realnameTextField.text=self.userModel.userName;
         //    [self setTitle:user.realName];
     [self setTitle:self.userModel.realName];
-    [userImage setImageWithURL:[NSURL URLWithString:self.userModel.image] placeholderImage:[UIImage imageNamed:@"photo_default.png"]];
+    [userImage setImageWithURL:[NSURL URLWithString:self.userModel.image] placeholderImage:[UIImage imageNamed:@"addPhoto.png"]];
     userImage.layer.masksToBounds = YES;
     userImage.layer.cornerRadius = 5.0;
     userImage.layer.borderWidth = 1.0;
@@ -211,6 +217,12 @@
     mySettingsButton.layer.masksToBounds = YES;
     mySettingsButton.layer.cornerRadius = 5.0;
     mySettingsButton.layer.borderWidth = 0.5;
+    pointsButton.layer.masksToBounds = YES;
+    pointsButton.layer.cornerRadius = 5.0;
+    pointsButton.layer.borderWidth = 0.5;
+    levelButton.layer.masksToBounds = YES;
+    levelButton.layer.cornerRadius = 5.0;
+    levelButton.layer.borderWidth = 0.5;
     mySettingsButton.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     [mySettingsButton setTitle:NSLocalizedString(@"SettingsKey", @"Social Networks") forState:UIControlStateNormal];
     [likesButton setTitle:[NSString stringWithFormat:@"%d", self.userModel.opportunities] forState:UIControlStateNormal];
@@ -243,9 +255,15 @@
         
         double ratio=(double) ( self.userModel.points- range_min)/(range_max-range_min);
         [self.pointProgressView setProgressTintColor:[ UIColor colorWithHexString:[self.userModel.level objectForKey:@"color"]]];
-        [self.points setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
-        [points setText:[NSString stringWithFormat:NSLocalizedString(@"%d pointsKey",""), self.userModel.points]];
+        [self.pointsButton setBackgroundColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [self.levelButton setBackgroundColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [self.levelButton setTitle:[NSString stringWithFormat:@"%@", [level objectForKey:@"name"]] forState:UIControlStateNormal];
+            //  [self.points setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [points setText:NSLocalizedString(@"pointsKey","")];
+        [self.levelName setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
         [self.level setText:[NSString stringWithFormat:@"%d", range_max]];
+    
+        [self.levelName setText:[NSString stringWithFormat:@"%@", [level objectForKey:@"name"]]];
         [self.pointProgressView setProgress:ratio animated:TRUE];
         [minLabel setText:[NSString stringWithFormat:@"%d", range_min]];
         }
@@ -282,6 +300,16 @@
 }
 - (void) reloadUser {
     [self setTitle:self.userModel.realName];
+    CLGeocoder*  geocoder = [[CLGeocoder alloc] init];
+      [geocoder reverseGeocodeLocation:self.userModel.myLocation completionHandler:
+     ^(NSArray* placemarks, NSError* error){
+         if ([placemarks count] > 0)
+             {
+                 //        CLPlacemark *placemark=[placemarks objectAtIndex:0];
+             [self.locationLabel setText:[[placemarks objectAtIndex:0] thoroughfare]];
+                 //           [placemark release];
+             }
+     }];
     [userImage setImageWithURL:[NSURL URLWithString:self.userModel.image] placeholderImage:[UIImage imageNamed:@"photo_default.png"]];
     userImage.layer.masksToBounds = YES;
     userImage.layer.cornerRadius = 5.0;
@@ -334,7 +362,10 @@
         
         double ratio=(double) ( self.userModel.points- range_min)/(range_max-range_min);
         [self.pointProgressView setProgressTintColor:[ UIColor colorWithHexString:[self.userModel.level objectForKey:@"color"]]];
-        [self.points setTextColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [self.pointsButton setBackgroundColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [self.levelButton setBackgroundColor:[ UIColor colorWithHexString:[level objectForKey:@"color"]]];
+        [self.levelButton setTitle:[level objectForKey:@"name"] forState:UIControlStateNormal];
+        [self.pointsButton setTitle:[NSString stringWithFormat:@"%d", self.userModel.points] forState:UIControlStateNormal];
         [completedLabel setText:[NSString stringWithFormat:@"(%0.0f%% completed)", ratio*100]];
         [self.level setText:[NSString stringWithFormat:@"%d", range_max]];
         [self.pointProgressView setProgress:ratio animated:TRUE];
@@ -390,6 +421,10 @@
     [self setMySharesView:nil];
     [self setMinLabel:nil];
     [self setCompletedLabel:nil];
+    [self setSignOutButton:nil];
+    [self setPointsButton:nil];
+    [self setLevelButton:nil];
+    [self setLocationLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -399,6 +434,10 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+- (IBAction)singOutBtnPressed:(id)sender {
+    [self signOut];
+}
+
 -(void) addCloseWindow{
     UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"closeKey", @"Close") style:UIBarButtonItemStylePlain
                                                                   target:self action:@selector(closeWindow)];      
@@ -406,7 +445,9 @@
     
 }
 - (IBAction)settingBtnPressed:(id)sender {
-    SettingsViewController *vc = [[SettingsViewController alloc] init];
+ 
+        //SettingsViewController *vc = [[SettingsViewController alloc] init];
+    MeTableViewController *vc= [[MeTableViewController alloc] init];
     vc.title = NSLocalizedString(@"SettingsKey", @"Social Networks");;
     [self.navigationController pushViewController:vc animated:YES];
 
@@ -442,25 +483,74 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (buttonIndex) {
-        case 0:
-        {
-            //sign out confirmed
-        [[UserModel sharedUser] signOut];
-        
-        SelectSignInViewController *loginVC = [[SelectSignInViewController alloc] initWithNibName:@"SelectSignInViewController" bundle:nil];
-        UINavigationController *navigationController = [[UINavigationController alloc]
-                                                        initWithRootViewController:loginVC];
-        [navigationController.navigationBar setTintColor:kMainColor];
-            //  loginVC.delegate = self;
-            // LoginViewController * vc = [[LoginViewController alloc] init];
-            //[vc addCloseWindow];
-        [self.navigationController presentModalViewController:navigationController animated:YES];
+ 	NSUInteger sourceType = 0;
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        switch (buttonIndex) {
+            case 0:
+                sourceType = UIImagePickerControllerSourceTypeCamera;
+                break;
+            case 1:
+                sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                break;
+            case 2:
+                return;
         }
-            break;
-        default:
-            break;
+    } else {
+        if (buttonIndex == 1) {
+            return;
+        } else {
+            sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        }
     }
+    
+	UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+	imagePickerController.delegate = self;
+	imagePickerController.allowsEditing = YES;
+    imagePickerController.sourceType = sourceType;
+    /*   opendestinationAppDelegate *appDelegate= ((opendestinationAppDelegate*)[[UIApplication sharedApplication] delegate]);
+     RootViewController *root=(RootViewController *)[appDelegate.window rootViewController];
+     
+     DDMenuController *menuController = (DDMenuController*) root.myRootViewController;*/
+    [self.navigationController presentModalViewController:imagePickerController animated:YES];
 }
+
+#pragma mark - IBActions
+
+- (IBAction)choosePhoto:(id)sender
+{
+    UIActionSheet *choosePhotoActionSheet;
+    
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        choosePhotoActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"choosePhotoKey", @"")
+                                                             delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"cancelKey", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"photoFromCameraKey", @""), NSLocalizedString(@"photoFromLibraryKey", @""), nil];
+    } else {
+        choosePhotoActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"choosePhotoKey", @"")
+                                                             delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"cancel", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"photoFromLibraryKey", @""), nil];
+    }
+    
+    [choosePhotoActionSheet showFromTabBar:self.tabBarController.tabBar];
+}
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+	[picker dismissModalViewControllerAnimated:YES];
+        //self.photo = ;
+    [self.userImage setImage:[info objectForKey:UIImagePickerControllerEditedImage] forState:UIControlStateNormal];
+    [self.userModel postImage:[info objectForKey:UIImagePickerControllerEditedImage]];
+}
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 
 @end

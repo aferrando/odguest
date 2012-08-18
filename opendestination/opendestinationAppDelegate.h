@@ -13,11 +13,13 @@
 #import "CustomContentViewController.h"
 #import "CategoriesTableViewController.h"
 #import "CategoryViewController.h"
+@class MixpanelAPI;
 
 @interface opendestinationAppDelegate : NSObject <UIApplicationDelegate> {
     Facebook *facebook;
     DataSet *apiData;
     NSMutableDictionary *userPermissions;
+	MixpanelAPI *mixpanel;
 }
 @property ( nonatomic ) IBOutlet UIWindow * window;
 @property (nonatomic, retain) Facebook *facebook;

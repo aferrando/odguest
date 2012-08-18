@@ -9,6 +9,7 @@
 #import "AnonymousBarViewController.h"
 #import "SelectSignInViewController.h"
 #import "GlobalConstants.h"
+#import "MixpanelAPI.h"
 
 @interface AnonymousBarViewController ()
 
@@ -48,6 +49,12 @@
 }
 
 - (IBAction)signInBtnPressed:(id)sender {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"SelectScreen click"]];
+
     SelectSignInViewController *loginVC = [[SelectSignInViewController alloc] initWithNibName:@"SelectSignInViewController" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:loginVC];

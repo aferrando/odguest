@@ -18,6 +18,7 @@
 #import "YRDropdownView.h"
 #import "RootViewController.h"
 #import "Destination.h"
+#import "GlobalConstants.h"
 
 @interface SettingsViewController ()
 
@@ -31,8 +32,10 @@
 @synthesize passwordTextField;
 @synthesize birthdayTextField;
 @synthesize genderTextField;
+@synthesize scrollview;
 @synthesize emailLabel;
 @synthesize passwordLabel;
+@synthesize alert;
 
 
 @synthesize birthdayLabel;
@@ -44,6 +47,7 @@
 @synthesize phonteTextField;
 @synthesize backgroundView;
 @synthesize minLabel;
+@synthesize contentView;
 @synthesize keyboardToolbar = keyboardToolbar_;
 @synthesize genderPickerView = genderPickerView_;
 @synthesize languagePickerView = languagePickerView_;
@@ -65,9 +69,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *signupBarItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"saveKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(saveSettings)];
-    self.navigationItem.rightBarButtonItem = signupBarItem;
-    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]];
+ /*   UIBarButtonItem *signupBarItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"saveKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(saveSettings)];
+    self.navigationItem.rightBarButtonItem = signupBarItem;*/
+    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:background]];
+    self.scrollview.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+    self.contentView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
+    self.navigationItem.backBarButtonItem.title =NSLocalizedString(@"backKey", @"");
+  /*  UIButton* customBackButton = [UIButton buttonWithType:101];  
+    [customBackButton setTitle:NSLocalizedString(@"backKey", @"") forState:UIControlStateNormal];  
+    [customBackButton addTarget:self  
+                         action:@selector(clickBack) forControlEvents:UIControlEventTouchUpInside];  
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:customBackButton]]; */ 
+      [self.scrollview addSubview:contentView];
+    self.scrollview.contentSize = self.contentView.bounds.size;
 
         // Birthday date picker
     if (self.birthdayDatePicker == nil) {
@@ -87,7 +101,7 @@
         self.genderPickerView = [[UIPickerView alloc] init];
         self.genderPickerView.delegate = self;
         self.genderPickerView.showsSelectionIndicator = YES;
-        self.languagePickerView.tag=1;
+        self.genderPickerView.tag=1;
     }
         // Language picker
     if (self.languagePickerView == nil) {
@@ -162,7 +176,7 @@
         self.genderTextField.text = NSLocalizedString(@"femaleKey", @"");
     }
 
-    passwordTextField.text=user.password;
+    passwordTextField.text=@"password";
     NSArray *values = [[[Destination sharedInstance] languages] allKeys];
         // Configure the cell...
     
@@ -204,6 +218,14 @@
     backgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
         // Do any additional setup after loading the view from its nib.
 }
+-(void) viewWillDisappear:(BOOL)animated   {
+    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+            // back button was pressed.  We know this is true because self is no longer
+            // in the navigation stack.
+        [self clickBack];
+    }
+    [super viewWillDisappear:animated]; 
+}
 
 - (void)viewDidUnload
 {
@@ -224,6 +246,8 @@
     [self setProgressView:nil];
     [self setPhonteTextField:nil];
     [self setBackgroundView:nil];
+    [self setContentView:nil];
+    [self setScrollview:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -245,15 +269,38 @@
     [user setParam:userModel.gender];*/
     
     [user postImage:imageButton.imageView.image];
-    [user setGender:[self gender]];
+    [user setBirthDate:birthday_];
+    [user setRealName:nameTextField.text];
+    [user setGender:gender_];
+        // [user setLocaleID:self.phonteTextField.text];
+    
+    [user setFullUser];
+ /*   [user setGender:[self gender]];
     [user setParam:user.gender];
     [user setBirthDate:[self birthday]];
     [user setParam:user.birthDate];
     [user setRealName:nameTextField.text]; 
     [user setParam:user.realName];
-    [user setParam:user.localeID];
+    [user setParam:user.localeID];*/
 
   
+    
+}
+-(void) clickBack {
+    alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"",@"Alert") message:NSLocalizedString(@"saveMsgKey",@"Must be registered to set your deals and add points to your profile")];
+    
+    [alert addButtonWithTitle:NSLocalizedString(@"saveKey",@"Sign In") block:^{
+            // Do something or nothing.... This block can even be nil!
+        [self saveSettings];
+        [self.navigationController popViewControllerAnimated:TRUE];
+        
+    }];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:^{
+            // Do something or nothing.... This block can even be nil!
+        [self.navigationController popViewControllerAnimated:TRUE];
+        
+    }];
+    [alert show];
     
 }
 
@@ -412,6 +459,7 @@
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setLocale:[NSLocale currentLocale]];
     self.birthdayTextField.text = [dateFormatter stringFromDate:self.birthday];
+    
 }
 
 - (void)setGenderData
@@ -459,7 +507,7 @@
 
 + (UIColor *)labelSelectedColor
 {
-    return [UIColor whiteColor];// colorWithRed:0.114 green:0.600 blue:0.737 alpha:1.000];
+    return kMainColor;// colorWithRed:0.114 green:0.600 blue:0.737 alpha:1.000];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -499,7 +547,7 @@
     switch (pickerView.tag) {
     case 1:
             return 2;
-        case 2: return [[[[Destination sharedInstance] languages] allKeys] count];
+    case 2: return [[[[Destination sharedInstance] languages] allKeys] count];
     }
     return 0;       
 }
@@ -634,7 +682,7 @@
     RootViewController *root=(RootViewController *)[appDelegate.window rootViewController];
     
     DDMenuController *menuController = (DDMenuController*) root.myRootViewController;*/
-[(RootViewController *)[self.view.window rootViewController] presentModalViewController:imagePickerController animated:YES];    
+[self.navigationController presentModalViewController:imagePickerController animated:YES];    
         //[self presentModalViewController:imagePickerController animated:YES];
 }
 

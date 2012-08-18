@@ -116,7 +116,7 @@
 	
 	redSC.center = CGPointMake(160, 20);
     
-    /*    
+    /*
      NSArray * segmentItems = [NSArray arrayWithObjects:NSLocalizedString(@"todoNextKey",@"TO DO NEXT"),   NSLocalizedString(@"interestedKey",@"Interested"), nil];
      typeSegmentedCtrl = [[UISegmentedControl alloc] initWithItems: segmentItems];
      typeSegmentedCtrl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -124,12 +124,12 @@
      [typeSegmentedCtrl setFrame:CGRectMake(0, 5,320, 30)];
      typeSegmentedCtrl.selectedSegmentIndex = 0;
      [typeSegmentedCtrl addTarget: self action: @selector(onSegmentedControlChanged:) forControlEvents: UIControlEventValueChanged];
-     badgeNext=[CustomBadge customBadgeWithString:@"012" 
-     withStringColor:[UIColor whiteColor] 
-     withInsetColor:[UIColor blackColor] 
-     withBadgeFrame:YES 
-     withBadgeFrameColor:[UIColor yellowColor] 
-     withScale:1.25 
+     badgeNext=[CustomBadge customBadgeWithString:@"012"
+     withStringColor:[UIColor whiteColor]
+     withInsetColor:[UIColor blackColor]
+     withBadgeFrame:YES
+     withBadgeFrameColor:[UIColor yellowColor]
+     withScale:1.25
      withShining:YES];
      // Set Position of Badge 1
      [badgeNext setFrame:CGRectMake(100, 10,30, 40)];
@@ -186,9 +186,9 @@
     return 30.0;
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section 
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
     
     UIImageView * imageView2 = nil;
     
@@ -206,7 +206,7 @@
     [action setShadowOffset:CGSizeMake(1.0, 1.0)];
     [action setFont:[UIFont systemFontOfSize:15]];
     UIView * coverView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 30)];
-    if (selectedControl!=0) { 
+    if (selectedControl!=0) {
         [action setText:NSLocalizedString(@"DoneKey",@"Now")];
         [coverView setBackgroundColor:[UIColor darkGrayColor]];
         [coverView setAlpha:0.8];
@@ -344,21 +344,21 @@
      case 0:
      if ([hotdeals count]==0) {
      noItemLabel.hidden=FALSE;
-     } 
+     }
      return [hotdeals count];
      break;
      
      case 1:
      if ([waitingdeals count]==0) {
      noItemLabel.hidden=FALSE;
-     } 
+     }
      return [waitingdeals count];
      break;
      
      default:
      if ([deals count]==0) {
      noItemLabel.hidden=FALSE;
-     } 
+     }
      
      return [deals count];
      break;
@@ -389,9 +389,10 @@
         //    return nil;
     UITableViewCell *cell2 =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
     
-      cell2.textLabel.text=NSLocalizedString(@"NothingPlannedKey", @"Nothing planned!!. Click to see options!");
-     cell2.textLabel.textColor=[UIColor lightGrayColor];
- /*    UIImageView *buttonView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,142,43.0f)];
+    cell2.textLabel.text=NSLocalizedString(@"NothingPlannedKey", @"Nothing planned!!. Click to see options!");
+    cell2.textLabel.textAlignment=UITextAlignmentCenter;
+    cell2.textLabel.textColor=[UIColor lightGrayColor];
+    /*    UIImageView *buttonView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0,142,43.0f)];
      [buttonView setImage:[UIImage imageNamed:@"button_grey.png"]];
      //   [cell2.contentView addSubview:buttonView];
      UILabel *noPlansLabel=[[UILabel alloc] initWithFrame:CGRectMake(50,0.0,220,20)];
@@ -416,13 +417,13 @@
      [cell2 addSubview:btn2];
      [cell2 addSubview:noPlansLabel];
      [cell2 addSubview:orLabel];*/
-     cell2.userInteractionEnabled = NO;
+    cell2.userInteractionEnabled = NO;
     return cell2;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *CellIdentifier = @"Cell";	
+	static NSString *CellIdentifier = @"Cell";
 	CustomTableViewCell *cell = (CustomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     OpportunityModel * opp = nil;
     if (selectedControl!=0) opp=[self.doneTODO objectAtIndex:indexPath.row];
@@ -467,7 +468,7 @@
                 break;
         }
     }
-    if (cell == nil) {		
+    if (cell == nil) {
 		cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
         [cell setMyDeals:true];
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
@@ -495,10 +496,10 @@
  if (editingStyle == UITableViewCellEditingStyleDelete) {
  // Delete the row from the data source
  [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
+ }
  else if (editingStyle == UITableViewCellEditingStyleInsert) {
  // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
+ }
  }
  */
 
@@ -571,7 +572,7 @@
         jsonParser = [[SBJsonParser alloc] init];
         responseString = [[NSString alloc] initWithData:data
                                                encoding:NSUTF8StringEncoding];
-        id jsonObject = [jsonParser objectWithString:responseString 
+        id jsonObject = [jsonParser objectWithString:responseString
                          ];
         if ( error == nil ) {
 #ifdef __DEBUG__
@@ -706,7 +707,7 @@
 }
 -(void) addCloseWindow{
     UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"closeKey", @"Close") style:UIBarButtonItemStylePlain
-                                                                  target:self action:@selector(closeWindow)];      
+                                                                  target:self action:@selector(closeWindow)];
     self.navigationItem.leftBarButtonItem = sendButton;
     
 }

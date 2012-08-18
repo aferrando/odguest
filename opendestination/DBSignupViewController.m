@@ -11,6 +11,7 @@
 #import "YRDropdownView.h"
 #import "LoginViewController.h"
 #import "Destination.h"
+#import "MixpanelAPI.h"
 
     // Safe releases
 #define RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
@@ -278,6 +279,12 @@
                               animated:YES
                              hideAfter:3.0 type:1];
     UserModel *user=[UserModel sharedUser];
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+  [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:@"Sign up successful"];
+
     user.userName=self.emailTextField.text;
     NSLog(@"username:%@", [[UserModel sharedUser] userName]);
     LoginViewController *loginVC =[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -302,7 +309,12 @@
 - (void)signup:(id)sender
 {
     [self resignKeyboard:nil];
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+        //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
     
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Sign up button clicked"]];
+
         // Check fields
     if ( ( [self.nameTextField.text length] > 4 ) &&
         ( [self.passwordTextField.text length] > 4 ) &&
@@ -319,19 +331,35 @@
             userModel.realName = self.nameTextField.text;
             userModel.birthDate = self.birthday;
             userModel.Gender=self.gender;
+            [mixpanel setSendDeviceModel:YES];
+                //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+            
+            [mixpanel track:[[NSString alloc]initWithFormat:@"Sign up correct form"]];
+
             [userModel signUp];
          
         }
         else {
+            [mixpanel setSendDeviceModel:YES];
+                //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+            
+            [mixpanel track:[[NSString alloc]initWithFormat:@"Sign up wrong data"]];
+
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WrongEmailTitleKey", @"") 
                                         message:NSLocalizedString(@"WrongEmailMsgKey",@"Username must have more than 2 characters.\nPassword must have more than 4 characters.") 
                                        delegate:nil
                               cancelButtonTitle:NSLocalizedString(@"CancelBtnKey", @"")
                               otherButtonTitles:nil] show];
+            
         }
         
         
         } else {
+            [mixpanel setSendDeviceModel:YES];
+                //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
+            
+            [mixpanel track:[[NSString alloc]initWithFormat:@"Sign up too short"]];
+
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WrongUsernameTitleKey", @"") 
                                         message:NSLocalizedString(@"WrongUsernameMsgKey",@"Username must have more than 2 characters.\nPassword must have more than 4 characters.") 
                                        delegate:nil

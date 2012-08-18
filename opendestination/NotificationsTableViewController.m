@@ -137,7 +137,7 @@
     // Return the number of sections.
     return 1;
 }
-
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 35.0;
@@ -165,9 +165,10 @@
         [headerView addSubview:label];
         
         [headerView setBackgroundColor:[UIColor darkGrayColor]];
-    }*/
+    }
     return headerView;
-}
+}*/
+
 - (void) onSegmentedControlChanged:(UISegmentedControl *) sender forEvent:(UIEvent *)event {
 
  //   typeSegmentedCtrl.selectedSegmentIndex=[(UISegmentedControl *)sender selectedSegmentIndex];
@@ -260,7 +261,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OportunityDetailViewController * detail = [[OportunityDetailViewController alloc] init];
-    OpportunityModel *opp =  [deals objectAtIndex:indexPath.row];
+    OpportunityModel *opp =  [hotdeals objectAtIndex:indexPath.row];
     if (opp.status==OpportunityStatusPendant) {
         [opp setWatched];
     }

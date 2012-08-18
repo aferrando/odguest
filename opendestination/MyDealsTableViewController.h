@@ -10,15 +10,13 @@
 #import "RootViewController.h"
 #import "PullRefreshTableViewController.h"
 #import "CustomBadge.h"
-#import "TimeScroller.h"
 #import "ClusterMapViewController.h"
-@interface MyDealsTableViewController : PullRefreshTableViewController < TimeScrollerDelegate>
+@interface MyDealsTableViewController : PullRefreshTableViewController 
 {
   ContentPageTransitionType transition;
     UILabel *noItemLabel;
     CustomBadge *badgeNext;
     CustomBadge *badgeRedeeming;
-    TimeScroller *_timeScroller;
     NSMutableArray * _deals;
     NSMutableArray * _opportunities4;
     NSMutableArray * _opportunities24;

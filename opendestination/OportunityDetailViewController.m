@@ -20,8 +20,9 @@
 #import "Destination.h"
 #import "PopUpViewController.h"
 #import "UIViewController+MJPopupViewController.h"
-#import "SHK.h"
+    //#import "SHK.h"
 #import "SelectSignInViewController.h"
+#import "MixpanelAPI.h"
 
 @implementation OportunityDetailViewController
 @synthesize bookNowButton;
@@ -244,6 +245,7 @@
     }
     
 }
+/*
 - (void)sendEasyTweet:(id)sender {
         // Set up the built-in twitter composition view controller.
     TWTweetComposeViewController *tweetViewController = [[TWTweetComposeViewController alloc] init];
@@ -294,7 +296,7 @@
     }
 }
 
-
+*/
 
 - (void)viewDidUnload
 {
@@ -416,6 +418,7 @@
         //    [self updateButtonTittle];
         //    [self refreshOpportunity];
 }
+/*
 
 - (void)animateSnapshotOfView:(UIView *)view toTab:(UIViewController *)navController
 {
@@ -424,7 +427,7 @@
      // AFAIK there's no API (as of iOS 4) to get the frame of a tab bar item, so guesstimate using the index and the tab bar frame.
      CGRect tabBarFrame = self.tabBarController.tabBar.frame;*/
         // CGPoint targetPoint = CGPointMake((targetTabIndex + 0.5) * tabBarFrame.size.width / tabCount, CGRectGetMidY(tabBarFrame));
-    CGPoint targetPoint = CGPointMake(310,460);
+/*    CGPoint targetPoint = CGPointMake(310,460);
     
     targetPoint = [self.view convertPoint:targetPoint fromView:navController.view];
     
@@ -468,9 +471,14 @@
     
     [imageLayer addAnimation:animationGroup forKey:@"animateToTab"];
 }
-
+*/
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+   [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
     
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Sign in PopUp"]];
+
     switch (actionSheet.tag) {
         case 0:{
             if (buttonIndex == 0)
@@ -479,12 +487,20 @@
                     //   [[UserModel sharedUser] signOut];
                     //  [self.navigationController popToRootViewControllerAnimated:YES];
                 
+                [mixpanel setSendDeviceModel:YES];
+                [mixpanel identifyUser:[[UserModel sharedUser] userName]];
                 
+                [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Sign in clicked"]];
+              
                 [self showLogin];
                 }
             else
                 {
-                NSLog(@"cancel");
+                [mixpanel setSendDeviceModel:YES];
+                [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+                
+                [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Sign in cancelled"]];
+              NSLog(@"cancel");
                 }
 
         }
@@ -513,6 +529,12 @@
         // the user clicked one of the OK/Cancel buttons
    }
 -(void) showLogin {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Show Select"]];
+
     SelectSignInViewController *vc = [[SelectSignInViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:vc];
@@ -523,6 +545,11 @@
 
 -(IBAction) interestedButtonPressed:(id)sender
 {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Like clicked"]];
     
         //If the user is not registered is not allowed to show interest and get rewarded
     if (  [(UserModel *)[UserModel sharedUser] isGuest]  )
@@ -532,6 +559,11 @@
          [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:nil];*/
         
             //  UIAlertView *alert= [UIAlertView
+        [mixpanel setSendDeviceModel:YES];
+        [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+        
+        [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Like is Anonymous"]];
+
         UIAlertView *alert2 = [[UIAlertView alloc] init];
         [alert2 setTitle:NSLocalizedString(@"alertTitleKey",@"Alert")];
         [alert2 setMessage:NSLocalizedString(@"nonRegisteredMsgKey",@"Must be registered to set your deals and add points to your profile")];
@@ -543,7 +575,7 @@
         /*        [alert addButtonWithTitle:NSLocalizedString(@"signInKey",@"Sign in") block: ^{
          [self showLogin];
          }];*/
-        [alert2 show];
+            //[alert2 show];
         }
     else
         {
@@ -551,6 +583,10 @@
                                                  selector:@selector(reloadOpportunity)
                                                      name:(NSString *)kOpportunityUpdatedNotification
                                                    object:self.opportunity];
+        [mixpanel setSendDeviceModel:YES];
+        [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+        
+        [mixpanel track:[[NSString alloc]initWithFormat:@"Opportunity Like Successfull"]];
 
         [self.opportunity setInterested];
   /*      [likeBarView setHidden:YES];
@@ -674,7 +710,7 @@
     
         //Applying ShareKit 
         // Create the item to share (in this example, a url)
-	NSURL *url = [NSURL URLWithString:@"http://www.opendestination.com"];
+/*	NSURL *url = [NSURL URLWithString:@"http://www.opendestination.com"];
         	SHKItem *item = [SHKItem URL:url title:_opportunity.title];
     item.image=_imageView.image;
     item.facebookURLSharePictureURI=_opportunity.imageURL;
@@ -684,7 +720,7 @@
         	SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
     
         // Display the action sheet
-        	[actionSheet showFromToolbar: self.navigationController.toolbar];
+        	[actionSheet showFromToolbar: self.navigationController.toolbar];*/
 }
 
 - (IBAction)redeemBtnPressed:(id)sender {
