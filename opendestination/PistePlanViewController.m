@@ -14,6 +14,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "GlobalConstants.h"
 #import "AwesomeMenu.h"
+#import "UserModel.h"
+#import <MapKit/MapKit.h>
 
 #define PistePlanImageSize CGSizeMake(895., 421.)
 
@@ -57,7 +59,28 @@
 */
 - (void)viewDidLoad
 {
-     
+    _staticGPS= [NSArray arrayWithObjects:[[CLLocation alloc] initWithLatitude:46.180675 longitude:7.384572222], 
+                 [[CLLocation alloc] initWithLatitude:46.18089444 longitude:7.371463889],
+                 [[CLLocation alloc] initWithLatitude:46.187225 longitude:7.368138889],
+                 [[CLLocation alloc] initWithLatitude:46.19769167 longitude:7.396302778],
+                 [[CLLocation alloc] initWithLatitude:46.16104444 longitude:7.375202778],
+                 [[CLLocation alloc] initWithLatitude:46.15453056 longitude:7.356402778],
+                 [[CLLocation alloc] initWithLatitude:46.14260556 longitude:7.354594444],
+                 [[CLLocation alloc] initWithLatitude:46.19567222 longitude:7.33795],
+                 [[CLLocation alloc] initWithLatitude:46.14261111 longitude:7.334563889],
+                 nil];
+    _staticPoints= [NSArray arrayWithObjects:
+                    [NSValue valueWithCGPoint:CGPointMake(130, 282)] , 
+                    [NSValue valueWithCGPoint:CGPointMake(158, 266)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(182, 283)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(181, 327)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(159, 167)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(215, 122)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(240, 114)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(283, 332)] ,
+                    [NSValue valueWithCGPoint:CGPointMake(313, 156)] ,
+                 nil];
+    
     self.detailView = [[DetailView alloc] initWithFrame:CGRectZero] ;
     self.detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     CGSize size_for_detail = [self.detailView sizeThatFits:self.view.bounds.size];
@@ -96,13 +119,22 @@
         //   [self.view addSubview:addButton];
     [self tiledScrollViewDidZoom:self.scrollView]; //force the detailView to update the frist time
                                                    // [self addRandomAnnotations];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self 
                action:@selector(closeWindow)
      forControlEvents:UIControlEventTouchDown];
-    [button setBackgroundImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
-    button.frame = CGRectMake(5.0, 5.0, 25.0, 25.0);
+    [button setImage:[UIImage imageNamed:@"CloseButton.png"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(5.0, 5.0, 25, 25);
+    [button setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:button];
+    UIButton *buttonZ = [UIButton buttonWithType:UIButtonTypeCustom];
+    [buttonZ addTarget:self 
+               action:@selector(zoomout)
+     forControlEvents:UIControlEventTouchDown];
+    [buttonZ setImage:[UIImage imageNamed:@"zoomout.png"] forState:UIControlStateNormal];
+    buttonZ.frame = CGRectMake(275, 435, 30, 30);
+    [buttonZ setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:buttonZ];
     UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
     UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
     
@@ -148,7 +180,7 @@
     NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5,starMenuItem6, starMenuItem7, starMenuItem8,  nil];
        
     AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds menus:menus];
-    menu.frame = CGRectMake(0, 200, 40, 40);
+    menu.frame = CGRectMake(0, 210, 40, 40);
         // customize menu
     menu.rotateAngle = -M_PI/2;
     menu.menuWholeAngle = M_PI;
@@ -179,6 +211,12 @@
             
         case 1:
             [self addPOS];
+            break;
+        case 2:
+            [self addStaticGPS];
+            break;
+        case 3:
+            [self addMe];
             break;
             
         default:
@@ -217,7 +255,9 @@
         [_scrollView removeAllAnnotations];
         }
 }
-
+- (void) zoomout {
+    [_scrollView setZoomScale:1.0 animated:YES];
+}
 - (void) zoomInOutChanged {
     
 }
@@ -247,7 +287,7 @@
         // CGSize size = PistePlanImageSize;  
     JCAnnotation *a = [[JCAnnotation alloc] init];
     a.typeofService = 0;
-    a.contentPosition = CGPointMake(418, 230);
+    a.contentPosition = CGPointMake(158, 264);
     [self.scrollView addAnnotation:a];
     JCAnnotation *a2 = [[JCAnnotation alloc] init];
     a2.contentPosition = CGPointMake(151, 67);
@@ -297,6 +337,97 @@
      a.contentPosition = CGPointMake(80.0, 80.0);
      [self.scrollView addAnnotation:a];*/
 }
+- (CLLocation *) calculate2ndGPS:(CLLocation *)location {
+    UserModel* me=[UserModel sharedUser];
+    CLLocationCoordinate2D topLeftCorner;
+    CLLocationCoordinate2D bottomRightCorner;
+    if (location.coordinate.latitude<me.myLocation.coordinate.latitude)
+        {
+        topLeftCorner.latitude=location.coordinate.latitude;
+        topLeftCorner.longitude=location.coordinate.longitude;
+        }
+    else {
+        bottomRightCorner.latitude = location.coordinate.latitude;
+        bottomRightCorner.longitude = location.coordinate.longitude;
+    }
+    for (int i=0; i<_staticGPS.count; i++) {
+        CLLocation *locB = [_staticGPS objectAtIndex:i];
+        if (location.coordinate.latitude<me.myLocation.coordinate.latitude) {
+            bottomRightCorner.latitude = locB.coordinate.latitude;
+            bottomRightCorner.longitude = locB.coordinate.longitude;
+        } else {
+            topLeftCorner.latitude=locB.coordinate.latitude;
+            topLeftCorner.longitude=locB.coordinate.longitude;
+        }
+        CLLocationCoordinate2D targetCoordinate;
+        targetCoordinate.latitude = me.myLocation.coordinate.latitude;
+        targetCoordinate.longitude = me.myLocation.coordinate.longitude;
+         BOOL isInside = FALSE;
+        if ((targetCoordinate.latitude>topLeftCorner.latitude) && (bottomRightCorner.latitude>targetCoordinate.latitude))
+            {
+             if ((targetCoordinate.longitude>topLeftCorner.longitude) && (bottomRightCorner.longitude>targetCoordinate.longitude))
+                 {
+                  isInside = TRUE;
+                  NSLog(@"Is INSIDE :%d ",i);
+                 }
+            }
+/*         MKMapPoint topLeftPoint = MKMapPointForCoordinate(topLeftCorner);
+        MKMapPoint bottomRightPoint = MKMapPointForCoordinate(bottomRightCorner);
+        MKMapRect mapRect = MKMapRectMake(topLeftPoint.x, topLeftPoint.y, bottomRightPoint.x - topLeftPoint.x, bottomRightPoint.y - topLeftPoint.y);
+        MKMapPoint targetPoint = MKMapPointForCoordinate(targetCoordinate);   
+        
+        BOOL isInside = MKMapRectContainsPoint(mapRect, targetPoint);  */
+        NSLog(@"Is INSIDE :%d  VALUE:%d",i,isInside);
+        NSLog(@"Top left: (%0.4f ,%0.4f)  Bottom right: (%0.4f ,%0.4f)",topLeftCorner.latitude,topLeftCorner.longitude,bottomRightCorner.latitude,bottomRightCorner.longitude);
+        if (isInside) return locB;
+    }
+    return nil;
+}
+- (CGPoint ) coordinateToPoint:(CLLocation *)location
+{
+   
+    CLLocationDistance minDistance=0;
+    int minIndex=0;
+    for (int i=0; i<_staticGPS.count; i++) {
+        CLLocation *locB = [_staticGPS objectAtIndex:i];
+        CLLocationDistance distanceBetween = [location
+                                              distanceFromLocation:locB];
+        NSLog(@"Current Distance: %0.2f  index:%d",distanceBetween ,i);
+        if (minDistance==0) minDistance=distanceBetween;
+        else {
+            if (minDistance>distanceBetween) {
+                minDistance=distanceBetween;
+                minIndex=i;
+            }
+        }
+    }
+    NSValue *val = [_staticPoints objectAtIndex:minIndex];
+    CLLocation *closestGPS = [_staticGPS objectAtIndex:minIndex];
+    CLLocation *secondGPSofRectangle = [self calculate2ndGPS:closestGPS];
+        //
+    CGPoint p = [val CGPointValue];
+    return p;
+}
+- (void) addMe
+{
+    UserModel* me=[UserModel sharedUser];
+    JCAnnotation *a4 = [[JCAnnotation alloc] init];
+    a4.contentPosition = [self coordinateToPoint:me.myLocation];
+    a4.typeofService = 3;
+    [self.scrollView addAnnotation:a4];
+}
+- (void) addStaticGPS
+{
+     for (int i=0; i<_staticPoints.count; i++) {
+        NSValue *val = [_staticPoints objectAtIndex:i];
+        CGPoint p = [val CGPointValue];  
+        JCAnnotation *a4 = [[JCAnnotation alloc] init];
+        a4.contentPosition = p;
+        a4.typeofService = 2;
+        [self.scrollView addAnnotation:a4];
+    }
+  
+}
 
 #pragma mark - JCTiledScrollViewDelegate
 
@@ -329,6 +460,10 @@
                 
             case 1:
                 view.imageView.image = [UIImage imageNamed:@"rental_icon70.png"];
+                break;
+                
+            case 3:
+                view.imageView.image = [UIImage imageNamed:@"regular.png"];
                 break;
                 
             default:

@@ -11,7 +11,11 @@
 #import "DetailView.h"
 #import "AwesomeMenu.h"
 
-@interface PistePlanViewController : UIViewController <JCTileSource, JCTiledScrollViewDelegate, AwesomeMenuDelegate>
+@interface PistePlanViewController : UIViewController <JCTileSource, JCTiledScrollViewDelegate, AwesomeMenuDelegate> {
+    NSArray * _staticGPS;
+    NSArray * _staticPoints;
+    
+}
 @property (nonatomic, retain) JCTiledScrollView *scrollView;
 @property (nonatomic, retain) DetailView *detailView;
 
