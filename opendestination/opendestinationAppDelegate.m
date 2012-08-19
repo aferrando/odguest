@@ -342,8 +342,8 @@ static NSString* kAppId = @"255658224527885";
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
-        //  [PFPush storeDeviceToken:newDeviceToken];
-        //  [PFPush subscribeToChannelInBackground:@"" target:self selector:@selector(subscribeFinished:error:)];
+        //         [PFPush storeDeviceToken:newDeviceToken];
+        // [PFPush subscribeToChannelInBackground:@"" target:self selector:@selector(subscribeFinished:error:)];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

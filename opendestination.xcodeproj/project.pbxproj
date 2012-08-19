@@ -1391,6 +1391,7 @@
 		5055976015C54AED00AD5300 /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5055975815C54A6B00AD5300 /* ShareKit.bundle */; };
 		5055976315C54D3A00AD5300 /* ShareKitDemoConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5055976215C54D3A00AD5300 /* ShareKitDemoConfigurator.m */; };
 		508085EB15DD600000FFF9AD /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508085EA15DD600000FFF9AD /* Twitter.framework */; };
+		508085F015E12EDE00FFF9AD /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5039437315D95E7D006B93FD /* Parse.framework */; };
 		508502E1155924C70078BFA0 /* AwesomeMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2815591DCE001ABFF9 /* AwesomeMenu.h */; };
 		508502E2155924C70078BFA0 /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2915591DCE001ABFF9 /* AwesomeMenu.m */; };
 		508502E3155924C70078BFA0 /* AwesomeMenuItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2A15591DCE001ABFF9 /* AwesomeMenuItem.h */; };
@@ -2635,6 +2636,7 @@
 				500AF1C815C331C10080275D /* MessageUI.framework in Frameworks */,
 				500AF1C615C3317E0080275D /* Security.framework in Frameworks */,
 				5085031B155AAD010078BFA0 /* QuartzCore.framework in Frameworks */,
+				508085F015E12EDE00FFF9AD /* Parse.framework in Frameworks */,
 				E8FB79E9144455B1007E50BA /* libNSURLConnectionsManager.a in Frameworks */,
 				E8AF7BEB143C6FEC00F07933 /* EventKit.framework in Frameworks */,
 				E81E0B791403BB1900254C6C /* CoreLocation.framework in Frameworks */,
@@ -6087,12 +6089,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Ferrando (53K836WZNT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Albert Ferrando (53K836WZNT)";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "opendestination/opendestination-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "opendestination/opendestination-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -6103,6 +6110,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
@@ -6123,11 +6131,16 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Ferrando (53K836WZNT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Albert Ferrando (53K836WZNT)";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "opendestination/opendestination-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "opendestination/opendestination-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -6137,6 +6150,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
