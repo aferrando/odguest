@@ -208,16 +208,16 @@ static NSString* kAppId = @"255658224527885";
     
     
     TODOTableViewController *viewController2 = [[TODOTableViewController alloc] init];
-    UITabBarItem *tab2 = [[UITabBarItem alloc] initWithTitle:@"TO-DO" 
+    UITabBarItem *tab2 = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"todoKey", @"profile")  
                                                        image:[UIImage imageNamed:@"259-list.png"] tag:2];
     UINavigationController *navigationController2 = [[UINavigationController alloc]
                                                      initWithRootViewController:viewController2];
     
     [navigationController2.navigationBar setTintColor:kMainColor];
     [navigationController2 setTabBarItem:tab2];
-    [tab2 setEnabled:FALSE];
+        //  [tab2 setEnabled:FALSE];
     HeaderViewController *viewController3 = [[HeaderViewController alloc] init];
-    UITabBarItem *tab3 = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"profileKey", @"profile") 
+    UITabBarItem *tab3 = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"signInKey", @"profile") 
                                                        image:[UIImage imageNamed:@"register.png"] tag:3];
     [viewController3 setTabBarItem:tab3];
     UINavigationController *navigationController3 = [[UINavigationController alloc]
@@ -225,7 +225,7 @@ static NSString* kAppId = @"255658224527885";
     
     [navigationController3.navigationBar setTintColor:kMainColor];
     [navigationController3 setTabBarItem:tab3];
-    [tab3 setEnabled:FALSE];
+        //  [tab3 setEnabled:FALSE];
     
     UIViewController *viewController4 = [[UIViewController alloc] init];
     UITabBarItem *tab4 = [[UITabBarItem alloc] initWithTitle:@"Time" 

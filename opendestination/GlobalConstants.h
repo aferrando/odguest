@@ -77,6 +77,8 @@
 #define kCategoryFooterMargin 35
 #define kCategoryTextColor [UIColor whiteColor]
 #define kCategoryNavigation 0 //0 is Grid, 1 is TableView
+#define kBackgroundColor [UIColor darkGrayColor] //[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical-cloth.png"]]
+#define kTextColor [UIColor whiteColor]
     //#define kCategoryTextColor [UIColor blackColor]
 #define MIXPANEL_WHISTLER @"890d68e5afed6da476ff1fbd468610cf" //odWhistler
 

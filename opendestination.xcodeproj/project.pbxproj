@@ -1391,7 +1391,10 @@
 		5055976015C54AED00AD5300 /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5055975815C54A6B00AD5300 /* ShareKit.bundle */; };
 		5055976315C54D3A00AD5300 /* ShareKitDemoConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5055976215C54D3A00AD5300 /* ShareKitDemoConfigurator.m */; };
 		508085EB15DD600000FFF9AD /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508085EA15DD600000FFF9AD /* Twitter.framework */; };
-		508085F015E12EDE00FFF9AD /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5039437315D95E7D006B93FD /* Parse.framework */; };
+		508085F915E13DEC00FFF9AD /* TODOEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 508085F715E13DEA00FFF9AD /* TODOEmptyViewController.m */; };
+		508085FA15E13DEC00FFF9AD /* TODOEmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508085F815E13DEC00FFF9AD /* TODOEmptyViewController.xib */; };
+		508085FF15E20A9F00FFF9AD /* EmptyHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 508085FD15E20A9F00FFF9AD /* EmptyHeaderViewController.m */; };
+		5080860015E20A9F00FFF9AD /* EmptyHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508085FE15E20A9F00FFF9AD /* EmptyHeaderViewController.xib */; };
 		508502E1155924C70078BFA0 /* AwesomeMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2815591DCE001ABFF9 /* AwesomeMenu.h */; };
 		508502E2155924C70078BFA0 /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2915591DCE001ABFF9 /* AwesomeMenu.m */; };
 		508502E3155924C70078BFA0 /* AwesomeMenuItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2A15591DCE001ABFF9 /* AwesomeMenuItem.h */; };
@@ -2334,6 +2337,12 @@
 		5055976215C54D3A00AD5300 /* ShareKitDemoConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareKitDemoConfigurator.m; path = ../Submodules/ShareKit/Classes/Example/ShareKitDemoConfigurator.m; sourceTree = "<group>"; };
 		507E93AA15823D8A0028ACB6 /* SHKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHKConfig.h; sourceTree = "<group>"; };
 		508085EA15DD600000FFF9AD /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		508085F615E13DE900FFF9AD /* TODOEmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TODOEmptyViewController.h; sourceTree = "<group>"; };
+		508085F715E13DEA00FFF9AD /* TODOEmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TODOEmptyViewController.m; sourceTree = "<group>"; };
+		508085F815E13DEC00FFF9AD /* TODOEmptyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TODOEmptyViewController.xib; sourceTree = "<group>"; };
+		508085FC15E20A9E00FFF9AD /* EmptyHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyHeaderViewController.h; sourceTree = "<group>"; };
+		508085FD15E20A9F00FFF9AD /* EmptyHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyHeaderViewController.m; sourceTree = "<group>"; };
+		508085FE15E20A9F00FFF9AD /* EmptyHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyHeaderViewController.xib; sourceTree = "<group>"; };
 		50850316155AA8D10078BFA0 /* DDMenuController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDMenuController.h; sourceTree = "<group>"; };
 		50850317155AA8D20078BFA0 /* DDMenuController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDMenuController.m; sourceTree = "<group>"; };
 		5085031A155AACFF0078BFA0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -2636,7 +2645,6 @@
 				500AF1C815C331C10080275D /* MessageUI.framework in Frameworks */,
 				500AF1C615C3317E0080275D /* Security.framework in Frameworks */,
 				5085031B155AAD010078BFA0 /* QuartzCore.framework in Frameworks */,
-				508085F015E12EDE00FFF9AD /* Parse.framework in Frameworks */,
 				E8FB79E9144455B1007E50BA /* libNSURLConnectionsManager.a in Frameworks */,
 				E8AF7BEB143C6FEC00F07933 /* EventKit.framework in Frameworks */,
 				E81E0B791403BB1900254C6C /* CoreLocation.framework in Frameworks */,
@@ -3543,6 +3551,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		508085FB15E20A6300FFF9AD /* TODO */ = {
+			isa = PBXGroup;
+			children = (
+				50E0223415ADD7D5002C9BE9 /* TODOTableViewController.h */,
+				508085F615E13DE900FFF9AD /* TODOEmptyViewController.h */,
+				508085F715E13DEA00FFF9AD /* TODOEmptyViewController.m */,
+				508085F815E13DEC00FFF9AD /* TODOEmptyViewController.xib */,
+				50E0223515ADD7D6002C9BE9 /* TODOTableViewController.m */,
+				50E0223615ADD7D8002C9BE9 /* TODOTableViewController.xib */,
+			);
+			name = TODO;
+			sourceTree = "<group>";
+		};
 		50850326155ADF3A0078BFA0 /* DAReloadActivityButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -3860,6 +3881,9 @@
 				509BDA0715A18A1300BFFC3D /* HeaderViewController.h */,
 				509BDA0815A18A1300BFFC3D /* HeaderViewController.m */,
 				509BDA0915A18A1300BFFC3D /* HeaderViewController.xib */,
+				508085FC15E20A9E00FFF9AD /* EmptyHeaderViewController.h */,
+				508085FD15E20A9F00FFF9AD /* EmptyHeaderViewController.m */,
+				508085FE15E20A9F00FFF9AD /* EmptyHeaderViewController.xib */,
 			);
 			name = MyDeals;
 			sourceTree = "<group>";
@@ -4187,9 +4211,7 @@
 				E8B7C8C513D0101300F30D70 /* UserAccountViewController.xib */,
 				A8801ADD14A8E17E00BD421E /* MyDeals */,
 				A8186D71147D530D00B60078 /* MyNotificationsTableViewController.h */,
-				50E0223415ADD7D5002C9BE9 /* TODOTableViewController.h */,
-				50E0223515ADD7D6002C9BE9 /* TODOTableViewController.m */,
-				50E0223615ADD7D8002C9BE9 /* TODOTableViewController.xib */,
+				508085FB15E20A6300FFF9AD /* TODO */,
 				A8186D72147D530F00B60078 /* MyNotificationsTableViewController.m */,
 				A8186D73147D531000B60078 /* MyNotificationsTableViewController.xib */,
 				E859431D13EBBF12004FC415 /* MyInterestsTableViewController.h */,
@@ -5512,6 +5534,8 @@
 				5006C80515DBCABF006466B0 /* SeparatorTimeline@2x.png in Resources */,
 				5006C80615DBCABF006466B0 /* SeparatorTimelineDark.png in Resources */,
 				5006C80715DBCABF006466B0 /* SeparatorTimelineDark@2x.png in Resources */,
+				508085FA15E13DEC00FFF9AD /* TODOEmptyViewController.xib in Resources */,
+				5080860015E20A9F00FFF9AD /* EmptyHeaderViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5920,6 +5944,8 @@
 				5025913F15DA40C400DC5321 /* BWLongTextViewController.m in Sources */,
 				5025914015DA40C400DC5321 /* BWSelectViewController.m in Sources */,
 				5025914915DA41EF00DC5321 /* MeTableViewController.m in Sources */,
+				508085F915E13DEC00FFF9AD /* TODOEmptyViewController.m in Sources */,
+				508085FF15E20A9F00FFF9AD /* EmptyHeaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6085,9 +6111,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = armv6;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Ferrando (53K836WZNT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Albert Ferrando (53K836WZNT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Albert Ferrando";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Albert Ferrando";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6106,6 +6133,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/opendestination\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				"OTHER_CFLAGS[arch=*]" = "-mno-thumb";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -6113,11 +6141,12 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
+				PROVISIONING_PROFILE = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				VALID_ARCHS = "armv6 armv7";
+				"VALID_ARCHS[sdk=*]" = "armv6 armv7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -6126,10 +6155,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = armv6;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Ferrando (53K836WZNT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Albert Ferrando (53K836WZNT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Albert Ferrando";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Albert Ferrando";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6147,14 +6177,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/opendestination\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
+				PROVISIONING_PROFILE = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				VALIDATE_PRODUCT = YES;

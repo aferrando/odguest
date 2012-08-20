@@ -119,6 +119,7 @@
                     NSInteger errorCode = [[dict objectForKey:@"errorCode"] integerValue];
                     NSString * desc = (NSString *)[dict objectForKey:@"description"];
                     NSLog(@"%@: errorCode: %d: %@",[self description], errorCode, desc);
+                    [self connectionErrorMessage];
                 } else {
                     [self parseDataDict:dict];
                 }
@@ -127,15 +128,34 @@
 #ifdef __DEBUG__
             NSLog(@"%@: Error at parsing json. Maybe an encoding problem. Error description: %@",[self description], [error description]);
 #endif
+            [self connectionErrorMessage];
+            
         }
         
         } else {
 #ifdef __DEBUG__
             NSLog(@"%@: Error response data with void data", [self description] );
 #endif
+            [self connectionErrorMessage];
         }
 }
+- (void) connectionErrorMessage {
+    alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"connectionKey",@"Alert") message:NSLocalizedString(@"connectionErrorMsgKey",@"Must be registered to set your deals and add points to your profile")];
+    
+/*    [alert addButtonWithTitle:NSLocalizedString(@"saveKey",@"Sign In") block:^{
+            // Do something or nothing.... This block can even be nil!
+        [self saveSettings];
+            //  [self.navigationController popViewControllerAnimated:TRUE];
+        
+    }];*/
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:^{
+            // Do something or nothing.... This block can even be nil!
+            // [self.navigationController popViewControllerAnimated:TRUE];
+        
+    }];
+    [alert show];
 
+}
 
 - (void) parseDataDict:(NSDictionary *)dict
 {

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BlockAlertView.h"
 
 #define kCategoryUpdatedNotification @"kCategoryUpdatedNotification"
 
@@ -25,6 +26,7 @@
   NSArray * _sons;
     BOOL widget;
     BOOL folder;
+    BlockAlertView *alert;
 }
 @property ( nonatomic, readonly ) NSDictionary * userInfo;
 @property ( nonatomic, assign ) NSInteger categoryID;
@@ -39,6 +41,7 @@
 @property ( nonatomic ) NSArray * sons;
 @property (assign) BOOL widget;
 @property (assign) BOOL folder;
+@property (strong, nonatomic) BlockAlertView *alert;
 
 - (id) initWithId:(NSInteger)id;
 - (id) initWithInfo:(NSDictionary *)userInfo;

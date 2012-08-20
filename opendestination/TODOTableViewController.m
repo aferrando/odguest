@@ -13,6 +13,7 @@
 #import "CustomTableViewCell.h"
 #import "OportunityDetailViewController.h"
 #import "Destination.h"
+#import "TODOEmptyViewController.h"
 
 #import "TaggedNSURLConnectionsManager.h"
 
@@ -45,12 +46,7 @@
          noItemLabel.textColor=[UIColor whiteColor];
          //There is no need to add the TimeScroller as a subview.
          //  _timeScroller = [[TimeScroller alloc] initWithDelegate:self];*/
-        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"mapKey", @"Mapa")
-                                                                      style:UIBarButtonItemStyleBordered
-                                                                     target:self
-                                                                     action:@selector(showMapLocation)];
-        self.navigationItem.rightBarButtonItem = barButton;
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,320, 40)];
+          UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,320, 40)];
         self.tableView.tableHeaderView = headerView;
         [self addSegmentedControl];
     }
@@ -90,7 +86,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:NSLocalizedString(@"todoNextKey",@"TO DO NEXT")];
+    [self setTitle:NSLocalizedString(@"todoKey",@"TO DO NEXT")];
         //  [self.tableView setSeparatorColor:[UIColor orangeColor]];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:background ]]];
@@ -150,7 +146,18 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (![[UserModel sharedUser] isGuest]){
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"mapKey", @"Mapa")
+                                                                      style:UIBarButtonItemStyleBordered
+                                                                     target:self
+                                                                     action:@selector(showMapLocation)];
+        self.navigationItem.rightBarButtonItem = barButton;
+
     [self reload];
+    } else {
+        empty=[[TODOEmptyViewController alloc] initWithNibName:@"TODOEmptyViewController" bundle:nil ];
+        [self.view addSubview:empty.view];
+    }
 }
 
 

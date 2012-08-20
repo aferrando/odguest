@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ClusterMapViewController.h"
 #import "UserModel.h"
+#import "TODOEmptyViewController.h"
 @interface TODOTableViewController : UITableViewController
 {
     NSMutableArray * _opportunities;
@@ -17,6 +18,7 @@
     ClusterMapViewController * map;
     NSMutableArray * _opportunitiesLater;
     int selectedControl;
+    TODOEmptyViewController *empty;
 
 }
 @property ( nonatomic)  UISegmentedControl *typeSegmentedCtrl;

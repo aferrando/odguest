@@ -667,7 +667,7 @@ static UserModel * sharedInstance = nil;
                     NSLog(@"%@: error code %d when registering the device",
                           [self description], [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue]);
                     if ( [(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 1003)
-                        [self showAlert:NSLocalizedString(@"usernameExists",  @"User name already exists")];
+                        [self showAlert:NSLocalizedString(@"usernameExistsKey",  @"User name already exists")];
                     else
                         [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
                     

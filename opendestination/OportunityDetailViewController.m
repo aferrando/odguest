@@ -20,7 +20,7 @@
 #import "Destination.h"
 #import "PopUpViewController.h"
 #import "UIViewController+MJPopupViewController.h"
-    //#import "SHK.h"
+#import "SHK.h"
 #import "SelectSignInViewController.h"
 #import "MixpanelAPI.h"
 
@@ -710,7 +710,7 @@
     
         //Applying ShareKit 
         // Create the item to share (in this example, a url)
-/*	NSURL *url = [NSURL URLWithString:@"http://www.opendestination.com"];
+	NSURL *url = [NSURL URLWithString:@"http://www.opendestination.com"];
         	SHKItem *item = [SHKItem URL:url title:_opportunity.title];
     item.image=_imageView.image;
     item.facebookURLSharePictureURI=_opportunity.imageURL;
@@ -720,7 +720,7 @@
         	SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
     
         // Display the action sheet
-        	[actionSheet showFromToolbar: self.navigationController.toolbar];*/
+        	[actionSheet showFromToolbar: self.navigationController.toolbar];
 }
 
 - (IBAction)redeemBtnPressed:(id)sender {

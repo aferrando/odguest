@@ -17,6 +17,7 @@
 #import "GlobalConstants.h"
 #import "SelectSignInViewController.h"
 #import "MeTableViewController.h"
+#import "EmptyHeaderViewController.h"
 @interface HeaderViewController ()
 
 @end
@@ -178,6 +179,12 @@
 - (void) viewWillAppear:(BOOL)animated {
     self.userModel=[UserModel sharedUser];
     if ((self.userModel.userName==nil) || ([self.userModel isGuest])) {
+            [self setTitle:NSLocalizedString(@"myprofileKey", @"")];
+            empty=[[EmptyHeaderViewController alloc] initWithNibName:@"EmptyHeaderViewController" bundle:nil ];
+            [self.view addSubview:empty.view];
+        /*
+
+        
         SelectSignInViewController *loginVC = [[SelectSignInViewController alloc] initWithNibName:@"SelectSignInViewController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc]
                                                         initWithRootViewController:loginVC];
@@ -185,9 +192,9 @@
             //  loginVC.delegate = self;
             // LoginViewController * vc = [[LoginViewController alloc] init];
             //[vc addCloseWindow];
-        [self.navigationController presentModalViewController:navigationController animated:YES];
+        [self.navigationController presentModalViewController:navigationController animated:YES];*/
        
-    }
+    } else {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadUser)
                                                  name:kUserUpdatedNotification
@@ -295,7 +302,7 @@
     mySharesView.layer.shadowOpacity = 1.0f;
     
     mySharesView.layer.shadowRadius = 10.0f;
-    
+    }
    
 }
 - (void) reloadUser {

@@ -383,7 +383,9 @@ pageControl, customBadge,  progressView, anonymousBar;
         myImageView.layer.borderWidth = 0.1;
         
         [myView addSubview:title];
-        CustomBadge *customBadge2 = [CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", self.category.numOpportunities]
+        if (self.category.numOpportunities > 0) {
+        CustomBadge *customBadge2 = nil;
+         customBadge2=[CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", self.category.numOpportunities]
                                                        withStringColor:[UIColor whiteColor]
                                                         withInsetColor:[UIColor redColor]
                                                         withBadgeFrame:YES
@@ -391,8 +393,20 @@ pageControl, customBadge,  progressView, anonymousBar;
                                                              withScale:1.3
                                                            withShining:YES];
         [customBadge2 setFrame:CGRectMake(140, -3, customBadge2.frame.size.width, customBadge2.frame.size.height)];
-        [myView addSubview:customBadge2];
-        [myView setBackgroundColor:[UIColor  clearColor]];
+        
+            [myView addSubview:customBadge2];}
+       else {
+           UILabel *loading = [[UILabel alloc] initWithFrame: CGRectMake(130, 0, 100, 30)];
+           loading.text = NSLocalizedString(@"loadingKey", @"");
+           [loading setTextColor:[UIColor whiteColor]];
+           [loading setFont:[UIFont boldSystemFontOfSize:15.0]];
+           [loading setBackgroundColor:[UIColor clearColor]];
+
+           [myView addSubview:loading];
+       
+       
+       }
+         [myView setBackgroundColor:[UIColor  clearColor]];
             //   [myView addSubview:myImageView];
         self.navigationItem.titleView = myView;
         
@@ -495,9 +509,9 @@ pageControl, customBadge,  progressView, anonymousBar;
 - (void) reload {
     if (![self.userModel isGuest]){
         
-        UITabBarItem *mapTabBarItem= [[((UITabBarController *)[self.view.window rootViewController]).tabBar items] objectAtIndex:1]; // I want to desable the second tab for example (index 1)
+            //    UITabBarItem *mapTabBarItem= [[((UITabBarController *)[self.view.window rootViewController]).tabBar items] objectAtIndex:1]; // I want to desable the second tab for example (index 1)
         UITabBarItem *mapTabBarItem2= [[((UITabBarController *)[self.view.window rootViewController]).tabBar items] objectAtIndex:2]; // I want to desable
-        [mapTabBarItem setEnabled:YES];
+                                                                                                                                      //  [mapTabBarItem setEnabled:YES];
         [mapTabBarItem2 setEnabled:YES];
         [mapTabBarItem2 setTitle:[self.userModel realName]];
         ((UITabBarController *)[self.view.window rootViewController]).hidesBottomBarWhenPushed=TRUE;

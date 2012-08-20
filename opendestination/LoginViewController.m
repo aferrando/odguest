@@ -73,6 +73,11 @@ registerButton, anonymousButton;
     loginButton.layer.borderWidth = 0.5;
     loginButton.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     [loginButton setTitle:NSLocalizedString(@"loginKey", @"Social Networks") forState:UIControlStateNormal];
+    forgotPasswordBtn.layer.masksToBounds = YES;
+    forgotPasswordBtn.layer.cornerRadius = 5.0;
+    forgotPasswordBtn.layer.borderWidth = 0.5;
+    forgotPasswordBtn.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    [forgotPasswordBtn setTitle:NSLocalizedString(@"forgotKey", @"Social Networks") forState:UIControlStateNormal];
 
         //If the app is a traveller app we can select among multiple destinations
     int traveller=kTraveller;
@@ -115,6 +120,7 @@ registerButton, anonymousButton;
 - (void)viewDidUnload
 {
     destinationLabel = nil;
+    forgotPasswordBtn = nil;
   [super viewDidUnload];
 }
 

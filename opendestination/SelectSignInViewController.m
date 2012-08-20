@@ -70,8 +70,20 @@
     [guestButton setTitle:NSLocalizedString(@"guestKey", @"Social Networks") forState:UIControlStateNormal];
     [self.navigationController.navigationBar setHidden:YES];
     [logoButton setImageWithURL:[NSURL URLWithString:[[Destination sharedInstance] destinationImage]] placeholderImage:[UIImage imageNamed:@"deal_photodefault.png"]];
-    
+        // [self addRandomAnnotations];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self
+               action:@selector(closeWindow)
+     forControlEvents:UIControlEventTouchDown];
+    [button setImage:[UIImage imageNamed:@"CloseButton.png"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(5.0, 5.0, 25, 25);
+    [button setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:button];
+  
 
+}
+- (void) closeWindow {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload

@@ -422,11 +422,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/SelectSignInViewController.m"
-         timestampString = "366277910.101434"
+         timestampString = "367082799.565682"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "129"
-         endingLineNumber = "129"
+         startingLineNumber = "141"
+         endingLineNumber = "141"
          landmarkName = "-facebookDone"
          landmarkType = "5">
       </FileBreakpoint>
@@ -435,11 +435,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/SelectSignInViewController.m"
-         timestampString = "366277910.101434"
+         timestampString = "367082799.565682"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "119"
-         endingLineNumber = "119"
+         startingLineNumber = "131"
+         endingLineNumber = "131"
          landmarkName = "-facebookBtnPressed:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -695,11 +695,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/CustomContentViewController.m"
-         timestampString = "366830842.815006"
+         timestampString = "367143210.590058"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "437"
-         endingLineNumber = "437"
+         startingLineNumber = "451"
+         endingLineNumber = "451"
          landmarkName = "-buttonPressed:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -721,11 +721,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/SelectSignInViewController.m"
-         timestampString = "366298805.058633"
+         timestampString = "367082799.565682"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "142"
-         endingLineNumber = "142"
+         startingLineNumber = "154"
+         endingLineNumber = "154"
          landmarkName = "-signupButtonPressed:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -799,12 +799,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/HeaderViewController.m"
-         timestampString = "366733716.534313"
+         timestampString = "367083494.876969"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "304"
-         endingLineNumber = "304"
+         startingLineNumber = "311"
+         endingLineNumber = "311"
          landmarkName = "-reloadUser"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "opendestination/CustomContentViewController.m"
+         timestampString = "367143210.590058"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "663"
+         endingLineNumber = "663"
+         landmarkName = "-showCategories"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

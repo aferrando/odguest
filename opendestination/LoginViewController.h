@@ -27,6 +27,7 @@
   UserModel * userModel;
   @private
   BOOL mustShowRegister;
+    IBOutlet UIButton *forgotPasswordBtn;
   IBOutlet UIButton * loginButton;
   IBOutlet UIButton * registerButton;
   IBOutlet UIButton * anonymousButton;

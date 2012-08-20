@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "UserModel.h"
+#import "EmptyHeaderViewController.h"
 
 @interface HeaderViewController : UIViewController <UIImagePickerControllerDelegate>
 {
     UserModel * _userModel;
+    EmptyHeaderViewController *empty;
 
 }
 @property (strong, nonatomic) IBOutlet UIButton *userImage;
