@@ -603,7 +603,6 @@
 		504C8A5415CC2CD500B3A630 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B7F48013E6F900008C37AA /* UserModel.m */; };
 		504C8A5515CC2CD500B3A630 /* MyDealsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E859431513EA978D004FC415 /* MyDealsTableViewController.m */; };
 		504C8A5615CC2CD500B3A630 /* IAMultipartRequestGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E859431A13EAE03A004FC415 /* IAMultipartRequestGenerator.m */; };
-		504C8A5715CC2CD500B3A630 /* MyInterestsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E859431E13EBBF13004FC415 /* MyInterestsTableViewController.m */; };
 		504C8A5815CC2CD500B3A630 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E859432A13EBCD28004FC415 /* LoginViewController.m */; };
 		504C8A5A15CC2CD500B3A630 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E859434E13EC186B004FC415 /* MBProgressHUD.m */; };
 		504C8A5B15CC2CD500B3A630 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B398F13F51F3C00AF0C5C /* Utilities.m */; };
@@ -684,7 +683,6 @@
 		504C8AAC15CC2CD500B3A630 /* OpportunitiesListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E82400E913CD9F7500982E24 /* OpportunitiesListViewController.xib */; };
 		504C8AAE15CC2CD500B3A630 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8FEE52613D0728C0051FF61 /* Entitlements.plist */; };
 		504C8AAF15CC2CD500B3A630 /* MyDealsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859431613EA978F004FC415 /* MyDealsTableViewController.xib */; };
-		504C8AB015CC2CD500B3A630 /* MyInterestsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859431F13EBBF14004FC415 /* MyInterestsTableViewController.xib */; };
 		504C8AB115CC2CD500B3A630 /* mapaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859433C13EC1173004FC415 /* mapaViewController.xib */; };
 		504C8AB215CC2CD500B3A630 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8BBE77213FAC40B00FF07C4 /* RegisterViewController.xib */; };
 		504C8AB315CC2CD500B3A630 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E8C4922B13FD15BB0099420A /* Default.png */; };
@@ -1286,8 +1284,6 @@
 		E859431713EA9791004FC415 /* MyDealsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E859431513EA978D004FC415 /* MyDealsTableViewController.m */; };
 		E859431813EA9791004FC415 /* MyDealsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859431613EA978F004FC415 /* MyDealsTableViewController.xib */; };
 		E859431C13EAE03A004FC415 /* IAMultipartRequestGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E859431A13EAE03A004FC415 /* IAMultipartRequestGenerator.m */; };
-		E859432013EBBF15004FC415 /* MyInterestsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E859431E13EBBF13004FC415 /* MyInterestsTableViewController.m */; };
-		E859432113EBBF15004FC415 /* MyInterestsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859431F13EBBF14004FC415 /* MyInterestsTableViewController.xib */; };
 		E859432313EBC24E004FC415 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E859432213EBC24E004FC415 /* CFNetwork.framework */; };
 		E859432C13EBCD2C004FC415 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E859432A13EBCD28004FC415 /* LoginViewController.m */; };
 		E859433F13EC1180004FC415 /* mapaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859433C13EC1173004FC415 /* mapaViewController.xib */; };
@@ -2185,9 +2181,6 @@
 		E859431613EA978F004FC415 /* MyDealsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyDealsTableViewController.xib; sourceTree = "<group>"; };
 		E859431A13EAE03A004FC415 /* IAMultipartRequestGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAMultipartRequestGenerator.m; sourceTree = "<group>"; };
 		E859431B13EAE03A004FC415 /* IAMultipartRequestGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAMultipartRequestGenerator.h; sourceTree = "<group>"; };
-		E859431D13EBBF12004FC415 /* MyInterestsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInterestsTableViewController.h; sourceTree = "<group>"; };
-		E859431E13EBBF13004FC415 /* MyInterestsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInterestsTableViewController.m; sourceTree = "<group>"; };
-		E859431F13EBBF14004FC415 /* MyInterestsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyInterestsTableViewController.xib; sourceTree = "<group>"; };
 		E859432213EBC24E004FC415 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		E859432913EBCD26004FC415 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		E859432A13EBCD28004FC415 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -3054,6 +3047,31 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		507B0F0415E3C43100620224 /* BlockAlert */ = {
+			isa = PBXGroup;
+			children = (
+				504E5FCC155EBFD100A14ACD /* BlockUI.h */,
+				504E5FCA155EBF7B00A14ACD /* BlockBackground.h */,
+				504E5FCB155EBF7B00A14ACD /* BlockBackground.m */,
+				504E5FC5155EBE3500A14ACD /* BlockAlertView.h */,
+				504E5FC6155EBE3500A14ACD /* BlockAlertView.m */,
+			);
+			name = BlockAlert;
+			sourceTree = "<group>";
+		};
+		507B0F0515E3C49F00620224 /* FGallery */ = {
+			isa = PBXGroup;
+			children = (
+				507B0EF615E2B98800620224 /* FGalleryPhoto.h */,
+				507B0EF715E2B98800620224 /* FGalleryPhoto.m */,
+				507B0EF815E2B98800620224 /* FGalleryPhotoView.h */,
+				507B0EF915E2B98800620224 /* FGalleryPhotoView.m */,
+				507B0EFA15E2B98800620224 /* FGalleryViewController.h */,
+				507B0EFB15E2B98800620224 /* FGalleryViewController.m */,
+			);
+			name = FGallery;
+			sourceTree = "<group>";
+		};
 		508085FB15E20A6300FFF9AD /* TODO */ = {
 			isa = PBXGroup;
 			children = (
@@ -3447,12 +3465,9 @@
 		E82400BB13CC32A900982E24 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				507B0EF615E2B98800620224 /* FGalleryPhoto.h */,
-				507B0EF715E2B98800620224 /* FGalleryPhoto.m */,
-				507B0EF815E2B98800620224 /* FGalleryPhotoView.h */,
-				507B0EF915E2B98800620224 /* FGalleryPhotoView.m */,
-				507B0EFA15E2B98800620224 /* FGalleryViewController.h */,
-				507B0EFB15E2B98800620224 /* FGalleryViewController.m */,
+				5050EC4F14964FAE003EC719 /* customizedBadge */,
+				A82F53C2148E343700C69DA1 /* CustomTabBar */,
+				507B0F0515E3C49F00620224 /* FGallery */,
 				5080860C15E272BE00FFF9AD /* MWFeedParser */,
 				502AEC2815D971530024303F /* FormKit */,
 				50B7B27815D3FBAF00063766 /* MPLib */,
@@ -3467,11 +3482,7 @@
 				5003F66E156D52D1009B7466 /* OCMapView */,
 				50C16F5A156D222D00187AE7 /* REVClusterMap */,
 				50C756E615655D440019152C /* MGTileMenu */,
-				504E5FCC155EBFD100A14ACD /* BlockUI.h */,
-				504E5FCA155EBF7B00A14ACD /* BlockBackground.h */,
-				504E5FCB155EBF7B00A14ACD /* BlockBackground.m */,
-				504E5FC5155EBE3500A14ACD /* BlockAlertView.h */,
-				504E5FC6155EBE3500A14ACD /* BlockAlertView.m */,
+				507B0F0415E3C43100620224 /* BlockAlert */,
 				50B1D414155D27B300F569C6 /* CPPickerView */,
 				50850326155ADF3A0078BFA0 /* DAReloadActivityButton */,
 				50B1D415155D27C700F569C6 /* DDMenuController */,
@@ -3707,8 +3718,6 @@
 				508BEF8E1521C2A000C40B77 /* DataSet.m */,
 				50A5A4FF149B60C500A58E17 /* NSDate+Helper.h */,
 				50A5A500149B60C500A58E17 /* NSDate+Helper.m */,
-				5050EC4F14964FAE003EC719 /* customizedBadge */,
-				A82F53C2148E343700C69DA1 /* CustomTabBar */,
 				E82400BB13CC32A900982E24 /* libs */,
 				E837F88614233C3C000D78C3 /* Models */,
 				E8B72E2213C1BF4100A046A6 /* opendestinationAppDelegate.h */,
@@ -3750,9 +3759,6 @@
 				508085FB15E20A6300FFF9AD /* TODO */,
 				A8186D72147D530F00B60078 /* MyNotificationsTableViewController.m */,
 				A8186D73147D531000B60078 /* MyNotificationsTableViewController.xib */,
-				E859431D13EBBF12004FC415 /* MyInterestsTableViewController.h */,
-				E859431E13EBBF13004FC415 /* MyInterestsTableViewController.m */,
-				E859431F13EBBF14004FC415 /* MyInterestsTableViewController.xib */,
 				502BB039158F3AA90050DF63 /* Language Selection */,
 				502AEC7415D9716C0024303F /* Settings */,
 				50F6A21B15B928FF008FF7C2 /* AnonymousBarViewController.h */,
@@ -3926,7 +3932,6 @@
 				504C8AAC15CC2CD500B3A630 /* OpportunitiesListViewController.xib in Resources */,
 				504C8AAE15CC2CD500B3A630 /* Entitlements.plist in Resources */,
 				504C8AAF15CC2CD500B3A630 /* MyDealsTableViewController.xib in Resources */,
-				504C8AB015CC2CD500B3A630 /* MyInterestsTableViewController.xib in Resources */,
 				504C8AB115CC2CD500B3A630 /* mapaViewController.xib in Resources */,
 				504C8AB215CC2CD500B3A630 /* RegisterViewController.xib in Resources */,
 				504C8AB315CC2CD500B3A630 /* Default.png in Resources */,
@@ -4352,7 +4357,6 @@
 				E82400EB13CD9F7600982E24 /* OpportunitiesListViewController.xib in Resources */,
 				E8FEE52713D0728C0051FF61 /* Entitlements.plist in Resources */,
 				E859431813EA9791004FC415 /* MyDealsTableViewController.xib in Resources */,
-				E859432113EBBF15004FC415 /* MyInterestsTableViewController.xib in Resources */,
 				E859433F13EC1180004FC415 /* mapaViewController.xib in Resources */,
 				E8BBE77413FAC40B00FF07C4 /* RegisterViewController.xib in Resources */,
 				E8C4922C13FD15BC0099420A /* Default.png in Resources */,
@@ -4906,7 +4910,6 @@
 				504C8A5415CC2CD500B3A630 /* UserModel.m in Sources */,
 				504C8A5515CC2CD500B3A630 /* MyDealsTableViewController.m in Sources */,
 				504C8A5615CC2CD500B3A630 /* IAMultipartRequestGenerator.m in Sources */,
-				504C8A5715CC2CD500B3A630 /* MyInterestsTableViewController.m in Sources */,
 				504C8A5815CC2CD500B3A630 /* LoginViewController.m in Sources */,
 				504C8A5A15CC2CD500B3A630 /* MBProgressHUD.m in Sources */,
 				504C8A5B15CC2CD500B3A630 /* Utilities.m in Sources */,
@@ -5108,7 +5111,6 @@
 				E8B7F48113E6F900008C37AA /* UserModel.m in Sources */,
 				E859431713EA9791004FC415 /* MyDealsTableViewController.m in Sources */,
 				E859431C13EAE03A004FC415 /* IAMultipartRequestGenerator.m in Sources */,
-				E859432013EBBF15004FC415 /* MyInterestsTableViewController.m in Sources */,
 				E859432C13EBCD2C004FC415 /* LoginViewController.m in Sources */,
 				E859435113EC1880004FC415 /* MBProgressHUD.m in Sources */,
 				E89B399013F51F3C00AF0C5C /* Utilities.m in Sources */,
