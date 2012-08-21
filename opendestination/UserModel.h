@@ -96,6 +96,7 @@ typedef enum {
 - (void) refresh;
 - (void) setLocation;
 - (void) postImage:(UIImage *)image;
+- (void) sendPassword:(NSString *)email;
 - (void) setParam:(id)property;
 - (void) checkResponse:(NSData *)data;
 - (void) deviceWasRegistered:(NSData *)data;

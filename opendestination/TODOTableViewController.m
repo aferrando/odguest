@@ -147,6 +147,7 @@
 {
     [super viewDidAppear:animated];
     if (![[UserModel sharedUser] isGuest]){
+        [empty.view removeFromSuperview];
         UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"mapKey", @"Mapa")
                                                                       style:UIBarButtonItemStyleBordered
                                                                      target:self
@@ -389,6 +390,7 @@
                 break;
         }
     }
+    if ([[UserModel sharedUser] isGuest]) return 0;
     return [self.doneTODO count];
 }
 

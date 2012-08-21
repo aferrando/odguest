@@ -195,6 +195,7 @@
         [self.navigationController presentModalViewController:navigationController animated:YES];*/
        
     } else {
+        [empty.view removeFromSuperview];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadUser)
                                                  name:kUserUpdatedNotification

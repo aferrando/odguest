@@ -463,6 +463,14 @@ static UserModel * sharedInstance = nil;
   }
 }
 
+- (void) sendPassword:(NSString *)email;
+{
+        //  if ( (signedIn) && (_userID == 0 ) ) {
+    NSString * url = [NSString stringWithFormat:@"%@/user/sendPassword?uuid=%@&id=%d&email=%@&longitude=%f&latitude=%f", [[Destination sharedInstance] destinationService], udid, _userID ,email, _myLocation.coordinate.longitude, _myLocation.coordinate.latitude];
+    [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url forTarget:self action:@selector(checkResponse:) hudActivied:NO withString:nil];
+    
+        //  }
+}
 
 
 - (void) setLocation

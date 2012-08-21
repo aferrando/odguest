@@ -29,7 +29,7 @@
   BOOL mustShowRegister;
     IBOutlet UIButton *forgotPasswordBtn;
   IBOutlet UIButton * loginButton;
-  IBOutlet UIButton * registerButton;
+  IBOutlet UIButton * registerButton;   
   IBOutlet UIButton * anonymousButton;
   UITextField * usernameTextField;
   UITextField * passwordTextField;
@@ -53,5 +53,6 @@
 - (IBAction) guest;
 - (IBAction)signInWithFacebook:(id)sender;
 - (void) userDataWasUpdated;
+- (IBAction)sendPassword:(id)sender;
 
 @end

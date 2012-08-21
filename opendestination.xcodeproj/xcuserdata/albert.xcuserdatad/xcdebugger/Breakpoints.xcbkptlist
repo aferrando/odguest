@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/UserModel.m"
-         timestampString = "366718607.213265"
+         timestampString = "367238418.218666"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "842"
-         endingLineNumber = "842"
+         startingLineNumber = "850"
+         endingLineNumber = "850"
          landmarkName = "-getUserInfoForLoginSignupResponseData:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -183,19 +183,6 @@
          startingLineNumber = "174"
          endingLineNumber = "174"
          landmarkName = "-birthdateButtonPressed"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "opendestination/UserModel.m"
-         timestampString = "366718607.213265"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "721"
-         endingLineNumber = "721"
-         landmarkName = "-deviceWasRegistered:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -512,19 +499,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "opendestination/UserModel.m"
-         timestampString = "366718607.213265"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "712"
-         endingLineNumber = "712"
-         landmarkName = "-deviceWasRegistered:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "opendestination/SettingsViewController.m"
          timestampString = "366560119.872604"
          startingColumnNumber = "9223372036854775807"
@@ -604,11 +578,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/CustomContentViewController.m"
-         timestampString = "366228614.66763"
+         timestampString = "367225508.656124"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "302"
-         endingLineNumber = "302"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
          landmarkName = "-scrollViewDidScroll:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -617,11 +591,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/CustomContentViewController.m"
-         timestampString = "366228614.66763"
+         timestampString = "367225508.656124"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "325"
-         endingLineNumber = "325"
+         startingLineNumber = "331"
+         endingLineNumber = "331"
          landmarkName = "-pageTurn:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -694,19 +668,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "opendestination/CustomContentViewController.m"
-         timestampString = "367143210.590058"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "451"
-         endingLineNumber = "451"
-         landmarkName = "-buttonPressed:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "opendestination/SettingsViewController.m"
          timestampString = "366285355.143237"
          startingColumnNumber = "9223372036854775807"
@@ -746,19 +707,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "opendestination/CustomContentViewController.m"
-         timestampString = "366371296.250445"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "75"
-         endingLineNumber = "75"
-         landmarkName = "-setCategory:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "opendestination/SettingsViewController.m"
          timestampString = "366562021.58248"
          startingColumnNumber = "9223372036854775807"
@@ -773,11 +721,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/UserModel.m"
-         timestampString = "366718607.213265"
+         timestampString = "367238418.218666"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "506"
-         endingLineNumber = "506"
+         startingLineNumber = "514"
+         endingLineNumber = "514"
          landmarkName = "-setFullUser"
          landmarkType = "5">
       </FileBreakpoint>
@@ -799,11 +747,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "opendestination/HeaderViewController.m"
-         timestampString = "367083494.876969"
+         timestampString = "367230193.477629"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "311"
-         endingLineNumber = "311"
+         startingLineNumber = "312"
+         endingLineNumber = "312"
          landmarkName = "-reloadUser"
          landmarkType = "5">
       </FileBreakpoint>
@@ -811,13 +759,52 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "opendestination/CustomContentViewController.m"
-         timestampString = "367143210.590058"
+         filePath = "opendestination/FeedTableViewController.m"
+         timestampString = "367230193.477629"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "663"
-         endingLineNumber = "663"
-         landmarkName = "-showCategories"
+         startingLineNumber = "137"
+         endingLineNumber = "137"
+         landmarkName = "-tableView:numberOfRowsInSection:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "opendestination/FeedTableViewController.m"
+         timestampString = "367230193.477629"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "74"
+         endingLineNumber = "74"
+         landmarkName = "-updateTableWithParsedItems"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "opendestination/WebViewController.m"
+         timestampString = "367166623.135603"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "23"
+         endingLineNumber = "23"
+         landmarkName = "-initWithNibName:bundle:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "opendestination/CustomContentViewController.m"
+         timestampString = "367226739.163246"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "532"
+         endingLineNumber = "532"
+         landmarkName = "-buttonPressed:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

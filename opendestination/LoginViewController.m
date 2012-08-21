@@ -16,6 +16,7 @@
 #import "DBSignupViewController.h"
 #import "GlobalConstants.h"
 #import "MixpanelAPI.h"
+#import "SendPasswordViewController.h"
 
 @implementation LoginViewController
 
@@ -257,6 +258,18 @@ registerButton, anonymousButton;
       
       [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in failed"]];
   }
+}
+
+- (IBAction)sendPassword:(id)sender {
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    [mixpanel setSendDeviceModel:YES];
+    [mixpanel identifyUser:[[UserModel sharedUser] userName]];
+    
+    [mixpanel track:[[NSString alloc]initWithFormat:@"Forgot password button clicked"]];
+    
+    SendPasswordViewController *sendVC =[[SendPasswordViewController alloc] initWithNibName:@"SendPasswordViewController" bundle:nil];
+    [self.navigationController pushViewController:sendVC animated:TRUE];
+
 }
 
 

@@ -86,7 +86,12 @@
 #define MIXPANEL_THYON @"2857c0c6d9a4b3f719d93b136d896aa2" //odThyon
 #define MIXPANEL_OTHERS @"b0a175d14e957eb31204022523b76a93" //odThyon
 
-
-
+    //Categories settings
+    //News feeds
+#define NEWS_URL @"http://www.thyon.ch/feed"
+#define FACEBOOK_URL @"http://www.facebook.com/thyon4vallees"
+#define YOUTUBE_URL @"http://www.youtube.com/user/thyon4vallees"
+#define WEBCAM_IMAGES [[NSArray alloc] initWithObjects:@"http://www.thyon-photo-video.ch/thyon2000.jpg", @"http://thyon-photo-video.ch/snowpark.jpg",@"http://www.alm.ch/wallis2.jpg",@"http://www.alm.ch/wallis.jpg",@"http://www.alm.ch/wallis3.jpg",nil];
+#define WEBCAM_CAPTIONS [[NSArray alloc] initWithObjects:@"THYON", @"SNOWPARK CENTRALPARK",@"LES MASSES (THYON 1600)",@"GRANDE DIXENCE",@"DENT BLANCHE",nil];
     //Anzere color 1.0, 1.0, and 0.0
     //#define kMainColor [UIColor colorWithRed:1 green:0.8 blue:0.1 alpha:1]

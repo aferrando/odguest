@@ -26,6 +26,8 @@
 #import "PistePlanViewController.h"
 #import "MeteoViewController.h"
 #import "MixpanelAPI.h"
+#import "FeedTableViewController.h"
+#import "WebViewController.h"
 
     //#import "OpenSpringBoardVC.h"
 
@@ -49,6 +51,10 @@ pageControl, customBadge,  progressView, anonymousBar;
         _categoriesBadgets = nil;
         _categoriesLabels = nil;
         _category = nil;
+            // networkCaptions = [[NSArray alloc] initWithObjects:@"Happy New Year!",@"Frosty Web",nil];
+        networkImages = WEBCAM_IMAGES;
+        networkCaptions = WEBCAM_CAPTIONS;
+    
     }
     return self;
 }
@@ -447,6 +453,51 @@ pageControl, customBadge,  progressView, anonymousBar;
  
  
  }*/
+#pragma mark - FGalleryViewControllerDelegate Methods
+
+
+- (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
+{
+    
+	return [networkImages count];
+}
+
+
+- (FGalleryPhotoSourceType)photoGallery:(FGalleryViewController *)gallery sourceTypeForPhotoAtIndex:(NSUInteger)index
+{
+	return FGalleryPhotoSourceTypeNetwork;
+}
+
+
+- (NSString*)photoGallery:(FGalleryViewController *)gallery captionForPhotoAtIndex:(NSUInteger)index
+{
+    
+	return [networkCaptions objectAtIndex:index];
+}
+
+
+- (NSString*)photoGallery:(FGalleryViewController*)gallery filePathForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+    return @"unknown";
+}
+
+- (NSString*)photoGallery:(FGalleryViewController *)gallery urlForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+    return [networkImages objectAtIndex:index];
+}
+
+- (void)handleTrashButtonTouch:(id)sender {
+        // here we could remove images from our local array storage and tell the gallery to remove that image
+        // ex:
+        //[localGallery removeImageAtIndex:[localGallery currentIndex]];
+}
+
+
+- (void)handleEditCaptionButtonTouch:(id)sender {
+        // here we could implement some code to change the caption for a stored image
+}
+
+
+
+
 - (IBAction) buttonPressed:(id)sender {
 	MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
     [mixpanel setSendDeviceModel:YES];
@@ -464,6 +515,33 @@ pageControl, customBadge,  progressView, anonymousBar;
         [self presentModalViewController:piste animated:YES];
         
         }
+    if ([cat.name isEqualToString:@"Facebook"])
+        {
+        WebViewController * web = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+            // [detail setCategory:cat];
+        [web setUrl:FACEBOOK_URL];
+        [web setTitle:@"Facebook"];
+        web.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:web animated:YES];
+        
+        }
+    if ([cat.name isEqualToString:@"YouTube"])
+        {
+        WebViewController * web = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+            // [detail setCategory:cat];
+        [web setUrl:YOUTUBE_URL];
+        [web setTitle:@"YouTube"];
+            // web.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:web animated:YES];
+        
+        }
+    if ([cat.name isEqualToString:@"News"]){
+        FeedTableViewController * feed = [[FeedTableViewController alloc] initWithNibName:@"FeedTableViewController" bundle:nil];
+            // [detail setCategory:cat];
+        feed.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:feed animated:YES];
+        
+        }
     if ([cat.name isEqualToString:@"Weather"])
         {
         MeteoViewController * piste = [[MeteoViewController alloc] initWithNibName:@"MeteoViewController" bundle:nil];
@@ -471,6 +549,17 @@ pageControl, customBadge,  progressView, anonymousBar;
         piste.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self.navigationController pushViewController:piste animated:YES];
         
+        }
+    if ([cat.name isEqualToString:@"Webcam"])
+        {
+   
+        FGalleryViewController *networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
+        [self.navigationController pushViewController:networkGallery animated:YES];
+        /*     MeteoViewController * piste = [[MeteoViewController alloc] initWithNibName:@"MeteoViewController" bundle:nil];
+            // [detail setCategory:cat];
+        piste.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self.navigationController pushViewController:piste animated:YES];
+        */
         }
         //  UIViewController * vc = nil;
     if ( ( cat.numOpportunities > 0) && ([cat.sons count] > 0) ) {

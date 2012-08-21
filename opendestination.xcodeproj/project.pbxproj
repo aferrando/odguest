@@ -1390,11 +1390,33 @@
 		5051120815864B5E00CB4A47 /* 270-unhappyface@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5051120415864B5E00CB4A47 /* 270-unhappyface@2x.png */; };
 		5055976015C54AED00AD5300 /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5055975815C54A6B00AD5300 /* ShareKit.bundle */; };
 		5055976315C54D3A00AD5300 /* ShareKitDemoConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5055976215C54D3A00AD5300 /* ShareKitDemoConfigurator.m */; };
+		507B0EFC15E2B98800620224 /* FGalleryPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 507B0EF715E2B98800620224 /* FGalleryPhoto.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		507B0EFD15E2B98800620224 /* FGalleryPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 507B0EF915E2B98800620224 /* FGalleryPhotoView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		507B0EFE15E2B98800620224 /* FGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 507B0EFB15E2B98800620224 /* FGalleryViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		507B0F0215E3814300620224 /* SendPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 507B0F0015E3814300620224 /* SendPasswordViewController.m */; };
+		507B0F0315E3814300620224 /* SendPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507B0F0115E3814300620224 /* SendPasswordViewController.xib */; };
 		508085EB15DD600000FFF9AD /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508085EA15DD600000FFF9AD /* Twitter.framework */; };
 		508085F915E13DEC00FFF9AD /* TODOEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 508085F715E13DEA00FFF9AD /* TODOEmptyViewController.m */; };
 		508085FA15E13DEC00FFF9AD /* TODOEmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508085F815E13DEC00FFF9AD /* TODOEmptyViewController.xib */; };
 		508085FF15E20A9F00FFF9AD /* EmptyHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 508085FD15E20A9F00FFF9AD /* EmptyHeaderViewController.m */; };
 		5080860015E20A9F00FFF9AD /* EmptyHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508085FE15E20A9F00FFF9AD /* EmptyHeaderViewController.xib */; };
+		5080861015E2736D00FFF9AD /* FeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080860E15E2736600FFF9AD /* FeedTableViewController.m */; };
+		5080861115E2736D00FFF9AD /* FeedTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5080860F15E2736A00FFF9AD /* FeedTableViewController.xib */; };
+		5080861715E2767300FFF9AD /* MWFeedParser.h in Sources */ = {isa = PBXBuildFile; fileRef = 5080860515E272B600FFF9AD /* MWFeedParser.h */; };
+		5080861815E2767300FFF9AD /* NSString+HTML.h in Sources */ = {isa = PBXBuildFile; fileRef = 5080861315E2745700FFF9AD /* NSString+HTML.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861915E2767300FFF9AD /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080861415E2745700FFF9AD /* NSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861A15E2767300FFF9AD /* NSDate+InternetDateTime.h in Sources */ = {isa = PBXBuildFile; fileRef = 5080861515E2745700FFF9AD /* NSDate+InternetDateTime.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861B15E2767300FFF9AD /* NSDate+InternetDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080861615E2745700FFF9AD /* NSDate+InternetDateTime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861C15E2767300FFF9AD /* MWFeedParser_Private.h in Sources */ = {isa = PBXBuildFile; fileRef = 5080860615E272B600FFF9AD /* MWFeedParser_Private.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861D15E2767300FFF9AD /* MWFeedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080860715E272B600FFF9AD /* MWFeedParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861E15E2767300FFF9AD /* MWFeedInfo.h in Sources */ = {isa = PBXBuildFile; fileRef = 5080860815E272B600FFF9AD /* MWFeedInfo.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080861F15E2767300FFF9AD /* MWFeedInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080860915E272B600FFF9AD /* MWFeedInfo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080862015E2767300FFF9AD /* MWFeedItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 5080860A15E272B600FFF9AD /* MWFeedItem.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080862115E2767300FFF9AD /* MWFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080860B15E272B600FFF9AD /* MWFeedItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5080862515E27CAC00FFF9AD /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080862315E27CAA00FFF9AD /* FeedDetailViewController.m */; };
+		5080862615E27CAC00FFF9AD /* FeedDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5080862415E27CAB00FFF9AD /* FeedDetailViewController.xib */; };
+		5080862A15E2822F00FFF9AD /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5080862815E281DB00FFF9AD /* WebViewController.m */; };
+		5080862B15E2822F00FFF9AD /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5080862915E2820A00FFF9AD /* WebViewController.xib */; };
 		508502E1155924C70078BFA0 /* AwesomeMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2815591DCE001ABFF9 /* AwesomeMenu.h */; };
 		508502E2155924C70078BFA0 /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2915591DCE001ABFF9 /* AwesomeMenu.m */; };
 		508502E3155924C70078BFA0 /* AwesomeMenuItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 50E7CD2A15591DCE001ABFF9 /* AwesomeMenuItem.h */; };
@@ -2335,6 +2357,15 @@
 		5055974815C54A6B00AD5300 /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = Submodules/ShareKit/ShareKit.xcodeproj; sourceTree = "<group>"; };
 		5055976115C54D3A00AD5300 /* ShareKitDemoConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareKitDemoConfigurator.h; path = ../Submodules/ShareKit/Classes/Example/ShareKitDemoConfigurator.h; sourceTree = "<group>"; };
 		5055976215C54D3A00AD5300 /* ShareKitDemoConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareKitDemoConfigurator.m; path = ../Submodules/ShareKit/Classes/Example/ShareKitDemoConfigurator.m; sourceTree = "<group>"; };
+		507B0EF615E2B98800620224 /* FGalleryPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhoto.h; sourceTree = "<group>"; };
+		507B0EF715E2B98800620224 /* FGalleryPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGalleryPhoto.m; sourceTree = "<group>"; };
+		507B0EF815E2B98800620224 /* FGalleryPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhotoView.h; sourceTree = "<group>"; };
+		507B0EF915E2B98800620224 /* FGalleryPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGalleryPhotoView.m; sourceTree = "<group>"; };
+		507B0EFA15E2B98800620224 /* FGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryViewController.h; sourceTree = "<group>"; };
+		507B0EFB15E2B98800620224 /* FGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGalleryViewController.m; sourceTree = "<group>"; };
+		507B0EFF15E3814300620224 /* SendPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendPasswordViewController.h; sourceTree = "<group>"; };
+		507B0F0015E3814300620224 /* SendPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendPasswordViewController.m; sourceTree = "<group>"; };
+		507B0F0115E3814300620224 /* SendPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendPasswordViewController.xib; sourceTree = "<group>"; };
 		507E93AA15823D8A0028ACB6 /* SHKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHKConfig.h; sourceTree = "<group>"; };
 		508085EA15DD600000FFF9AD /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		508085F615E13DE900FFF9AD /* TODOEmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TODOEmptyViewController.h; sourceTree = "<group>"; };
@@ -2343,6 +2374,26 @@
 		508085FC15E20A9E00FFF9AD /* EmptyHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyHeaderViewController.h; sourceTree = "<group>"; };
 		508085FD15E20A9F00FFF9AD /* EmptyHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyHeaderViewController.m; sourceTree = "<group>"; };
 		508085FE15E20A9F00FFF9AD /* EmptyHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyHeaderViewController.xib; sourceTree = "<group>"; };
+		5080860515E272B600FFF9AD /* MWFeedParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWFeedParser.h; sourceTree = "<group>"; };
+		5080860615E272B600FFF9AD /* MWFeedParser_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWFeedParser_Private.h; sourceTree = "<group>"; };
+		5080860715E272B600FFF9AD /* MWFeedParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWFeedParser.m; sourceTree = "<group>"; };
+		5080860815E272B600FFF9AD /* MWFeedInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWFeedInfo.h; sourceTree = "<group>"; };
+		5080860915E272B600FFF9AD /* MWFeedInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWFeedInfo.m; sourceTree = "<group>"; };
+		5080860A15E272B600FFF9AD /* MWFeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWFeedItem.h; sourceTree = "<group>"; };
+		5080860B15E272B600FFF9AD /* MWFeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWFeedItem.m; sourceTree = "<group>"; };
+		5080860D15E2736200FFF9AD /* FeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewController.h; sourceTree = "<group>"; };
+		5080860E15E2736600FFF9AD /* FeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewController.m; sourceTree = "<group>"; };
+		5080860F15E2736A00FFF9AD /* FeedTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTableViewController.xib; sourceTree = "<group>"; };
+		5080861315E2745700FFF9AD /* NSString+HTML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
+		5080861415E2745700FFF9AD /* NSString+HTML.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		5080861515E2745700FFF9AD /* NSDate+InternetDateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+InternetDateTime.h"; sourceTree = "<group>"; };
+		5080861615E2745700FFF9AD /* NSDate+InternetDateTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+InternetDateTime.m"; sourceTree = "<group>"; };
+		5080862215E27CA900FFF9AD /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
+		5080862315E27CAA00FFF9AD /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
+		5080862415E27CAB00FFF9AD /* FeedDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedDetailViewController.xib; sourceTree = "<group>"; };
+		5080862715E281A200FFF9AD /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		5080862815E281DB00FFF9AD /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		5080862915E2820A00FFF9AD /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		50850316155AA8D10078BFA0 /* DDMenuController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDMenuController.h; sourceTree = "<group>"; };
 		50850317155AA8D20078BFA0 /* DDMenuController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDMenuController.m; sourceTree = "<group>"; };
 		5085031A155AACFF0078BFA0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -3564,6 +3615,37 @@
 			name = TODO;
 			sourceTree = "<group>";
 		};
+		5080860C15E272BE00FFF9AD /* MWFeedParser */ = {
+			isa = PBXGroup;
+			children = (
+				5080860515E272B600FFF9AD /* MWFeedParser.h */,
+				5080861315E2745700FFF9AD /* NSString+HTML.h */,
+				5080861415E2745700FFF9AD /* NSString+HTML.m */,
+				5080861515E2745700FFF9AD /* NSDate+InternetDateTime.h */,
+				5080861615E2745700FFF9AD /* NSDate+InternetDateTime.m */,
+				5080860615E272B600FFF9AD /* MWFeedParser_Private.h */,
+				5080860715E272B600FFF9AD /* MWFeedParser.m */,
+				5080860815E272B600FFF9AD /* MWFeedInfo.h */,
+				5080860915E272B600FFF9AD /* MWFeedInfo.m */,
+				5080860A15E272B600FFF9AD /* MWFeedItem.h */,
+				5080860B15E272B600FFF9AD /* MWFeedItem.m */,
+			);
+			name = MWFeedParser;
+			sourceTree = "<group>";
+		};
+		5080861215E2738200FFF9AD /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				5080860D15E2736200FFF9AD /* FeedTableViewController.h */,
+				5080860E15E2736600FFF9AD /* FeedTableViewController.m */,
+				5080860F15E2736A00FFF9AD /* FeedTableViewController.xib */,
+				5080862215E27CA900FFF9AD /* FeedDetailViewController.h */,
+				5080862315E27CAA00FFF9AD /* FeedDetailViewController.m */,
+				5080862415E27CAB00FFF9AD /* FeedDetailViewController.xib */,
+			);
+			name = Feed;
+			sourceTree = "<group>";
+		};
 		50850326155ADF3A0078BFA0 /* DAReloadActivityButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -3855,6 +3937,9 @@
 				509ED77D15BFDC9600CAF0DC /* SelectSignInViewController.h */,
 				509ED77E15BFDC9600CAF0DC /* SelectSignInViewController.m */,
 				509ED77F15BFDC9600CAF0DC /* SelectSignInViewController.xib */,
+				507B0EFF15E3814300620224 /* SendPasswordViewController.h */,
+				507B0F0015E3814300620224 /* SendPasswordViewController.m */,
+				507B0F0115E3814300620224 /* SendPasswordViewController.xib */,
 			);
 			name = Authentication;
 			sourceTree = "<group>";
@@ -3913,6 +3998,13 @@
 		E82400BB13CC32A900982E24 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				507B0EF615E2B98800620224 /* FGalleryPhoto.h */,
+				507B0EF715E2B98800620224 /* FGalleryPhoto.m */,
+				507B0EF815E2B98800620224 /* FGalleryPhotoView.h */,
+				507B0EF915E2B98800620224 /* FGalleryPhotoView.m */,
+				507B0EFA15E2B98800620224 /* FGalleryViewController.h */,
+				507B0EFB15E2B98800620224 /* FGalleryViewController.m */,
+				5080860C15E272BE00FFF9AD /* MWFeedParser */,
 				502AEC2815D971530024303F /* FormKit */,
 				50B7B27815D3FBAF00063766 /* MPLib */,
 				503ADED815D251570020BDFA /* KissXML */,
@@ -4192,6 +4284,7 @@
 				A859B6ED1482896900BD7489 /* AskView */,
 				E8B7C8AD13CEF75F00F30D70 /* CustomTableViewCell.h */,
 				E8B7C8AE13CEF75F00F30D70 /* CustomTableViewCell.m */,
+				5080861215E2738200FFF9AD /* Feed */,
 				E82400E813CD9F7300982E24 /* OpportunitiesListViewController.h */,
 				E82400E713CD9F7100982E24 /* OpportunitiesListViewController.m */,
 				E82400E913CD9F7500982E24 /* OpportunitiesListViewController.xib */,
@@ -4202,6 +4295,9 @@
 				509ED79C15C27B9C00CAF0DC /* PopUpViewController.m */,
 				509ED79D15C27B9D00CAF0DC /* PopUpViewController.xib */,
 				509ED79215C2784300CAF0DC /* MJDetailViewController.h */,
+				5080862715E281A200FFF9AD /* WebViewController.h */,
+				5080862815E281DB00FFF9AD /* WebViewController.m */,
+				5080862915E2820A00FFF9AD /* WebViewController.xib */,
 				509ED79315C2784400CAF0DC /* MJDetailViewController.m */,
 				509ED79415C2784500CAF0DC /* MJDetailViewController.xib */,
 				A8801AD814A8D90A00BD421E /* PushNotification */,
@@ -5536,6 +5632,10 @@
 				5006C80715DBCABF006466B0 /* SeparatorTimelineDark@2x.png in Resources */,
 				508085FA15E13DEC00FFF9AD /* TODOEmptyViewController.xib in Resources */,
 				5080860015E20A9F00FFF9AD /* EmptyHeaderViewController.xib in Resources */,
+				5080861115E2736D00FFF9AD /* FeedTableViewController.xib in Resources */,
+				5080862615E27CAC00FFF9AD /* FeedDetailViewController.xib in Resources */,
+				5080862B15E2822F00FFF9AD /* WebViewController.xib in Resources */,
+				507B0F0315E3814300620224 /* SendPasswordViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5707,6 +5807,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5080861715E2767300FFF9AD /* MWFeedParser.h in Sources */,
+				5080861815E2767300FFF9AD /* NSString+HTML.h in Sources */,
+				5080861915E2767300FFF9AD /* NSString+HTML.m in Sources */,
+				5080861A15E2767300FFF9AD /* NSDate+InternetDateTime.h in Sources */,
+				5080861B15E2767300FFF9AD /* NSDate+InternetDateTime.m in Sources */,
+				5080861C15E2767300FFF9AD /* MWFeedParser_Private.h in Sources */,
+				5080861D15E2767300FFF9AD /* MWFeedParser.m in Sources */,
+				5080861E15E2767300FFF9AD /* MWFeedInfo.h in Sources */,
+				5080861F15E2767300FFF9AD /* MWFeedInfo.m in Sources */,
+				5080862015E2767300FFF9AD /* MWFeedItem.h in Sources */,
+				5080862115E2767300FFF9AD /* MWFeedItem.m in Sources */,
 				50A119A515D974D00041F398 /* Comment.h in Sources */,
 				50A119A615D974D00041F398 /* Comment.m in Sources */,
 				50A119A715D974D00041F398 /* Genre.h in Sources */,
@@ -5946,6 +6057,13 @@
 				5025914915DA41EF00DC5321 /* MeTableViewController.m in Sources */,
 				508085F915E13DEC00FFF9AD /* TODOEmptyViewController.m in Sources */,
 				508085FF15E20A9F00FFF9AD /* EmptyHeaderViewController.m in Sources */,
+				5080861015E2736D00FFF9AD /* FeedTableViewController.m in Sources */,
+				5080862515E27CAC00FFF9AD /* FeedDetailViewController.m in Sources */,
+				5080862A15E2822F00FFF9AD /* WebViewController.m in Sources */,
+				507B0EFC15E2B98800620224 /* FGalleryPhoto.m in Sources */,
+				507B0EFD15E2B98800620224 /* FGalleryPhotoView.m in Sources */,
+				507B0EFE15E2B98800620224 /* FGalleryViewController.m in Sources */,
+				507B0F0215E3814300620224 /* SendPasswordViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6113,8 +6231,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv6;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Albert Ferrando";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Albert Ferrando";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Ferrando (53K836WZNT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Albert Ferrando (53K836WZNT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6124,9 +6242,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "opendestination/opendestination-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
-				);
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "opendestination/opendestination-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -6141,8 +6257,8 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
+				PROVISIONING_PROFILE = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				VALID_ARCHS = "armv6 armv7";
@@ -6158,8 +6274,8 @@
 				ARCHS = armv6;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Albert Ferrando";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Albert Ferrando";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Ferrando (53K836WZNT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Albert Ferrando (53K836WZNT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6168,9 +6284,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "opendestination/opendestination-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
-				);
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "opendestination/opendestination-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -6184,8 +6298,8 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E173DFCF-BA69-4A8D-97D7-7601D0D5A563";
+				PROVISIONING_PROFILE = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C69F119D-64F4-4AAA-9DDC-1FCAFFFDFEEE";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				VALIDATE_PRODUCT = YES;

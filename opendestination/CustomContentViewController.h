@@ -13,9 +13,10 @@
     //#import "AwesomeMenu.h"
     //#import "MGTileMenuController.h"
 #import "AnonymousBarViewController.h"
+#import "FGalleryViewController.h"
 @class CategoryModel;
 
-@interface CustomContentViewController : UIViewController <UIScrollViewDelegate>
+@interface CustomContentViewController : UIViewController <UIScrollViewDelegate,FGalleryViewControllerDelegate>
     //, MGTileMenuDelegate, AwesomeMenuDelegate> 
 {
 IBOutlet   UILabel * titleLabel;
@@ -37,6 +38,8 @@ IBOutlet UIButton *notificationsButton;
     Destination * _destination;
     UIProgressView *progressView;
     UIButton * menuButton;
+    NSArray *networkCaptions;
+    NSArray *networkImages;
 
     __unsafe_unretained IBOutlet UIToolbar *topToolBar;
     __unsafe_unretained IBOutlet UIButton *registerGuest;
