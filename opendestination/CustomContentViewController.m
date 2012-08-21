@@ -34,7 +34,7 @@
 @implementation CustomContentViewController
 
 @synthesize headerBackgroundImage, customView, titleLabel,
-backButton, notificationsButton, transition, 
+backButton, notificationsButton,
 pageControl, customBadge,  progressView, anonymousBar;
 @synthesize category = _category;
 @synthesize userModel = _userModel;
@@ -46,8 +46,7 @@ pageControl, customBadge,  progressView, anonymousBar;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.transition = ContentPageTransitionTypeCurl;
-        _categoriesButtons = nil;
+         _categoriesButtons = nil;
         _categoriesBadgets = nil;
         _categoriesLabels = nil;
         _category = nil;

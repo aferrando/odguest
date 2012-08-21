@@ -374,7 +374,7 @@
 }
 
 - (IBAction) goBack {
-    [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
+        //    [(RootViewController *)[self.view.window rootViewController] popViewControllerAnimated:YES];
 }
 -(void) finishedReservation {
     
@@ -540,7 +540,8 @@
                                                     initWithRootViewController:vc];
     [navigationController.navigationBar setTintColor:kMainColor];
     [navigationController.navigationItem setTitle:NSLocalizedString(@"signInKey",@"Sign in")];
-    [(RootViewController *)[self.view.window rootViewController] presentModalViewController:navigationController animated:YES];
+    
+    [self presentModalViewController:navigationController animated:YES];
 }
 
 -(IBAction) interestedButtonPressed:(id)sender

@@ -824,7 +824,7 @@ self.navigationItem.leftBarButtonItem = backButton;
 }
 
 - (IBAction)closeWindow:(id)sender {
-    [(RootViewController *)self.view.window.rootViewController newOportunityPressed];
+        //[self.navigationController newOportunityPressed];
 //    [self.view removeFromSuperview];
 }
 @end

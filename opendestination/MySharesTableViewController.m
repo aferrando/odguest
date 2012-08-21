@@ -27,7 +27,7 @@
 @end
 
 @implementation MySharesTableViewController
-@synthesize transition, deals,hotdeals,waitingdeals,
+@synthesize  deals,hotdeals,waitingdeals,
 userModel, dataDict, typeSegmentedCtrl, noItemLabel,
 badgeNext, badgeRedeeming  ;
 
@@ -39,8 +39,7 @@ badgeNext, badgeRedeeming  ;
         self.deals = [[NSMutableArray alloc] initWithCapacity:0];
         self.hotdeals = [[NSMutableArray alloc] initWithCapacity:0];
         self.waitingdeals = [[NSMutableArray alloc] initWithCapacity:0];
-        self.transition =    ContentPageTranistionTypeSide;
-        noItemLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30,self.tableView.bounds.size.width, 60)];
+         noItemLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30,self.tableView.bounds.size.width, 60)];
         noItemLabel.text=NSLocalizedString(@"noItemsKey", @"No Item found");// @"NO ITEMS";
         [self.view addSubview:noItemLabel];
         noItemLabel.textAlignment=UITextAlignmentCenter;

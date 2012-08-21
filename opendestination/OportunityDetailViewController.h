@@ -19,7 +19,7 @@
 @class mapaViewController;
 @interface OportunityDetailViewController : UIViewController <UIAlertViewDelegate, MGTileMenuDelegate, UIScrollViewDelegate >
 {
-  id<InstantDealViewControllerDelegate> delegate;
+        //  id<InstantDealViewControllerDelegate> delegate;
   OpportunityModel * _opportunity;
   IBOutlet UILabel * senderLabel;
   IBOutlet UILabel * addressLabel;

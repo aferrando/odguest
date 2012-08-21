@@ -11,7 +11,6 @@
 #import "UserModel.h"
 #import "Destination.h"
 #import "OpportunityModel.h"
-#import "MyDealsDetailViewController.h"
 #import "TaggedNSURLConnectionsManager.h"
 #import "JSON.h"
 #import "UIImageView+WebCache.h"
@@ -30,7 +29,7 @@
 @end
 
 @implementation MyDealsTableViewController
-@synthesize transition,hotdeals,waitingdeals,deals,
+@synthesize hotdeals,waitingdeals,deals,
 userModel, dataDict, typeSegmentedCtrl, noItemLabel,
 badgeNext, badgeRedeeming , map ;
 
@@ -47,7 +46,6 @@ badgeNext, badgeRedeeming , map ;
         self.deals = nil;
         self.deals = [[NSMutableArray alloc] initWithCapacity:0];
         self.waitingdeals = [[NSMutableArray alloc] initWithCapacity:0];
-        self.transition =    ContentPageTranistionTypeSide;
         noItemLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30,self.tableView.bounds.size.width, 60)];
         noItemLabel.text=NSLocalizedString(@"noItemsKey", @"No Item found");// @"NO ITEMS";
         //    [self.view addSubview:noItemLabel];

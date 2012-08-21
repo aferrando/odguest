@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RootViewController.h"
 #import "CustomBadge.h"
+#import "UserModel.h"
+#import "Destination.h"
     //#import "DAReloadActivityButton.h"
     //#import "AwesomeMenu.h"
     //#import "MGTileMenuController.h"
@@ -25,7 +26,7 @@ IBOutlet   UILabel * titleLabel;
 IBOutlet UIBarButtonItem   * backButton;
 IBOutlet UIButton *notificationsButton;
     IBOutlet UIPageControl *pageControl;
-  ContentPageTransitionType transition;
+        //  ContentPageTransitionType transition;
     CategoryModel * _category;
         //   DAReloadActivityButton *viewButton;
   NSMutableArray * _categoriesButtons;
@@ -33,7 +34,7 @@ IBOutlet UIButton *notificationsButton;
   NSMutableArray * _categoriesLabels;
     CustomBadge *customBadge;
     BOOL pageControlUsed;
-    AwesomeMenu *_menu;
+        //   AwesomeMenu *_menu;
     UserModel * _userModel;
     Destination * _destination;
     UIProgressView *progressView;
@@ -52,7 +53,6 @@ IBOutlet UIButton *notificationsButton;
     //@property ( nonatomic ) IBOutlet DAReloadActivityButton * viewButton;
 @property ( nonatomic ) UIPageControl *pageControl;
 @property ( nonatomic ) UIScrollView * customView;
-@property ( nonatomic, assign ) ContentPageTransitionType transition;
 @property ( nonatomic ) CategoryModel * category;
 @property ( nonatomic ) CustomBadge *customBadge;
 @property ( nonatomic ) UserModel * userModel; 

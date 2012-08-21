@@ -25,7 +25,7 @@
 @end
 
 @implementation MyNotificationsTableViewController
-@synthesize transition, deals, userModel, dataDict;
+@synthesize deals, userModel, dataDict;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -33,7 +33,6 @@
     if (self) {
         self.userModel = [UserModel sharedUser];
         self.deals = [[NSMutableArray alloc] initWithCapacity:0];
-        self.transition =  ContentPageTransitionTypeFlip;
     }
     return self;
 }
@@ -276,7 +275,7 @@
     OportunityDetailViewController * detail = [[OportunityDetailViewController alloc] init];
     OpportunityModel *opp = [deals objectAtIndex:indexPath.row];
     [detail setOpportunity:opp];
-    [(RootViewController *)[self.view.window rootViewController] pushViewController:detail animated:YES];
+    [self.navigationController     pushViewController:detail animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

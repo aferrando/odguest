@@ -11,9 +11,5 @@
 
 
 @interface MyNotificationsTableViewController : UITableViewController
-{
-    ContentPageTransitionType transition;
-}
-@property ( nonatomic, assign ) ContentPageTransitionType transition;
 - (void) reload;
 @end

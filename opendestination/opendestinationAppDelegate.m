@@ -7,7 +7,6 @@
     //
 
 #import "opendestinationAppDelegate.h"
-#import "RootViewController.h"
 #import "UserModel.h"
 #import "Destination.h"
 #import "CustomContentViewController.h"
