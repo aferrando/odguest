@@ -28,6 +28,7 @@
 #import "MixpanelAPI.h"
 #import "FeedTableViewController.h"
 #import "WebViewController.h"
+#import "SnowConditionsViewController.h"
 
     //#import "OpenSpringBoardVC.h"
 
@@ -559,6 +560,17 @@ pageControl, customBadge,  progressView, anonymousBar;
         piste.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self.navigationController pushViewController:piste animated:YES];
         */
+        }
+    if ([cat.name isEqualToString:@"Snow"])
+        {
+        
+        SnowConditionsViewController *snow = [[SnowConditionsViewController alloc] initWithNibName:@"SnowConditionsViewController" bundle:nil];
+        [self.navigationController pushViewController:snow animated:YES];
+        /*     MeteoViewController * piste = [[MeteoViewController alloc] initWithNibName:@"MeteoViewController" bundle:nil];
+         // [detail setCategory:cat];
+         piste.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+         [self.navigationController pushViewController:piste animated:YES];
+         */
         }
         //  UIViewController * vc = nil;
     if ( ( cat.numOpportunities > 0) && ([cat.sons count] > 0) ) {

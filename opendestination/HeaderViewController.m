@@ -278,7 +278,7 @@
     myLikesLabel.text= NSLocalizedString(@"myDealsKey",@"My Deals");
     sharesLabel.text= NSLocalizedString(@"myProposalsKey",@"My Proposals");
     notificationsLabel.text= NSLocalizedString(@"notificationsKey",@"Notifications");
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical_cloth.png"]]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:background]]];
     backgroundView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"brillant.png"]];
     myLikesView.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
     

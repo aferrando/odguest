@@ -1247,6 +1247,8 @@
 		50D2371815CA890900CB3584 /* OportunityDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2371715CA890900CB3584 /* OportunityDetailViewController.xib */; };
 		50E0223715ADD7DA002C9BE9 /* TODOTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E0223515ADD7D6002C9BE9 /* TODOTableViewController.m */; };
 		50E0223815ADD7DA002C9BE9 /* TODOTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E0223615ADD7D8002C9BE9 /* TODOTableViewController.xib */; };
+		50E951C815E4B9F3001CB63E /* SnowConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E951C615E4B9F3001CB63E /* SnowConditionsViewController.m */; };
+		50E951C915E4B9F3001CB63E /* SnowConditionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E951C715E4B9F3001CB63E /* SnowConditionsViewController.xib */; };
 		50E980FE1487878300F1DEBF /* ConnectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E980FC1487878300F1DEBF /* ConnectTableViewController.m */; };
 		50E980FF1487878300F1DEBF /* ConnectTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E980FD1487878300F1DEBF /* ConnectTableViewController.xib */; };
 		50F6A21E15B92901008FF7C2 /* AnonymousBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F6A21C15B928FF008FF7C2 /* AnonymousBarViewController.m */; };
@@ -2115,6 +2117,9 @@
 		50E7CD2915591DCE001ABFF9 /* AwesomeMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenu.m; sourceTree = "<group>"; };
 		50E7CD2A15591DCE001ABFF9 /* AwesomeMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
 		50E7CD2B15591DCE001ABFF9 /* AwesomeMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenuItem.m; sourceTree = "<group>"; };
+		50E951C515E4B9F3001CB63E /* SnowConditionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnowConditionsViewController.h; sourceTree = "<group>"; };
+		50E951C615E4B9F3001CB63E /* SnowConditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnowConditionsViewController.m; sourceTree = "<group>"; };
+		50E951C715E4B9F3001CB63E /* SnowConditionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SnowConditionsViewController.xib; sourceTree = "<group>"; };
 		50E980FB1487878300F1DEBF /* ConnectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectTableViewController.h; sourceTree = "<group>"; };
 		50E980FC1487878300F1DEBF /* ConnectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectTableViewController.m; sourceTree = "<group>"; };
 		50E980FD1487878300F1DEBF /* ConnectTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectTableViewController.xib; sourceTree = "<group>"; };
@@ -2320,6 +2325,7 @@
 		5013BDEE15CABAC100DE9706 /* Ski */ = {
 			isa = PBXGroup;
 			children = (
+				50E951C415E4B9CB001CB63E /* Snowconditions */,
 				5013BDEF15CABACA00DE9706 /* PistePlan */,
 			);
 			name = Ski;
@@ -3344,6 +3350,16 @@
 				50E7CD2B15591DCE001ABFF9 /* AwesomeMenuItem.m */,
 			);
 			name = AwesomeMenu;
+			sourceTree = "<group>";
+		};
+		50E951C415E4B9CB001CB63E /* Snowconditions */ = {
+			isa = PBXGroup;
+			children = (
+				50E951C515E4B9F3001CB63E /* SnowConditionsViewController.h */,
+				50E951C615E4B9F3001CB63E /* SnowConditionsViewController.m */,
+				50E951C715E4B9F3001CB63E /* SnowConditionsViewController.xib */,
+			);
+			name = Snowconditions;
 			sourceTree = "<group>";
 		};
 		A82F53C2148E343700C69DA1 /* CustomTabBar */ = {
@@ -4810,6 +4826,7 @@
 				5080862615E27CAC00FFF9AD /* FeedDetailViewController.xib in Resources */,
 				5080862B15E2822F00FFF9AD /* WebViewController.xib in Resources */,
 				507B0F0315E3814300620224 /* SendPasswordViewController.xib in Resources */,
+				50E951C915E4B9F3001CB63E /* SnowConditionsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5224,6 +5241,7 @@
 				507B0EFD15E2B98800620224 /* FGalleryPhotoView.m in Sources */,
 				507B0EFE15E2B98800620224 /* FGalleryViewController.m in Sources */,
 				507B0F0215E3814300620224 /* SendPasswordViewController.m in Sources */,
+				50E951C815E4B9F3001CB63E /* SnowConditionsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

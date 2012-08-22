@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "BlockAlertView.h"
 
-@interface SelectSignInViewController : UIViewController
+@interface SelectSignInViewController : UIViewController{
+    BlockAlertView *alert;
+
+}
 
 @property (strong, nonatomic) IBOutlet UIButton *facebookButton;
 @property (strong, nonatomic) IBOutlet UIButton *signupButton;
@@ -20,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *logoButton;
 @property (strong, nonatomic) IBOutlet UILabel *loginMessageLabel;
 @property (strong, nonatomic) IBOutlet UILabel *guestMessageLabel;
+@property (strong, nonatomic) BlockAlertView *alert;
 - (IBAction)facebookBtnPressed:(id)sender;
 - (IBAction)signupButtonPressed:(id)sender;
 - (IBAction)guestButtonPressed:(id)sender;

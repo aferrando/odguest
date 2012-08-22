@@ -29,6 +29,7 @@
 @synthesize logoButton;
 @synthesize loginMessageLabel;
 @synthesize guestMessageLabel;
+@synthesize alert;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -106,7 +107,7 @@
         [self.navigationController.navigationBar setHidden:YES];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"]){
         NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
-        NSLog(@"FBid-- %@", [facebookUserInfo objectForKey:@"email"]);
+        NSLog(@"FBid-- %@", [facebookUserInfo objectForKey:@"id"]);
             //       NSLog(@"FBid-- %@",fbUseremail);
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"]){
@@ -120,6 +121,41 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+- (void) addObserver
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDataWasUpdated)
+                                                 name:(NSString *)kUserUpdatedNotification
+                                               object:[UserModel sharedUser]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDataWasUpdated)
+                                                 name:(NSString *)kUserRegisteredNotification
+                                               object:[UserModel sharedUser]];
+}
+
+
+- (void) userDataWasUpdated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:(NSString *)kUserUpdatedNotification
+                                                  object:[UserModel sharedUser]];
+    MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
+    UserModel *userModel = [UserModel sharedUser];
+    if ( userModel.userID > 0 ) {
+        [mixpanel setSendDeviceModel:YES];
+        [mixpanel identifyUser:[NSString stringWithFormat:@"%d", userModel.userID]];
+        [mixpanel setUserProperty:userModel.realName forKey:@"name"];
+        [mixpanel setUserProperty:userModel.userName forKey:@"email"];
+        
+        [mixpanel track:[[NSString alloc]initWithFormat:@"Sign in successfull"]];
+        
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+        
+    } else {
+        [self addObserver];
+        [userModel signUp];
+    }
+}
 
 - (IBAction)facebookBtnPressed:(id)sender {
     MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];
@@ -127,9 +163,47 @@
         //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
     
     [mixpanel track:[[NSString alloc]initWithFormat:@"Signin Facebook click"]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookDone) name:@"SHKSendDidFinish" object:nil];       //  [SHKTwitter release];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookDone) name:@"SHKSendDidFinish" object:nil];
     [[[SHKFacebook alloc] init] authorize];
+        //  [SHKTwitter release];
+ /*   if(![sharer authorize]) //This will prompt for login if token was not saved or if it got expired.
+        {
+        NSLog(@"Issues to Logged in Facebook");
+             //service.shareDelegate = self; //implement the delegate so that once after login you will get to know when to fetch token.
+        }
+    else
+        {
+        NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
+        NSLog(@"FBid-- %@", [facebookUserInfo objectForKey:@"id"]);
+         //Directly access the token with the key in NSUserdefaults and use this.
+        }
+ /*   if ([ authorize]) {
+        alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"",@"Alert") message:NSLocalizedString(@"registeredWithFBKey",@" ")];
+        [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:^{
+            NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
+            NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
+            NSString *fbEmail = [facebookUserInfo objectForKey:@"email"];
+            NSString *fbId = [facebookUserInfo objectForKey:@"id"];
+            UserModel *user= [UserModel sharedUser];
+            [user setUserName:[NSString stringWithFormat:@"%@@fb.com",fbId ]];
+            [user setPassword:fbId];
+            [user setRealName:fbUserName];
+            [self addObserver];
+            [user signInSilent];
+            NSLog(@"You are authorized  %@ email:%@",fbUserName, fbEmail);
+                // Do something or nothing.... This block can even be nil!
+                //  [self.navigationController dismissModalViewControllerAnimated:YES];
+            
+        }];
+        [alert show];
+        NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
+        NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
+        NSLog(@"You are authorized  %@",fbUserName);
+        
+    }
+    else {
+        [SHKFacebook alloc] init;
+    }*/
 }
 - (void) facebookDone {
     MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];

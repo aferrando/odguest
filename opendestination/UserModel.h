@@ -89,6 +89,7 @@ typedef enum {
 - (void) deviceRegister;
 - (void) signInAsGuest;
 - (void) signIn;
+- (void) signInSilent;
 - (void) signInAndUp;
 - (void) signOut;
 - (void) signUp;

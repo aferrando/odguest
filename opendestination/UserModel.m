@@ -370,6 +370,20 @@ static UserModel * sharedInstance = nil;
                                                                                    withString:nil];
   }
 }
+- (void) signInSilent
+{
+    if ( ( _userName ) && ( _password ) ) {
+        guest = NO;
+        NSString * url = [NSString stringWithFormat:@"%@/user/login?destination_id=%d&device_type=ios&uuid=%@&username=%@&password=%@",
+                          [[Destination sharedInstance] destinationService], _destinationID, udid, _userName, _password];
+        [[TaggedNSURLConnectionsManager sharedTaggedNSURLConnectionsManager] getDataFromURLString:url
+                                                                                        forTarget:self
+                                                                                           action:@selector(getUserInfoForLoginResponseDataSilent:)
+                                                                                      hudActivied:NO
+                                                                                       withString:nil];
+    }
+}
+
 - (void) signInAndUp
 {
     if ( ( _userName ) && ( _password ) ) {
@@ -785,7 +799,7 @@ static UserModel * sharedInstance = nil;
                         [self setDataDict:dict];
                         [self saveSettings];
                     }
-                    else [self showAlert:@"Sing in failed"];
+                    else [self showAlert:@"Sign in failed"];
                 }
                 else
                 {
@@ -814,6 +828,69 @@ static UserModel * sharedInstance = nil;
         [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
     }
 }
+
+- (void) getUserInfoForLoginResponseDataSilent:(NSData *)data
+{
+    NSError * error = nil;
+    NSString * responseString = nil;
+    SBJsonParser * jsonParser = nil;
+    signedIn = NO;
+    if ( data ) {
+        jsonParser = [[SBJsonParser alloc] init];
+        responseString = [[NSString alloc] initWithData:data
+                                               encoding:NSUTF8StringEncoding];
+        id jsonObject = [jsonParser objectWithString:responseString
+                         ];
+        if ( error == nil ) {
+#ifdef __DEBUG__
+            NSLog(@"%@: Received data: %@", [self description],  responseString);
+#endif
+            jsonParser = nil;
+            if ([jsonObject isKindOfClass:[NSDictionary class]])
+                {
+                NSDictionary * dict = jsonObject;
+                if ([(NSNumber *)[dict objectForKey:@"errorCode"] integerValue] == 0 )
+                        //&& ( [[dict objectForKey:@"id"] isKindOfClass:[NSNumber class]] ) )
+                    {
+                    if ([[dict objectForKey:@"id"] integerValue] > 0)
+                        {
+                        signedIn = YES;
+                        userStatus = UserModelStatusOnline;
+                        [self setDataDict:dict];
+                        [self saveSettings];
+                        }
+                    else [self showAlert:@"Sign in failed"];
+                    }
+                else
+                    {
+                    NSInteger errorCode = [[dict objectForKey:@"errorCode"] integerValue];
+                    NSString * desc = (NSString *)[dict objectForKey:@"description"];
+                    NSLog(@"%@: errorCode: %d: %@",[self description],errorCode, desc);
+                    [self signUp];
+                        //  [ self showAlert:NSLocalizedString(@"WrongUsernameTitleKey",@"")];
+                    }
+                }
+            else
+                {
+                NSLog(@"%@: Error when parsing registering the device response, received object is a kind of %@",
+                      [self description], [jsonObject class] );
+                    // [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+                }
+        }
+        else
+            {
+            NSLog(@"%@: Error at parsing json. Maybe an encoding problem: %@",[self description], [error description] );
+                // [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+            }
+    }
+    else
+        {
+        NSLog(@"%@: Error response data with void data", [self description] );
+            //    [self showAlert:NSLocalizedString(@"connectionErrorMsgKey",@"")];
+        }
+}
+
+
 - (void) getUserInfoForLoginSignupResponseData:(NSData *)data
 {
     NSError * error = nil;
