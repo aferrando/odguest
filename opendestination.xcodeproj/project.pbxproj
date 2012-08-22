@@ -678,15 +678,11 @@
 		504C8AA615CC2CD500B3A630 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8B72E2513C1BF4100A046A6 /* MainWindow.xib */; };
 		504C8AA815CC2CD500B3A630 /* CustomContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83854D413C1FE7E00ED8DA6 /* CustomContentViewController.xib */; };
 		504C8AA915CC2CD500B3A630 /* AddOportunityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E800246113C705C3001C8AD4 /* AddOportunityViewController.xib */; };
-		504C8AAA15CC2CD500B3A630 /* OD_Icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = E8F1367A13CB41DB00DF654F /* OD_Icon_57.png */; };
-		504C8AAB15CC2CD500B3A630 /* OD_Icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = E8F1367C13CB41E100DF654F /* OD_Icon_114.png */; };
 		504C8AAC15CC2CD500B3A630 /* OpportunitiesListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E82400E913CD9F7500982E24 /* OpportunitiesListViewController.xib */; };
 		504C8AAE15CC2CD500B3A630 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8FEE52613D0728C0051FF61 /* Entitlements.plist */; };
 		504C8AAF15CC2CD500B3A630 /* MyDealsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859431613EA978F004FC415 /* MyDealsTableViewController.xib */; };
 		504C8AB115CC2CD500B3A630 /* mapaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859433C13EC1173004FC415 /* mapaViewController.xib */; };
 		504C8AB215CC2CD500B3A630 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8BBE77213FAC40B00FF07C4 /* RegisterViewController.xib */; };
-		504C8AB315CC2CD500B3A630 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E8C4922B13FD15BB0099420A /* Default.png */; };
-		504C8AB415CC2CD500B3A630 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8C4922D13FD15C90099420A /* Default@2x.png */; };
 		504C8AB515CC2CD500B3A630 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E880F235140B9CB40044F0DF /* Settings.bundle */; };
 		504C8AB615CC2CD500B3A630 /* InstantDealViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8825132140BD3BB0071ECBB /* InstantDealViewController.xib */; };
 		504C8AB815CC2CD500B3A630 /* MyNotificationsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A8186D73147D531000B60078 /* MyNotificationsTableViewController.xib */; };
@@ -3014,6 +3010,34 @@
 			name = Meteo;
 			sourceTree = "<group>";
 		};
+		5042420915E5335900933137 /* AppSpecific */ = {
+			isa = PBXGroup;
+			children = (
+				5042420B15E5338C00933137 /* od */,
+				5042420A15E5337700933137 /* thyon */,
+			);
+			name = AppSpecific;
+			sourceTree = "<group>";
+		};
+		5042420A15E5337700933137 /* thyon */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = thyon;
+			sourceTree = "<group>";
+		};
+		5042420B15E5338C00933137 /* od */ = {
+			isa = PBXGroup;
+			children = (
+				E8F1367A13CB41DB00DF654F /* OD_Icon_57.png */,
+				E8F1367C13CB41E100DF654F /* OD_Icon_114.png */,
+				A87A67AA1529D11100BEE95A /* GlobalConstants.h */,
+				E8C4922D13FD15C90099420A /* Default@2x.png */,
+				E8C4922B13FD15BB0099420A /* Default.png */,
+			);
+			name = od;
+			sourceTree = "<group>";
+		};
 		504C8CE715CE6FA000B3A630 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -3551,8 +3575,6 @@
 			children = (
 				E83854D913C1FEFC00ED8DA6 /* Images */,
 				E880F235140B9CB40044F0DF /* Settings.bundle */,
-				E8C4922D13FD15C90099420A /* Default@2x.png */,
-				E8C4922B13FD15BB0099420A /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3594,8 +3616,6 @@
 				5051120215864B5E00CB4A47 /* 269-happyface@2x.png */,
 				5051120315864B5E00CB4A47 /* 270-unhappyface.png */,
 				5051120415864B5E00CB4A47 /* 270-unhappyface@2x.png */,
-				E8F1367A13CB41DB00DF654F /* OD_Icon_57.png */,
-				E8F1367C13CB41E100DF654F /* OD_Icon_114.png */,
 				E8F1359013CAEAE700DF654F /* icons-big */,
 				E8F1359113CAEAF900DF654F /* icons-med */,
 			);
@@ -3707,6 +3727,7 @@
 		E8B72E1913C1BF4100A046A6 /* opendestination */ = {
 			isa = PBXGroup;
 			children = (
+				5042420915E5335900933137 /* AppSpecific */,
 				E8B72E7613C1CD1700A046A6 /* Classes */,
 				E83854D813C1FEF000ED8DA6 /* Resources */,
 				E8B72E1A13C1BF4100A046A6 /* Supporting Files */,
@@ -3741,7 +3762,6 @@
 				5055976115C54D3A00AD5300 /* ShareKitDemoConfigurator.h */,
 				5055976215C54D3A00AD5300 /* ShareKitDemoConfigurator.m */,
 				E8B72E2513C1BF4100A046A6 /* MainWindow.xib */,
-				A87A67AA1529D11100BEE95A /* GlobalConstants.h */,
 				A8801AD714A8D8E500BD421E /* Authentication */,
 				5013BDEE15CABAC100DE9706 /* Ski */,
 				503ADEFA15D2663D0020BDFA /* Meteo */,
@@ -3943,15 +3963,11 @@
 				504C8AA615CC2CD500B3A630 /* MainWindow.xib in Resources */,
 				504C8AA815CC2CD500B3A630 /* CustomContentViewController.xib in Resources */,
 				504C8AA915CC2CD500B3A630 /* AddOportunityViewController.xib in Resources */,
-				504C8AAA15CC2CD500B3A630 /* OD_Icon_57.png in Resources */,
-				504C8AAB15CC2CD500B3A630 /* OD_Icon_114.png in Resources */,
 				504C8AAC15CC2CD500B3A630 /* OpportunitiesListViewController.xib in Resources */,
 				504C8AAE15CC2CD500B3A630 /* Entitlements.plist in Resources */,
 				504C8AAF15CC2CD500B3A630 /* MyDealsTableViewController.xib in Resources */,
 				504C8AB115CC2CD500B3A630 /* mapaViewController.xib in Resources */,
 				504C8AB215CC2CD500B3A630 /* RegisterViewController.xib in Resources */,
-				504C8AB315CC2CD500B3A630 /* Default.png in Resources */,
-				504C8AB415CC2CD500B3A630 /* Default@2x.png in Resources */,
 				504C8AB515CC2CD500B3A630 /* Settings.bundle in Resources */,
 				504C8AB615CC2CD500B3A630 /* InstantDealViewController.xib in Resources */,
 				504C8AB815CC2CD500B3A630 /* MyNotificationsTableViewController.xib in Resources */,

@@ -163,47 +163,9 @@
         //[mixpanel identifyUser:[[UserModel sharedUser] userName]];
     
     [mixpanel track:[[NSString alloc]initWithFormat:@"Signin Facebook click"]];
+    SHKSharer *fb = [[SHKFacebook alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookDone) name:@"SHKSendDidFinish" object:nil];
-    [[[SHKFacebook alloc] init] authorize];
-        //  [SHKTwitter release];
- /*   if(![sharer authorize]) //This will prompt for login if token was not saved or if it got expired.
-        {
-        NSLog(@"Issues to Logged in Facebook");
-             //service.shareDelegate = self; //implement the delegate so that once after login you will get to know when to fetch token.
-        }
-    else
-        {
-        NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
-        NSLog(@"FBid-- %@", [facebookUserInfo objectForKey:@"id"]);
-         //Directly access the token with the key in NSUserdefaults and use this.
-        }
- /*   if ([ authorize]) {
-        alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"",@"Alert") message:NSLocalizedString(@"registeredWithFBKey",@" ")];
-        [alert setCancelButtonWithTitle:NSLocalizedString(@"cancelBtnKey",@"Cancel") block:^{
-            NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
-            NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
-            NSString *fbEmail = [facebookUserInfo objectForKey:@"email"];
-            NSString *fbId = [facebookUserInfo objectForKey:@"id"];
-            UserModel *user= [UserModel sharedUser];
-            [user setUserName:[NSString stringWithFormat:@"%@@fb.com",fbId ]];
-            [user setPassword:fbId];
-            [user setRealName:fbUserName];
-            [self addObserver];
-            [user signInSilent];
-            NSLog(@"You are authorized  %@ email:%@",fbUserName, fbEmail);
-                // Do something or nothing.... This block can even be nil!
-                //  [self.navigationController dismissModalViewControllerAnimated:YES];
-            
-        }];
-        [alert show];
-        NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
-        NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
-        NSLog(@"You are authorized  %@",fbUserName);
-        
-    }
-    else {
-        [SHKFacebook alloc] init;
-    }*/
+    [fb authorize];
 }
 - (void) facebookDone {
     MixpanelAPI *mixpanel = [MixpanelAPI sharedAPI];

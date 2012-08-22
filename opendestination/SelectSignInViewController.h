@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "BlockAlertView.h"
-
-@interface SelectSignInViewController : UIViewController{
+#import "SHKSharerDelegate.h"
+@interface SelectSignInViewController : UIViewController <SHKSharerDelegate>{
     BlockAlertView *alert;
 
 }

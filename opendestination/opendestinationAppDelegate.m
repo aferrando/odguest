@@ -319,15 +319,16 @@ static NSString* kAppId = @"255658224527885";
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     return [self handleOpenURL:url];
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [self handleOpenURL:url];  
+    return [self handleOpenURL:url];
 }
+
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
