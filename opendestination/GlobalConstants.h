@@ -70,6 +70,7 @@
 #define CATEGORIES [[[NSArray alloc]initWithObjects:@"Lessons", @"Guided tour",@"Child Care", @"Events", @"Rentals", @"Buddies", nil]]
 
 #define kMainColor [UIColor colorWithRed:0.9 green:0.4 blue:0 alpha:1] 
+#define kCellBackgroundColor [UIColor colorWithPatternImage:[UIImage imageNamed:@"list-item.png"]]
 #define kCategoryWidth 65.0
 #define kCategoryHeigth 65.0
 #define kCategoryFontSize 12.0
@@ -79,6 +80,21 @@
 #define kCategoryNavigation 0 //0 is Grid, 1 is TableView
 #define kBackgroundColor [UIColor darkGrayColor] //[UIColor colorWithPatternImage:[UIImage imageNamed:@"vertical-cloth.png"]]
 #define kTextColor [UIColor whiteColor]
+#define kBadgeStringColor [UIColor whiteColor]
+#define kBadgeInsetColor [UIColor redColor]
+#define kBadgeFrameColor [UIColor whiteColor]
+#define kBadgeInactiveStringColor [UIColor lightGrayColor]
+#define kBadgeInactiveInsetColor [UIColor darkGrayColor]
+#define kBadgeInactiveFrameColor [UIColor lightGrayColor]
+#define kDestinationTitleColor [UIColor whiteColor]
+#define kRibbonLabelColor [UIColor whiteColor]
+#define kScoreLabelColor [UIColor whiteColor]
+#define kTextLabelCellColor [UIColor whiteColor]
+#define kDescriptionLabelCellColor [UIColor whiteColor]
+#define kDistanceLabelColor [UIColor whiteColor]
+#define kInterestedLabelColor [UIColor whiteColor]
+#define kSignUpTitleColor [UIColor whiteColor]
+
     //#define kCategoryTextColor [UIColor blackColor]
 #define MIXPANEL_WHISTLER @"890d68e5afed6da476ff1fbd468610cf" //odWhistler
 

@@ -8,6 +8,7 @@
 #import "NSDate+Helper.h"
 #import "UserModel.h"
 #import "UIImageView+WebCache.h"
+#import "GlobalConstants.h"
 
 @implementation CustomTableViewCell
 
@@ -88,7 +89,7 @@
     
     UILabel * ribbonLabel = [[UILabel alloc] initWithFrame:CGRectMake(269, 7, 20, 24)];
     ribbonLabel.font = [UIFont boldSystemFontOfSize:14];
-    ribbonLabel.textColor = [UIColor whiteColor];
+    ribbonLabel.textColor = kRibbonLabelColor;
     [ribbonLabel setShadowColor:[UIColor blackColor]];
     [ribbonLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
     [ribbonLabel setMinimumFontSize:10.0];
@@ -100,8 +101,8 @@
     
     UILabel * scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(268, 1, 24, 10)];
     scoreLabel.font = [UIFont boldSystemFontOfSize:6];
-    scoreLabel.textColor = [UIColor whiteColor];
-    scoreLabel.text = @"SCORE";
+    scoreLabel.textColor = kScoreLabelColor;
+    scoreLabel.text = NSLocalizedString(@"scoreKey","SCORE");
     [scoreLabel setShadowColor:[UIColor blackColor]];
     [scoreLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
     [scoreLabel setMinimumFontSize:10.0];
@@ -114,7 +115,7 @@
     
     UILabel * textLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 6.0, 192, 24)];
     textLabel.font = [UIFont boldSystemFontOfSize:17];
-    textLabel.textColor = [UIColor whiteColor];
+    textLabel.textColor = kTextLabelCellColor;
     [textLabel setShadowColor:[UIColor blackColor]];
     [textLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
     [textLabel setMinimumFontSize:10.0];
@@ -132,7 +133,7 @@
     UILabel * descLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 20, 180, 40)];
     descLabel.font = [UIFont systemFontOfSize:10];
     [descLabel setMinimumFontSize:10.0];
-    descLabel.textColor = [UIColor whiteColor];
+    descLabel.textColor = kDescriptionLabelCellColor;
     [descLabel setShadowColor:[UIColor blackColor]];
     [descLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
     descLabel.backgroundColor = [UIColor clearColor];
@@ -149,7 +150,7 @@
     UILabel * distLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 40, 200, 40)];
     distLabel.font = [UIFont systemFontOfSize:10];
     [distLabel setMinimumFontSize:10.0];
-    distLabel.textColor = [UIColor whiteColor];
+    distLabel.textColor = kDistanceLabelColor;
     [distLabel setShadowColor:[UIColor blackColor]];
     [distLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
     distLabel.backgroundColor = [UIColor clearColor];
@@ -183,7 +184,7 @@
     interestedLabel = [[UILabel alloc] initWithFrame:CGRectMake(292, 40, 100, 40)];
     interestedLabel.font = [UIFont systemFontOfSize:10];
     [interestedLabel setMinimumFontSize:10.0];
-    interestedLabel.textColor = [UIColor whiteColor];
+    interestedLabel.textColor = kInterestedLabelColor;
     [interestedLabel setShadowColor:[UIColor blackColor]];
     [interestedLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
     interestedLabel.backgroundColor = [UIColor clearColor];
@@ -202,7 +203,7 @@
             [(UIImageView *)[dict objectForKey:@"badget"] setHidden:NO];
             [(UILabel *)[dict objectForKey:@"pointsLabel"] setHidden:NO];
         }
-        [content setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"list-item.png"]]];
+        [content setBackgroundColor:kCellBackgroundColor];
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
     }
@@ -213,7 +214,7 @@
             [(UILabel *)[dict objectForKey:@"pointsLabel"] setText:[NSString stringWithFormat:@"%d",[opportunity points]]];
             [(UIImageView *)[dict objectForKey:@"badget"] setHidden:NO];
             [(UILabel *)[dict objectForKey:@"pointsLabel"] setHidden:NO];
-            [content setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"list-item.png"]]];
+            [content setBackgroundColor:kCellBackgroundColor];
             self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             

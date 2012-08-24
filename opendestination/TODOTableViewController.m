@@ -210,7 +210,7 @@
      [barView addSubview:[imageView autorelease]];*/
     UILabel * action = [[UILabel alloc] initWithFrame:CGRectMake(19,3, 80, 25)];
     [action setBackgroundColor:[UIColor clearColor]];
-    [action setTextColor:[UIColor whiteColor]];
+    [action setTextColor:kDescriptionLabelCellColor];
     [action setShadowColor:[UIColor blackColor]];
     [action setShadowOffset:CGSizeMake(1.0, 1.0)];
     [action setFont:[UIFont systemFontOfSize:15]];

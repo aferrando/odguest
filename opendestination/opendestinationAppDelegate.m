@@ -19,7 +19,7 @@
 #import "SHKFacebook.h"
 #import "SDImageCache.h"
 #import "MixpanelAPI.h"
-    //#import <Parse/Parse.h>
+#import <Parse/Parse.h>
 #import "YRDropdownView.h"
 #import "OpportunityModel.h"
 #import "OportunityDetailViewController.h"
@@ -46,18 +46,18 @@ static NSString* kAppId = @"255658224527885";
 {
         // ****************************************************************************
         // Uncomment and fill in with your Parse credentials:
-        //   [Parse setApplicationId:@"QafOMBb1w0ZwCJMSxS3KgmbtGVlQtCovngc8mWjE" clientKey:@"DjaqlxQPftnjum8ED3oLTaTQEdzbBfXSnJOniwy9"];
+           [Parse setApplicationId:@"QafOMBb1w0ZwCJMSxS3KgmbtGVlQtCovngc8mWjE" clientKey:@"DjaqlxQPftnjum8ED3oLTaTQEdzbBfXSnJOniwy9"];
         //
         // If you are using Facebook, uncomment and fill in with your Facebook App Id:
         // [PFFacebookUtils initializeWithApplicationId:@"your_facebook_app_id"];
         // ****************************************************************************
     
-        //    [PFUser enableAutomaticUser];
-        // PFACL *defaultACL = [PFACL ACL];
+            [PFUser enableAutomaticUser];
+         PFACL *defaultACL = [PFACL ACL];
         // Optionally enable public read access by default.
-        // [defaultACL setPublicReadAccess:YES];
-        //  [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
-        // NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+         [defaultACL setPublicReadAccess:YES];
+          [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
     [imageCache clearMemory];
     [imageCache clearDisk];
@@ -342,8 +342,8 @@ static NSString* kAppId = @"255658224527885";
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
-        //         [PFPush storeDeviceToken:newDeviceToken];
-        // [PFPush subscribeToChannelInBackground:@"" target:self selector:@selector(subscribeFinished:error:)];
+                 [PFPush storeDeviceToken:newDeviceToken];
+         [PFPush subscribeToChannelInBackground:@"" target:self selector:@selector(subscribeFinished:error:)];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
@@ -358,7 +358,7 @@ static NSString* kAppId = @"255658224527885";
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     
-        //      [PFPush handlePush:userInfo];
+              [PFPush handlePush:userInfo];
     
     application.applicationIconBadgeNumber = 0;
 #ifdef __DEBUG__

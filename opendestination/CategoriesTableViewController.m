@@ -134,11 +134,11 @@
         UIImageView * iconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 50, 50)];
         [iconView setImageWithURL:[NSURL URLWithString:currentCategory.iconURL] placeholderImage:[UIImage imageNamed:@"samplebackground.jpg"]]; 
         [content addSubview:iconView];
-        CustomBadge *customBadge2 = [CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", currentCategory.numOpportunities] 
-                                                   withStringColor:[UIColor whiteColor] 
+        CustomBadge *customBadge2 = [CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", currentCategory.numOpportunities]
+                                                   withStringColor:kBadgeStringColor
                                                     withInsetColor:kMainColor 
                                                     withBadgeFrame:YES 
-                                               withBadgeFrameColor:[UIColor whiteColor] 
+                                               withBadgeFrameColor:kBadgeFrameColor
                                                          withScale:1.1
                                                        withShining:NO];
         [customBadge2 setFrame:CGRectMake(250, kCellHeigth/2-14, customBadge2.frame.size.width, customBadge2.frame.size.height)];

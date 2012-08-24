@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "Destination.h"
 #import "MixpanelAPI.h"
+#import "GlobalConstants.h"
 
     // Safe releases
 #define RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
@@ -198,10 +199,10 @@
     [title setFont:[UIFont boldSystemFontOfSize:20.0]];
     
     welcome.text = NSLocalizedString(@"welcomeKey","");
-    [welcome setTextColor:[UIColor whiteColor]];
+    [welcome setTextColor:kSignUpTitleColor];
     [welcome setFont:[UIFont boldSystemFontOfSize:10.0]];
     steps.text = NSLocalizedString(@"1of2Key","");
-    [steps setTextColor:[UIColor whiteColor]];
+    [steps setTextColor:kSignUpTitleColor];
     [steps setFont:[UIFont boldSystemFontOfSize:14.0]];
     
     [steps setBackgroundColor:[UIColor clearColor]];

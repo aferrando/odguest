@@ -168,7 +168,7 @@
 
         UILabel * textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 6.0, 270, 24)];
         textLabel.font = [UIFont boldSystemFontOfSize:17];
-        textLabel.textColor = [UIColor whiteColor];
+        textLabel.textColor = kTextLabelCellColor;
         [textLabel setShadowColor:[UIColor blackColor]];
         [textLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
         [textLabel setMinimumFontSize:10.0];
@@ -182,7 +182,7 @@
         UILabel * descLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 270, 50)];
         descLabel.font = [UIFont systemFontOfSize:10];
         [descLabel setMinimumFontSize:10.0];
-        descLabel.textColor = [UIColor whiteColor];
+        descLabel.textColor = kDescriptionLabelCellColor;
         [descLabel setShadowColor:[UIColor blackColor]];
         [descLabel setShadowOffset:CGSizeMake(1.0, 1.0)];
         descLabel.backgroundColor = [UIColor clearColor];
@@ -190,7 +190,7 @@
         descLabel.text=subtitle;
             //  [[self subviewsDict] setObject:descLabel forKey:@"descLabel"];
         [content addSubview:descLabel];
-        [content setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"list-item.png"]]];
+        [content setBackgroundColor:kCellBackgroundColor];
         [cell addSubview:content];
 
 		

@@ -354,18 +354,7 @@ pageControl, customBadge,  progressView, anonymousBar;
     
     if ( ( self.title ) && !( [self.title isEqualToString:@""] ) )
         {
-        /*   self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40.0,0.0,230, self.headerBackgroundImage.frame.size.height)];
-         [self.titleLabel setBackgroundColor:[UIColor clearColor]];
-         [self.titleLabel setText:self.title];
-         [self.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
-         [self.titleLabel setMinimumFontSize:12.0];
-         [self.titleLabel setTextColor:[UIColor whiteColor]];
-         [self.titleLabel setTextAlignment:UITextAlignmentCenter];
-         [self.headerBackgroundImage addSubview:self.titleLabel];
-         [self.titleLabel release];*/
-            // [self.navigationBar titleLabel setText:self.title]; 
-            //[self.navigationItem setTitle:((RootViewController *)[self.view.window rootViewController] getDestination .];
-        } else {
+         } else {
             [self.navigationItem setTitle:self.category.name];
         }
     if (self.category.categoryID == 0) { 
@@ -375,7 +364,7 @@ pageControl, customBadge,  progressView, anonymousBar;
         UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(10, 0, 160, 30)];
         
         title.text = [[Destination sharedInstance] destinationName];
-        [title setTextColor:[UIColor whiteColor]];
+        [title setTextColor:kDestinationTitleColor];
         [title setFont:[UIFont boldSystemFontOfSize:20.0]];
         
         [title setBackgroundColor:[UIColor clearColor]];
@@ -392,10 +381,10 @@ pageControl, customBadge,  progressView, anonymousBar;
         if (self.category.numOpportunities > 0) {
         CustomBadge *customBadge2 = nil;
          customBadge2=[CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", self.category.numOpportunities]
-                                                       withStringColor:[UIColor whiteColor]
+                                                       withStringColor:kBadgeStringColor
                                                         withInsetColor:[UIColor redColor]
                                                         withBadgeFrame:YES
-                                                   withBadgeFrameColor:[UIColor whiteColor]
+                                                   withBadgeFrameColor:kBadgeFrameColor
                                                              withScale:1.3
                                                            withShining:YES];
         [customBadge2 setFrame:CGRectMake(140, -3, customBadge2.frame.size.width, customBadge2.frame.size.height)];
@@ -404,7 +393,7 @@ pageControl, customBadge,  progressView, anonymousBar;
        else {
            UILabel *loading = [[UILabel alloc] initWithFrame: CGRectMake(130, 0, 100, 30)];
            loading.text = NSLocalizedString(@"loadingKey", @"");
-           [loading setTextColor:[UIColor whiteColor]];
+           [loading setTextColor:kLoadingCategoriesColor];
            [loading setFont:[UIFont boldSystemFontOfSize:15.0]];
            [loading setBackgroundColor:[UIColor clearColor]];
 
@@ -661,17 +650,17 @@ pageControl, customBadge,  progressView, anonymousBar;
             if( cat.numOpportunities == 0 && cat.folder) [btn setEnabled:false];
             [_categoriesButtons addObject:btn];
             CustomBadge *customBadge2 = [CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", cat.numOpportunities] 
-                                                           withStringColor:[UIColor whiteColor] 
-                                                            withInsetColor:[UIColor redColor] 
+                                                           withStringColor:kBadgeStringColor 
+                                                            withInsetColor:kBadgeInsetColor 
                                                             withBadgeFrame:YES 
-                                                       withBadgeFrameColor:[UIColor whiteColor] 
+                                                       withBadgeFrameColor:kBadgeFrameColor 
                                                                  withScale:1.0
                                                                withShining:YES];
             if (cat.numOpportunities==0) customBadge2 = [CustomBadge customBadgeWithString:[[NSString alloc]initWithFormat:@"%d", cat.numOpportunities] 
-                                                                           withStringColor:[UIColor lightGrayColor] 
-                                                                            withInsetColor:[UIColor darkGrayColor] 
+                                                                           withStringColor:kBadgeInactiveStringColor
+                                                                            withInsetColor:kBadgeInactiveInsetColor
                                                                             withBadgeFrame:YES 
-                                                                       withBadgeFrameColor:[UIColor lightGrayColor] 
+                                                                       withBadgeFrameColor:kBadgeInactiveFrameColor
                                                                                  withScale:1.0
                                                                                withShining:NO];
             
