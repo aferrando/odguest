@@ -9,12 +9,15 @@
 #import "PistePlanViewController.h"
 #import "JCTiledScrollView.h"
 #import "JCAnnotation.h"
+#import "JCPath.h"
+#import "JCPathView.h"
 #import "DemoAnnotationView.h"
 #import "math.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GlobalConstants.h"
 #import "AwesomeMenu.h"
 #import "UserModel.h"
+#import "SkiLiftView.h"
 #import <MapKit/MapKit.h>
 
 #define PistePlanImageSize CGSizeMake(895., 421.)
@@ -59,27 +62,8 @@
 */
 - (void)viewDidLoad
 {
-    _staticGPS= [NSArray arrayWithObjects:[[CLLocation alloc] initWithLatitude:46.180675 longitude:7.384572222], 
-                 [[CLLocation alloc] initWithLatitude:46.18089444 longitude:7.371463889],
-                 [[CLLocation alloc] initWithLatitude:46.187225 longitude:7.368138889],
-                 [[CLLocation alloc] initWithLatitude:46.19769167 longitude:7.396302778],
-                 [[CLLocation alloc] initWithLatitude:46.16104444 longitude:7.375202778],
-                 [[CLLocation alloc] initWithLatitude:46.15453056 longitude:7.356402778],
-                 [[CLLocation alloc] initWithLatitude:46.14260556 longitude:7.354594444],
-                 [[CLLocation alloc] initWithLatitude:46.19567222 longitude:7.33795],
-                 [[CLLocation alloc] initWithLatitude:46.14261111 longitude:7.334563889],
-                 nil];
-    _staticPoints= [NSArray arrayWithObjects:
-                    [NSValue valueWithCGPoint:CGPointMake(130, 282)] , 
-                    [NSValue valueWithCGPoint:CGPointMake(158, 266)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(182, 283)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(181, 327)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(159, 167)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(215, 122)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(240, 114)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(283, 332)] ,
-                    [NSValue valueWithCGPoint:CGPointMake(313, 156)] ,
-                 nil];
+    _staticGPS= POIS_GPS;
+    _staticPoints= POIS_XY;
     
     self.detailView = [[DetailView alloc] initWithFrame:CGRectZero] ;
     self.detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -204,6 +188,7 @@
 {
     NSLog(@"Select the index : %d",idx);
     [_scrollView removeAllAnnotations];
+    [_scrollView removeAllPaths];
     switch (idx) {
         case 0:
             [self addRestaurants];
@@ -217,6 +202,10 @@
             break;
         case 3:
             [self addMe];
+            break;
+            
+        case 4:
+            [self addCableLift];
             break;
             
         default:
@@ -235,7 +224,7 @@
     [super viewDidAppear:animated];
     
     [self.scrollView refreshAnnotations];
-    
+    [self.scrollView refreshPaths];
     [self becomeFirstResponder];
 }
 
@@ -253,6 +242,7 @@
     if (event.type == UIEventTypeMotion && event.subtype == UIEventSubtypeMotionShake)
         {
         [_scrollView removeAllAnnotations];
+        [_scrollView removeAllPaths];
         }
 }
 - (void) zoomout {
@@ -336,6 +326,15 @@
      [self.scrollView addAnnotation:a];
      a.contentPosition = CGPointMake(80.0, 80.0);
      [self.scrollView addAnnotation:a];*/
+}
+-(void) addCableLift {
+    JCPathView *skilift=[[JCPathView alloc] initWithFrame:CGRectMake(0, 0, 800,800)];
+    JCPath *p1= [[JCPath alloc] init];
+    [p1 setView:skilift];
+    p1.contentPosition = CGPointMake(284, 318);
+        // [self.scrollView addPath:p1];
+    
+    [_scrollView addToCanvas:skilift];
 }
 - (CLLocation *) calculate2ndGPS:(CLLocation *)location {
     UserModel* me=[UserModel sharedUser];
@@ -476,6 +475,15 @@
     
     return view;
 }
+- (JCPathView *)tiledScrollView:(JCTiledScrollView *)scrollView viewForPath:(JCPath *)path  
+{
+        //     NSString static *reuseIdentifier = @"JCPathReuseIdentifier";
+        // DemoAnnotationView *view = (id)[scrollView dequeueReusableAnnotationViewWithReuseIdentifier:reuseIdentifier];
+    
+       
+    return path.view;
+}
+
 
 #pragma mark - JCTileSource
 

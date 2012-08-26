@@ -16,7 +16,7 @@ typedef enum TWTweetComposeViewControllerResult TWTweetComposeViewControllerResu
 // Completion handler for TWTweetComposeViewController
 typedef void (^TWTweetComposeViewControllerCompletionHandler)(TWTweetComposeViewControllerResult result); 
 
-UIKIT_CLASS_AVAILABLE(5_0) @interface TWTweetComposeViewController : UIViewController {
+@interface TWTweetComposeViewController : UIViewController {
 }
 
 // Returns if Twitter is accessible and at least one account has been setup.

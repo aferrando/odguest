@@ -94,6 +94,7 @@
 #define kDistanceLabelColor [UIColor whiteColor]
 #define kInterestedLabelColor [UIColor whiteColor]
 #define kSignUpTitleColor [UIColor whiteColor]
+#define kLoadingCategoriesColor [UIColor whiteColor]
 
     //#define kCategoryTextColor [UIColor blackColor]
 #define MIXPANEL_WHISTLER @"890d68e5afed6da476ff1fbd468610cf" //odWhistler
@@ -109,5 +110,7 @@
 #define YOUTUBE_URL @"http://www.youtube.com/user/thyon4vallees"
 #define WEBCAM_IMAGES [[NSArray alloc] initWithObjects:@"http://www.thyon-photo-video.ch/thyon2000.jpg", @"http://thyon-photo-video.ch/snowpark.jpg",@"http://www.alm.ch/wallis2.jpg",@"http://www.alm.ch/wallis.jpg",@"http://www.alm.ch/wallis3.jpg",nil];
 #define WEBCAM_CAPTIONS [[NSArray alloc] initWithObjects:@"THYON", @"SNOWPARK CENTRALPARK",@"LES MASSES (THYON 1600)",@"GRANDE DIXENCE",@"DENT BLANCHE",nil];
+#define POIS_GPS [NSArray arrayWithObjects:[[CLLocation alloc] initWithLatitude:46.180675 longitude:7.384572222],[[CLLocation alloc] initWithLatitude:46.18089444 longitude:7.371463889],[[CLLocation alloc] initWithLatitude:46.187225 longitude:7.368138889],[[CLLocation alloc] initWithLatitude:46.19769167 longitude:7.396302778],[[CLLocation alloc] initWithLatitude:46.16104444 longitude:7.375202778],[[CLLocation alloc] initWithLatitude:46.15453056 longitude:7.356402778],[[CLLocation alloc] initWithLatitude:46.14260556 longitude:7.354594444],[[CLLocation alloc] initWithLatitude:46.19567222 longitude:7.33795],[[CLLocation alloc] initWithLatitude:46.14261111 longitude:7.334563889],nil];
+#define POIS_XY [NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(130, 282)] ,[NSValue valueWithCGPoint:CGPointMake(158, 266)] ,[NSValue valueWithCGPoint:CGPointMake(182, 283)] ,[NSValue valueWithCGPoint:CGPointMake(181, 327)] ,[NSValue valueWithCGPoint:CGPointMake(159, 167)] ,[NSValue valueWithCGPoint:CGPointMake(215, 122)] ,[NSValue valueWithCGPoint:CGPointMake(240, 114)] ,[NSValue valueWithCGPoint:CGPointMake(283, 332)] ,[NSValue valueWithCGPoint:CGPointMake(313, 156)] ,nil];
     //Anzere color 1.0, 1.0, and 0.0
     //#define kMainColor [UIColor colorWithRed:1 green:0.8 blue:0.1 alpha:1]

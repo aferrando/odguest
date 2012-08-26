@@ -29,7 +29,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class JCTiledScrollView, JCTiledView, JCAnnotation, JCAnnotationView;
+@class JCTiledScrollView, JCTiledView, JCAnnotation,JCPath,JCPathView, JCAnnotationView;
 
 @protocol JCTileSource <NSObject>
 - (UIImage *)tiledScrollView:(JCTiledScrollView *)scrollView imageForRow:(NSInteger)row column:(NSInteger)column scale:(NSInteger)scale;
@@ -38,6 +38,7 @@
 @protocol JCTiledScrollViewDelegate <NSObject>
 
 - (JCAnnotationView *)tiledScrollView:(JCTiledScrollView *)scrollView viewForAnnotation:(JCAnnotation *)annotation;
+- (JCPathView *)tiledScrollView:(JCTiledScrollView *)scrollView viewForPath:(JCPath *)path;
 
 @optional
 - (void)tiledScrollViewDidZoom:(JCTiledScrollView *)scrollView;
@@ -52,9 +53,12 @@
 @interface JCTiledScrollView : UIView <UIScrollViewDelegate>
 {
   @private
-  NSMutableSet *_recycledAnnotationViews;
-  NSMutableSet *_annotations;
-  NSMutableSet *_visibleAnnotations;
+    NSMutableSet *_recycledAnnotationViews;
+    NSMutableSet *_annotations;
+    NSMutableSet *_visibleAnnotations;
+    NSMutableSet *_recycledPathViews;
+    NSMutableSet *_paths;
+    NSMutableSet *_visiblePaths;
 }
 
 //Delegates
@@ -86,11 +90,18 @@
 //Annotations
 - (JCAnnotationView *)dequeueReusableAnnotationViewWithReuseIdentifier:(NSString *)reuseIdentifier;
 - (void)refreshAnnotations;
+- (void)refreshPaths;
+- (void) addToCanvas:(UIView *)view ;
 
 - (void)addAnnotation:(JCAnnotation *)annotation;
 - (void)addAnnotations:(NSArray *)annotations;
 - (void)removeAnnotation:(JCAnnotation *)annotation;
 - (void)removeAnnotations:(NSArray *)annotations;
 - (void)removeAllAnnotations;
+- (void)addPath:(JCPath *)path;
+- (void)addPaths:(NSArray *)paths;
+- (void)removePath:(JCPath *)path;
+- (void)removePaths:(NSArray *)paths;
+- (void)removeAllPaths;
 
 @end

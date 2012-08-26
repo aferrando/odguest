@@ -31,6 +31,8 @@
 #import "JCTiledView.h"
 #import "JCAnnotation.h"
 #import "JCAnnotationView.h"
+#import "JCPath.h"
+#import "JCPathView.h"
 
 #define kStandardUIScrollViewAnimationTime 0.10
 
@@ -119,10 +121,14 @@
     _twoFingerTapGestureRecognizer.numberOfTapsRequired = 1;
     [_tiledView addGestureRecognizer:_twoFingerTapGestureRecognizer];
     
-    _annotations = [[NSMutableSet alloc] init];
-    _visibleAnnotations = [[NSMutableSet alloc] init];
-    _recycledAnnotationViews = [[NSMutableSet alloc] init];
-
+  _annotations = [[NSMutableSet alloc] init];
+  _visibleAnnotations = [[NSMutableSet alloc] init];
+  _recycledAnnotationViews = [[NSMutableSet alloc] init];
+  
+  _paths = [[NSMutableSet alloc] init];
+  _visiblePaths = [[NSMutableSet alloc] init];
+  _recycledPathViews = [[NSMutableSet alloc] init];
+  
     _muteAnnotationUpdates = NO;
 	}
 	return self;
@@ -161,7 +167,8 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  [self correctScreenPositionOfAnnotations];
+    [self correctScreenPositionOfAnnotations];
+    [self correctScreenPositionOfPaths];
 
   if ([self.tiledScrollViewDelegate respondsToSelector:@selector(tiledScrollViewDidScroll:)])
   {
@@ -307,6 +314,74 @@
   [CATransaction commit];
 }
 
+
+- (void)updatePathScreenPosition:(JCPath *)path
+{
+    CGPoint position;
+    position.x = (path.contentPosition.x * self.zoomScale) - _scrollView.contentOffset.x;
+    position.y = (path.contentPosition.y * self.zoomScale) - _scrollView.contentOffset.y;
+    path.screenPosition = position;
+}
+
+- (void)correctScreenPositionOfPaths
+{
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0.0];
+    
+    if ((_scrollView.isZoomBouncing || _muteAnnotationUpdates) && !_scrollView.isZooming)
+        {
+        for (JCPath *path in _visiblePaths)
+            {
+            [self updatePathScreenPosition:path];
+            }
+        }
+    else
+        {
+        for (JCPath *path in _paths)
+            {
+            [CATransaction begin];
+            
+            [self updatePathScreenPosition:path];
+            
+            if ([path isWithinBounds:self.bounds])
+                {
+                if (!path.view)
+                    {
+                    path.view = [_tiledScrollViewDelegate tiledScrollView:self viewForPath:path];;
+                    if (!path.view) continue;
+                    }
+                
+                if (![_visiblePaths containsObject:path])
+                    {
+                    [_canvasView addSubview:path.view];
+                    [CATransaction begin];
+                    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+                    CABasicAnimation *theAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+                    theAnimation.duration = 0.3;
+                    theAnimation.repeatCount = 1;
+                    theAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+                    theAnimation.toValue = [NSNumber numberWithFloat:1.0];
+                    [path.view.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+                    [CATransaction commit];
+                    [_visiblePaths addObject:path];
+                    }
+                }
+            else
+                {
+                if ([_visiblePaths containsObject:path])
+                    {
+                    [path.view removeFromSuperview];
+                    [_recycledPathViews addObject:path.view];
+                    path.view = nil;
+                    [_visiblePaths removeObject:path];
+                    }
+                }
+            [CATransaction commit];
+            }
+        }
+    [CATransaction commit];
+}
+
 #pragma mark - JCTiledScrollView
 
 - (float)zoomScale
@@ -394,6 +469,13 @@
 {
   [self correctScreenPositionOfAnnotations];
 }
+- (void) addToCanvas:(UIView *)view {
+    
+    [_canvasView.layer addSublayer:view.layer];
+    
+        // [ addSubview:view];
+}
+
 
 - (void)addAnnotation:(JCAnnotation *)annotation
 {
@@ -444,6 +526,64 @@
 - (void)removeAllAnnotations
 {
   [self removeAnnotations:[_annotations allObjects]];
+}
+#pragma mark - Path
+
+- (void)refreshPaths
+{
+    [self correctScreenPositionOfPaths];
+}
+
+
+- (void)addPath:(JCPath *)path  
+{
+    [_paths addObject:path];
+    [self updatePathScreenPosition:path];
+    
+    if ([path isWithinBounds:self.bounds])
+        {
+        [_visiblePaths addObject:path];
+        
+            // path.view = [_tiledScrollViewDelegate tiledScrollView:self viewForPath:path];
+        [_canvasView addSubview:path.view];
+        }
+}
+
+- (void)addPaths:(NSArray *)paths
+{
+    for (id path in paths)
+        {
+        [self addPath:path];
+        }
+}
+
+    //FIXME: These have not been tested
+
+- (void)removePath:(JCPath *)path   
+{
+    if ([_paths containsObject:path])
+        {
+        [_paths removeObject:path];
+        
+        if ([_visiblePaths containsObject:path])
+            {
+            [path.view removeFromSuperview];
+            [_visiblePaths removeObject:path];
+            }
+        }
+}
+
+- (void)removePaths:(NSArray *)paths
+{
+    for (id path in paths)
+        {
+        [self removePath:path];
+        }
+}
+
+- (void)removeAllPaths
+{
+    [self removePaths:[_paths allObjects]];
 }
 
 
